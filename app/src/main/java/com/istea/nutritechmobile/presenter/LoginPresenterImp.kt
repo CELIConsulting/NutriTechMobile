@@ -1,5 +1,6 @@
 package com.istea.nutritechmobile.presenter
 
+import com.istea.nutritechmobile.data.User
 import com.istea.nutritechmobile.model.interfaces.ILoginRepository
 import com.istea.nutritechmobile.presenter.interfaces.ILoginPresenter
 import com.istea.nutritechmobile.ui.interfaces.ILoginView
@@ -10,6 +11,8 @@ class LoginPresenterImp(
 ) :
     ILoginPresenter {
     override fun doLogin(mail: String, password: String) {
-        TODO("Not yet implemented")
+        //TODO: Generar usuario a partir del mail y pass
+        val user: User = User()
+
     }
 }
