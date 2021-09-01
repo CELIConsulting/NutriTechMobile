@@ -1,27 +1,31 @@
 package com.istea.nutritechmobile.ui.activity
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.EditText
 import com.google.android.material.button.MaterialButton
 import com.istea.nutritechmobile.R
+import com.istea.nutritechmobile.data.User
 import com.istea.nutritechmobile.helpers.UIManager
 import com.istea.nutritechmobile.ui.interfaces.ILoginView
 import com.istea.nutritechmobile.helpers.getTextFrom
-import com.istea.nutritechmobile.helpers.getTextFromResource
-import com.istea.nutritechmobile.helpers.mailFormatIsValid
+import com.istea.nutritechmobile.io.FireStoreHelper
+import com.istea.nutritechmobile.model.interfaces.LoginRepositoryImp
+import com.istea.nutritechmobile.presenter.LoginPresenterImp
+import com.istea.nutritechmobile.presenter.interfaces.ILoginPresenter
 
-//private const val TAG_ACTIVITY = "LoginActivity"
+private const val TAG_ACTIVITY = "LoginActivity"
+private const val LOGGED_USER = "LOGGED_USER"
 
 class LoginActivity : AppCompatActivity(), ILoginView {
     private lateinit var etLoginMail: EditText
     private lateinit var etLoginPassword: EditText
     private lateinit var btnLogin: MaterialButton
-//    private val loginPresenter: ILoginPresenter by lazy {
-//        //TODO: Inicializar clase de loginPresenter
-//        //TODO: Requiere una vista y un repositorio
-//        LoginPresenterImp(this, ....)
-//    }
+    private val loginPresenter: ILoginPresenter by lazy {
+        LoginPresenterImp(this, LoginRepositoryImp(FireStoreHelper(this)))
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.Theme_NutriTechMobile)
@@ -36,45 +40,29 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         btnLogin = findViewById(R.id.btnLogin)
 
         btnLogin.setOnClickListener {
-            //TODO login()
-            validateLogin()
+            login()
         }
-
     }
 
-    private fun validateLogin() {
+    private fun login() {
         val mail: String = getTextFrom(etLoginMail)
         val password: String = getTextFrom(etLoginPassword)
+        Log.d(TAG_ACTIVITY, "Mail: $mail | Password: $password")
 
-        if (checkEmptyInputs(mail, password)) {
-            if (mailFormatIsValid(mail)) {
-                showMessage("DATOS VALIDOS PARA SER PROCESADOS")
-                //loginPresenter.doLogin(mail, password)
-            } else
-                showMessage(getTextFromResource(this, R.string.mail_format_invalid))
-        }
-
+        loginPresenter.doLogin(mail, password)
     }
-
-    private fun checkEmptyInputs(mail: String, pass: String): Boolean {
-        val mailEmpty = mail.isEmpty()
-        val passEmpty = pass.isEmpty()
-
-        if (mailEmpty && passEmpty)
-            showMessage(getTextFromResource(this, R.string.both_empty))
-        else {
-            when {
-                passEmpty -> showMessage(getTextFromResource(this, R.string.pass_empty))
-                mailEmpty -> showMessage(getTextFromResource(this, R.string.mail_empty))
-                else -> return true
-            }
-        }
-        return false
-    }
-
 
     override fun showMessage(message: String) {
         UIManager.showMessageShort(this, message)
+    }
+
+    override fun goToNextScreen(user: User) {
+        Log.d(TAG_ACTIVITY, "User: ${user.nombre} Rol: ${user.rol.nombre}")
+
+        Intent(this, Pagina_Principal::class.java).apply {
+            putExtra(LOGGED_USER, user)
+            startActivity(this)
+        }
     }
 
 

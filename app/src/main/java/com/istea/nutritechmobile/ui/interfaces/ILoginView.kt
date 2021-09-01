@@ -1,7 +1,8 @@
 package com.istea.nutritechmobile.ui.interfaces
 
-//TODO: Las acciones que debe realizar una vista de login
+import com.istea.nutritechmobile.data.User
+
 interface ILoginView {
     fun showMessage(message: String)
-    fun hideMessage(message: String)
+    fun goToNextScreen(user: User)
 }
