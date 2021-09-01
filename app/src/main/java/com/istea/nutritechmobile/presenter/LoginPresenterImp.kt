@@ -22,8 +22,11 @@ class LoginPresenterImp(
         if (isLoginInputValid(mail, password)) {
             val user = User(mail, password)
 
-            if (repo.checkUserData(user)) {
+            val userResponse = repo.checkUserData(user)
+
+            if (userResponse != null) {
                 //TODO: Debe avanzar a la pantalla principal
+                view.goToNextScreen(userResponse)
             } else
                 view.showMessage(
                     getTextFromResource(

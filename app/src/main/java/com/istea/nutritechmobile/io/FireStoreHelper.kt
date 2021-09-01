@@ -6,6 +6,7 @@ import com.google.firebase.FirebaseApp
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.firestoreSettings
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.istea.nutritechmobile.data.Role
 import com.istea.nutritechmobile.data.User
@@ -30,9 +31,7 @@ class FireStoreHelper(context: Context) {
         db.firestoreSettings = settings
     }
 
-    //TODO: Checking if user exists in the database
-    suspend fun getUserWithCredentials(user: User): Boolean {
-        var isUserValid: Boolean
+    suspend fun getUserWithCredentials(user: User): UserResponse? {
 
         try {
             val snapshot = this.usersRef
@@ -41,30 +40,30 @@ class FireStoreHelper(context: Context) {
                 .get()
                 .await()
 
-            isUserValid = snapshot.documents.isNotEmpty()
+            //Generar user a partir del snapshot
+            if (snapshot.documents.isNotEmpty()) {
+                val userSnapshot = snapshot.documents.first()
 
+                //TODO: FIX USER EMPTY
+                val userResponse = userSnapshot.toObject<UserResponse>()
+
+                Log.d(
+                    TAG_ACTIVITY,
+                    "Nombre: ${userResponse?.nombre} | Apellido: ${userResponse?.apellido}"
+                )
+
+                if (userResponse != null) {
+                    Log.d(TAG_ACTIVITY, "USER NOT NULL")
+                    return userResponse
+                }
+            }
 
         } catch (e: Exception) {
             Log.d(TAG_ACTIVITY, "Exception: ${e.message}")
-            isUserValid = false
         }
 
-        Log.d(TAG_ACTIVITY, "User is valid? $isUserValid")
-        return isUserValid
+        Log.d(TAG_ACTIVITY, "USER NULL")
+        return null
     }
 
 }
-
-//
-//                .addOnSuccessListener { snapshot ->
-////                    for (document in snapshot) {
-////                        Log.d(TAG_ACTIVITY, "Nombre: ${document.data["Nombre"]}")
-////                        Log.d(TAG_ACTIVITY, "Apellido: ${document.data["Apellido"]}")
-////                    }
-//
-//                    isUserValid = true
-//                }
-//                .addOnFailureListener {
-//                    Log.d(TAG_ACTIVITY, "No se encontró al usuario")
-//                    isUserValid = false
-//                }

@@ -66,7 +66,7 @@ class LoginActivity : AppCompatActivity(), ILoginView {
     override fun goToNextScreen(user: UserResponse) {
         Log.d(TAG_ACTIVITY, "User: ${user.nombre} Rol: ${user.rol.nombre}")
 
-        Intent(this, Pagina_Principal::class.java).apply {
+        Intent(this@LoginActivity, Pagina_Principal::class.java).apply {
             putExtra(LOGGED_USER, user)
             startActivity(this)
         }

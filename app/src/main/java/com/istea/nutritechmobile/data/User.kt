@@ -5,7 +5,7 @@ import java.io.Serializable
 data class User(
     val mail: String,
     val password: String,
-)
+) : Serializable
 
 data class UserResponse(
     val id: Int? = null,
@@ -14,19 +14,11 @@ data class UserResponse(
     val nombre: String,
     val apellido: String,
     val rol: Role
-) : Serializable
+) : Serializable {
+    constructor() : this(null, "", "", "", "", Role(null, "", ""))
+}
 
-//{
-//
-//    constructor(mail: String, password: String) : this(
-//        null,
-//        mail,
-//        password,
-//        "",
-//        "",
-//        Role(null, "", "")
-//    )
-//}
+
 
 
 
