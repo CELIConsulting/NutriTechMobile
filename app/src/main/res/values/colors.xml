@@ -8,4 +8,5 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="fondoNutri">#b4fb8b</color>
+    <color name="error">#F44336</color>
 </resources>
