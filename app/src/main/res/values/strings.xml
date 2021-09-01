@@ -1,3 +1,17 @@
 <resources>
+    <!--Pantalla login-->
     <string name="app_name">NutriTechMobile</string>
+    <string name="welcomeMessageLogin">Bienvenido a Nutritech</string>
+    <string name="recoverPassword">Olvido su contraseña? Haga click aquí.</string>
+    <string name="loginButton">Ingresar</string>
+    <string name="loginPassword">Ingrese su contraseña</string>
+    <string name="loginMail">Ingrese su mail</string>
+    <string name="login_mail_title">E-mail</string>
+    <string name="login_pass_title">Contraseña</string>
+    <string name="pass_empty">El campo contraseña no puede estar vacío</string>
+    <string name="mail_empty">El campo E-mail no puede estar vacío</string>
+    <string name="both_empty">Debe completar los campos primero</string>
+    <string name="mail_format_invalid">El formato del mail no es válido</string>
+    <string name="user_not_found">El usuario no existe</string>
+
 </resources>
