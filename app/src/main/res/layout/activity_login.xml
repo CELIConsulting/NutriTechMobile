@@ -70,7 +70,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/loginPassword"
             android:inputType="textPassword"
-            android:maxLength="8"
+            android:maxLength="16"
             android:singleLine="true"
             android:textSize="20sp" />
     </com.google.android.material.textfield.TextInputLayout>
