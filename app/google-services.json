@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "274150856287",
+    "project_id": "nutritechistea-d3f24",
+    "storage_bucket": "nutritechistea-d3f24.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:274150856287:android:cbbc409b7c304eebcfadea",
+        "android_client_info": {
+          "package_name": "com.istea.nutritechmobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "274150856287-0bol9qf593b09mibam0t4r20mam9vdag.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBTGhWwluFKiYHz4N3ze_sielCYU4hqhzc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "274150856287-0bol9qf593b09mibam0t4r20mam9vdag.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
