@@ -1,14 +1,16 @@
-package com.istea.nutritechmobile.model.interfaces
+package com.istea.nutritechmobile.model
 
 import com.istea.nutritechmobile.data.User
 import com.istea.nutritechmobile.io.FireStoreHelper
+import com.istea.nutritechmobile.model.interfaces.ILoginRepository
 
-//TODO: Agregar clase de firestore
+private const val TAG_ACTIVITY = "LoginRepositoryImp"
+
 class LoginRepositoryImp(
     private val firestoreHelper: FireStoreHelper,
 ) : ILoginRepository {
-
-    override fun checkUserExistence(user: User, success: () -> Unit, error: () -> Unit) {
-
+    override suspend fun checkUserData(user: User): Boolean {
+        return firestoreHelper.getUserWithCredentials(user)
     }
+
 }

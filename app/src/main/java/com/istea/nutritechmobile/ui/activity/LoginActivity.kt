@@ -5,16 +5,18 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.EditText
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.button.MaterialButton
 import com.istea.nutritechmobile.R
-import com.istea.nutritechmobile.data.User
+import com.istea.nutritechmobile.data.UserResponse
 import com.istea.nutritechmobile.helpers.UIManager
 import com.istea.nutritechmobile.ui.interfaces.ILoginView
 import com.istea.nutritechmobile.helpers.getTextFrom
 import com.istea.nutritechmobile.io.FireStoreHelper
-import com.istea.nutritechmobile.model.interfaces.LoginRepositoryImp
+import com.istea.nutritechmobile.model.LoginRepositoryImp
 import com.istea.nutritechmobile.presenter.LoginPresenterImp
 import com.istea.nutritechmobile.presenter.interfaces.ILoginPresenter
+import kotlinx.coroutines.launch
 
 private const val TAG_ACTIVITY = "LoginActivity"
 private const val LOGGED_USER = "LOGGED_USER"
@@ -40,11 +42,16 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         btnLogin = findViewById(R.id.btnLogin)
 
         btnLogin.setOnClickListener {
-            login()
+            lifecycleScope.launch {
+                Log.d(TAG_ACTIVITY, "Coroutine: begin")
+                login()
+                Log.d(TAG_ACTIVITY, "Coroutine: End")
+            }
+
         }
     }
 
-    private fun login() {
+    private suspend fun login() {
         val mail: String = getTextFrom(etLoginMail)
         val password: String = getTextFrom(etLoginPassword)
         Log.d(TAG_ACTIVITY, "Mail: $mail | Password: $password")
@@ -56,7 +63,7 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         UIManager.showMessageShort(this, message)
     }
 
-    override fun goToNextScreen(user: User) {
+    override fun goToNextScreen(user: UserResponse) {
         Log.d(TAG_ACTIVITY, "User: ${user.nombre} Rol: ${user.rol.nombre}")
 
         Intent(this, Pagina_Principal::class.java).apply {
