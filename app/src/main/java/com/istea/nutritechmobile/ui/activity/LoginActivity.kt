@@ -64,10 +64,12 @@ class LoginActivity : AppCompatActivity(), ILoginView {
     }
 
     override fun goToNextScreen(user: UserResponse) {
-        Log.d(TAG_ACTIVITY, "User: ${user.nombre} Rol: ${user.rol.nombre}")
+        Log.d(TAG_ACTIVITY, "User: ${user.Nombre} Rol: ${user.Apellido}")
 
+        //TODO: OBAMA FIX THIS
         Intent(this@LoginActivity, Pagina_Principal::class.java).apply {
-            putExtra(LOGGED_USER, user)
+            putExtra("Nombre", user.Nombre)
+            putExtra("Apellido", user.Apellido)
             startActivity(this)
         }
     }

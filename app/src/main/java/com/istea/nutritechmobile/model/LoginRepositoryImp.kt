@@ -12,10 +12,7 @@ class LoginRepositoryImp(
     private val firestoreHelper: FireStoreHelper,
 ) : ILoginRepository {
     override suspend fun checkUserData(user: User): UserResponse? {
-        val result = firestoreHelper.getUserWithCredentials(user)
-//        Log.d(TAG_ACTIVITY, "Nombre: ${result?.nombre}")
-//        Log.d(TAG_ACTIVITY, "Apellido: ${result?.apellido}")
-        return result
+        return firestoreHelper.getUserWithCredentials(user)
     }
 
 }
