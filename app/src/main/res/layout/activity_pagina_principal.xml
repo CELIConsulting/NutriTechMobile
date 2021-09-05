@@ -2,18 +2,15 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-
-
     android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="#BCDD95"
+        android:background="@color/secondary"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
         app:layout_constraintEnd_toEndOf="parent"
@@ -21,58 +18,180 @@
         app:layout_constraintTop_toTopOf="parent"
         app:menu="@menu/menu_superior" />
 
+    <!--TODO: Mover el header de nutritech al menu superior-->
     <TextView
         android:id="@+id/tvNutriTech"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="NutriTech"
         android:textColor="@color/white"
         android:textSize="48sp"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="@+id/toolbar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="NutriTech" />
+        tools:text="NutriTech Logo" />
 
     <TextView
-        android:id="@+id/tvDescripcion"
-        android:layout_width="330dp"
-        android:layout_height="405dp"
-        android:layout_marginTop="100dp"
-        android:text="Bienvenido"
-        android:textColor="#4CAF50"
-        android:textSize="60sp"
-        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.569"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:layout_constraintVertical_bias="1.0"
-        tools:text="Bienvenido" />
+        android:id="@+id/txtMensajeBienvenida"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/secondary"
+        android:fontFamily="sans-serif-black"
+        android:padding="@dimen/text_padding"
+        android:textAlignment="center"
+        android:textColor="@color/primary"
+        android:textFontWeight="700"
+        android:textSize="20sp"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        tools:text="Mensaje de bienvenida" />
+
+    <TextView
+        android:id="@+id/txtFraseDelDia"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:alpha="0.7"
+        android:background="@android:color/background_dark"
+        android:padding="@dimen/text_padding"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="@dimen/inspirational_quote_text_size"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toTopOf="@id/guidelineSection"
+        app:layout_constraintEnd_toStartOf="@id/guidelineRight"
+        app:layout_constraintStart_toEndOf="@id/guidelineLeft"
+        app:layout_constraintTop_toBottomOf="@id/txtMensajeBienvenida"
+        tools:text="Esta es la frase del dia" />
+
+    <TextView
+        android:id="@+id/txtAutorDelDia"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/text_padding"
+        android:paddingBottom="@dimen/text_padding"
+        android:background="@android:color/background_dark"
+        android:alpha="0.7"
+        android:textAlignment="textEnd"
+        android:textColor="@color/white"
+        android:fontFamily="sans-serif-black"
+        android:textStyle="italic"
+        android:textSize="@dimen/inspirational_quote_text_size"
+        app:layout_constraintEnd_toStartOf="@id/guidelineRight"
+        app:layout_constraintStart_toEndOf="@id/guidelineLeft"
+        app:layout_constraintTop_toBottomOf="@id/txtFraseDelDia"
+        tools:text="Autor del dia" />
+
+    <TextView
+        android:id="@+id/txtResumenTitulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-black"
+        android:text="@string/resumen_title"
+        android:textFontWeight="800"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@id/txtResumenSubtitulo"
+        app:layout_constraintEnd_toStartOf="@id/guidelineRight"
+        app:layout_constraintStart_toEndOf="@id/guidelineLeft"
+        app:layout_constraintTop_toBottomOf="@id/guidelineSection" />
+
+    <TextView
+        android:id="@+id/txtResumenSubtitulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-medium"
+        android:text="@string/resumen_subtitle"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@id/imgFoodSample"
+        app:layout_constraintEnd_toStartOf="@id/guidelineRight"
+        app:layout_constraintStart_toEndOf="@id/guidelineLeft"
+        app:layout_constraintTop_toBottomOf="@id/txtResumenTitulo" />
+
+    <ImageView
+        android:id="@+id/imgFoodSample"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/img_height"
+        android:layout_marginTop="10dp"
+        android:contentDescription="@string/comida_saludable_desc"
+        android:scaleType="fitXY"
+        android:src="@mipmap/healthy_food_sample"
+        app:layout_constraintBottom_toTopOf="@id/btnModifPlan"
+        app:layout_constraintEnd_toEndOf="@id/btnModifPlan"
+        app:layout_constraintStart_toStartOf="@id/btnVerPlan"
+        app:layout_constraintTop_toBottomOf="@id/txtResumenSubtitulo" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:alpha="0.8"
+        android:background="@color/primary"
+        android:paddingHorizontal="@dimen/text_padding"
+        android:text="@string/nombre_plan_alimentacion"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@id/imgFoodSample"
+        app:layout_constraintEnd_toEndOf="@id/imgFoodSample" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnVerPlan"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/button_side_margin"
+        android:layout_marginEnd="@dimen/button_side_margin"
+        android:text="@string/btnVerPlan"
+        app:layout_constraintBottom_toBottomOf="@id/btnModifPlan"
+        app:layout_constraintEnd_toStartOf="@id/btnModifPlan"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintStart_toStartOf="@id/guidelineLeft"
+        app:layout_constraintTop_toTopOf="@id/btnModifPlan" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnModifPlan"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/button_vertical_margin"
+        android:layout_marginEnd="@dimen/button_side_margin"
+        android:layout_marginBottom="@dimen/button_vertical_margin"
+        android:text="@string/btnModifPlan"
+        app:layout_constraintBottom_toBottomOf="@+id/guidelineBottom"
+        app:layout_constraintEnd_toStartOf="@id/guidelineRight"
+        app:layout_constraintStart_toEndOf="@id/btnVerPlan"
+        app:layout_constraintTop_toBottomOf="@+id/imgFoodSample" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
-        android:layout_width="411dp"
-        android:layout_height="83dp"
-        android:background="#BCDD95"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bottomNavbar_height"
+        android:background="@color/secondary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
         app:menu="@menu/menu_inferior" />
 
-    <TextView
-        android:id="@+id/tvLeyenda2"
+
+    <!--Utilities-->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineLeft"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="#4CAF50"
-        android:textSize="34sp"
-        app:layout_constraintBottom_toBottomOf="@+id/tvDescripcion"
-        app:layout_constraintEnd_toEndOf="@+id/tvDescripcion"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tvDescripcion"
-        app:layout_constraintVertical_bias="0.466"
-        tools:text="Vista en construccion" />
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="@dimen/guideline_margin" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineRight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="@dimen/guideline_margin" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineBottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_end="@dimen/guideline_bottom" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineSection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="@dimen/guideline_section" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

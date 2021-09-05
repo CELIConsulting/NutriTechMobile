@@ -11,6 +11,8 @@ class Pagina_Principal : AppCompatActivity() {
     private lateinit var nombrePaciente: String
     private lateinit var apellidoPaciente: String
     private lateinit var txtUsuarioBienvenida: TextView
+    private lateinit var txtFraseDelDia: TextView
+    private lateinit var txtAutorDelDia: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,19 +22,28 @@ class Pagina_Principal : AppCompatActivity() {
 
     override fun onResume() {
         showUserData()
+        generateQuoteOfTheDay()
         super.onResume()
     }
 
     private fun setupUI() {
-        txtUsuarioBienvenida = findViewById(R.id.tvLeyenda2)
+        txtUsuarioBienvenida = findViewById(R.id.txtMensajeBienvenida)
+        txtFraseDelDia = findViewById(R.id.txtFraseDelDia)
+        txtAutorDelDia = findViewById(R.id.txtAutorDelDia)
     }
 
     private fun showUserData() {
-        nombrePaciente = intent.extras?.getString("Nombre").toString()
-        apellidoPaciente = intent.extras?.getString("Apellido").toString()
-
-        txtUsuarioBienvenida.text = "$nombrePaciente $apellidoPaciente"
+        nombrePaciente = intent.extras?.getString("Nombre") ?: "Not found"
+        apellidoPaciente = intent.extras?.getString("Apellido") ?: "Not found"
+        txtUsuarioBienvenida.text = "Bienvenido $nombrePaciente $apellidoPaciente".uppercase()
     }
 
+    private fun generateQuoteOfTheDay() {
+        val frase =
+            "La pérdida de peso no comienza en el gimnasio con una campana tonta; comienza en tu cabeza con una decisión."
+        val autor = "Toni Sorenson"
+        txtFraseDelDia.text = "\"${frase}\""
+        txtAutorDelDia.text = autor
+    }
 
 }
