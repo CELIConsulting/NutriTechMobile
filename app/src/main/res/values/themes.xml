@@ -15,9 +15,4 @@
     </style>
 
 
-    <!--Login theme-->
-    <style name="LoginTheme" parent="Theme.NutriTechMobile">
-        <item name="android:windowBackground">@color/background_color</item>
-    </style>
-
 </resources>
