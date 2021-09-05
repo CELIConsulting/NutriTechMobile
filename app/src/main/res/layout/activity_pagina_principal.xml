@@ -50,34 +50,34 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:alpha="0.7"
-        android:background="@android:color/background_dark"
-        android:padding="@dimen/text_padding"
+        android:background="@drawable/rounded_corner"
+        android:paddingHorizontal="@dimen/text_padding"
+        android:paddingTop="@dimen/text_padding"
+        android:paddingBottom="@dimen/quoteOfTheDay_box_padBottom"
         android:textAlignment="center"
         android:textColor="@color/white"
-        android:textSize="@dimen/inspirational_quote_text_size"
+        android:textSize="@dimen/quoteOfTheDay_text_size"
         android:textStyle="italic"
         app:layout_constraintBottom_toTopOf="@id/guidelineSection"
         app:layout_constraintEnd_toStartOf="@id/guidelineRight"
         app:layout_constraintStart_toEndOf="@id/guidelineLeft"
         app:layout_constraintTop_toBottomOf="@id/txtMensajeBienvenida"
+        app:layout_constraintVertical_bias="0.3"
         tools:text="Esta es la frase del dia" />
 
     <TextView
         android:id="@+id/txtAutorDelDia"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="@dimen/text_padding"
-        android:paddingBottom="@dimen/text_padding"
-        android:background="@android:color/background_dark"
-        android:alpha="0.7"
-        android:textAlignment="textEnd"
-        android:textColor="@color/white"
         android:fontFamily="sans-serif-black"
+        android:layout_marginRight="@dimen/authorOfTheDay_box_marginEnd"
+        android:paddingBottom="@dimen/authorOfTheDay_box_padBottom"
+        android:textColor="@color/white"
+        android:textSize="@dimen/quoteOfTheDay_text_size"
         android:textStyle="italic"
-        android:textSize="@dimen/inspirational_quote_text_size"
-        app:layout_constraintEnd_toStartOf="@id/guidelineRight"
-        app:layout_constraintStart_toEndOf="@id/guidelineLeft"
-        app:layout_constraintTop_toBottomOf="@id/txtFraseDelDia"
+        android:textAlignment="textEnd"
+        app:layout_constraintBottom_toBottomOf="@id/txtFraseDelDia"
+        app:layout_constraintEnd_toEndOf="@id/txtFraseDelDia"
         tools:text="Autor del dia" />
 
     <TextView
@@ -86,7 +86,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-black"
         android:text="@string/resumen_title"
-        android:textFontWeight="800"
+        android:textAlignment="center"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@id/txtResumenSubtitulo"
         app:layout_constraintEnd_toStartOf="@id/guidelineRight"
@@ -99,6 +99,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-medium"
         android:text="@string/resumen_subtitle"
+        android:textAlignment="center"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@id/imgFoodSample"
         app:layout_constraintEnd_toStartOf="@id/guidelineRight"
@@ -163,7 +164,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:menu="@menu/menu_inferior" />
-
 
     <!--Utilities-->
     <androidx.constraintlayout.widget.Guideline

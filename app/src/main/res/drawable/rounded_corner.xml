@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <corners android:radius="8dp"/>
+    <stroke android:width="2dp" android:color="@color/white"/>
+    <solid android:color="@color/black"/>
+</shape>
+
+<!--
+    Shape: Set shape of the drawable
+    Radius: Set radius of the corner
+    Stroke / Width: Set width of the stroke
+    Stroke / Color: Set color of the stroke
+    Color: Set background color
+-->

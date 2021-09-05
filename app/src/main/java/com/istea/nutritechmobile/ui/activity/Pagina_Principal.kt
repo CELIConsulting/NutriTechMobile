@@ -39,9 +39,8 @@ class Pagina_Principal : AppCompatActivity() {
     }
 
     private fun generateQuoteOfTheDay() {
-        val frase =
-            "La pérdida de peso no comienza en el gimnasio con una campana tonta; comienza en tu cabeza con una decisión."
-        val autor = "Toni Sorenson"
+        val frase = getString(R.string.daily_phrase_test)
+        val autor = getString(R.string.daily_author_test)
         txtFraseDelDia.text = "\"${frase}\""
         txtAutorDelDia.text = autor
     }

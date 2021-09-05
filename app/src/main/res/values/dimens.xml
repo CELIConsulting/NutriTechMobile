@@ -12,7 +12,10 @@
     <dimen name="img_height">200dp</dimen>
     <dimen name="section_margin_separation">35dp</dimen>
     <dimen name="toolbar_margin_separation">25dp</dimen>
-    <dimen name="inspirational_quote_box_size">100dp</dimen>
-    <dimen name="inspirational_quote_text_size">16sp</dimen>
+    <dimen name="quoteOfTheDay_box_size">100dp</dimen>
+    <dimen name="quoteOfTheDay_box_padBottom">40dp</dimen>
+    <dimen name="quoteOfTheDay_text_size">16sp</dimen>
+    <dimen name="authorOfTheDay_box_padBottom">10dp</dimen>
+    <dimen name="authorOfTheDay_box_marginEnd">22dp</dimen>
 
 </resources>

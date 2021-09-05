@@ -21,5 +21,7 @@
     <string name="resumen_subtitle">DE TU SITUACIÓN ACTUAL</string>
     <string name="comida_saludable_desc">Comida saludable</string>
     <string name="nombre_plan_alimentacion">Plan de alimentacion</string>
+    <string name="daily_phrase_test">La pérdida de peso no comienza en el gimnasio con una campana tonta; comienza en tu cabeza con una decisión.</string>
+    <string name="daily_author_test">Toni Sorenson</string>
 
 </resources>
