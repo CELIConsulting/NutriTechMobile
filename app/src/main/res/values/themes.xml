@@ -14,7 +14,6 @@
         <!-- Customize your theme here. -->
     </style>
 
-
     <!--Login theme-->
     <style name="LoginTheme" parent="Theme.NutriTechMobile">
         <item name="android:windowBackground">@color/fondoNutri</item>
