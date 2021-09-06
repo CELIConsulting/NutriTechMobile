@@ -1,3 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/appLogo"
+        android:icon="@mipmap/ic_nutritech_logo_heart"
+        android:orderInCategory="200"
+        app:showAsAction="ifRoom"
+        android:title="@string/app_name" />
+    <item
+        android:id="@+id/appTitle"
+        android:title="@string/app_name"
+        android:orderInCategory="100"
+        app:showAsAction="ifRoom" />
 </menu>

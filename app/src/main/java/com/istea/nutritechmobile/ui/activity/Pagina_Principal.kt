@@ -4,7 +4,11 @@ package com.istea.nutritechmobile.ui.activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.Window
 import android.widget.TextView
+import androidx.appcompat.app.ActionBar
+import androidx.appcompat.widget.Toolbar
 import com.google.android.material.button.MaterialButton
 import com.istea.nutritechmobile.*
 import com.istea.nutritechmobile.helpers.UIManager
@@ -19,10 +23,10 @@ class Pagina_Principal : AppCompatActivity(), IPrincipalView {
     private lateinit var txtAutorDelDia: TextView
     private lateinit var btnVerPlan: MaterialButton
     private lateinit var btnModifPlan: MaterialButton
+    private lateinit var toolbar: Toolbar
     private val principalPresenter: IPrincipalPresenter by lazy {
         PrincipalPresenterImp(this)
     }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,10 +34,24 @@ class Pagina_Principal : AppCompatActivity(), IPrincipalView {
         setupUI()
     }
 
+    private fun setupToolbar() {
+        toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
+
+        //Hiding default app icon
+        supportActionBar?.setDisplayShowTitleEnabled(false);
+
+    }
+
     override fun onResume() {
         principalPresenter.loggedUserData()
         principalPresenter.getQuoteOfTheDay()
         super.onResume()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_superior, menu)
+        return super.onCreateOptionsMenu(menu)
     }
 
     private fun setupUI() {
@@ -51,6 +69,7 @@ class Pagina_Principal : AppCompatActivity(), IPrincipalView {
             showInProgressMessage()
         }
 
+        setupToolbar()
     }
 
     override fun welcomeUser(name: String, lastName: String) {

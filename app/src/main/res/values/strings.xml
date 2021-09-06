@@ -1,6 +1,6 @@
 <resources>
     <!--Pantalla login-->
-    <string name="app_name">NutriTechMobile</string>
+    <string name="app_name">NutriTech</string>
     <string name="welcomeMessageLogin">Bienvenido a Nutritech</string>
     <string name="recoverPassword">Olvido su contraseña? Haga click aquí.</string>
     <string name="loginButton">Ingresar</string>

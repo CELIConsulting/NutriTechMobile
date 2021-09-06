@@ -6,41 +6,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@color/secondary"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
+    <include
+        android:id="@id/toolbar"
+        layout="@layout/toolbar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:menu="@menu/menu_superior" />
-
-    <!--TODO: Mover el header de nutritech al menu superior-->
-    <TextView
-        android:id="@+id/tvNutriTech"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/white"
-        android:textSize="48sp"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="@+id/toolbar"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="NutriTech Logo" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/txtMensajeBienvenida"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/secondary"
-        android:fontFamily="sans-serif-black"
+        android:textStyle="bold"
         android:padding="@dimen/text_padding"
         android:textAlignment="center"
         android:textColor="@color/primary"
-        android:textFontWeight="700"
         android:textSize="20sp"
         app:layout_constraintTop_toBottomOf="@id/toolbar"
         tools:text="Mensaje de bienvenida" />
@@ -69,13 +50,13 @@
         android:id="@+id/txtAutorDelDia"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/authorOfTheDay_box_marginEnd"
         android:fontFamily="sans-serif-black"
-        android:layout_marginRight="@dimen/authorOfTheDay_box_marginEnd"
         android:paddingBottom="@dimen/authorOfTheDay_box_padBottom"
+        android:textAlignment="textEnd"
         android:textColor="@color/white"
         android:textSize="@dimen/quoteOfTheDay_text_size"
         android:textStyle="italic"
-        android:textAlignment="textEnd"
         app:layout_constraintBottom_toBottomOf="@id/txtFraseDelDia"
         app:layout_constraintEnd_toEndOf="@id/txtFraseDelDia"
         tools:text="Autor del dia" />
@@ -84,7 +65,7 @@
         android:id="@+id/txtResumenTitulo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-black"
+        android:textStyle="bold"
         android:text="@string/resumen_title"
         android:textAlignment="center"
         android:textSize="24sp"
