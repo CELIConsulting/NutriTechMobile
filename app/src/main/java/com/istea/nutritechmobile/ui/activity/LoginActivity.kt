@@ -65,7 +65,7 @@ class LoginActivity : AppCompatActivity(), ILoginView {
     override fun goToNextScreen(user: UserResponse) {
         Log.d(TAG_ACTIVITY, "User: ${user.Nombre} Rol: ${user.Apellido}")
 
-        //TODO: OBAMA FIX THIS
+        //TODO: Solucionar problema de serializacion al enviar objeto a través de un Intent
         Intent(this@LoginActivity, Pagina_Principal::class.java).apply {
             putExtra("Nombre", user.Nombre)
             putExtra("Apellido", user.Apellido)
