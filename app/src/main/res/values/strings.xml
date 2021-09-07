@@ -1,6 +1,6 @@
 <resources>
     <!--Pantalla login-->
-    <string name="app_name">NutriTechMobile</string>
+    <string name="app_name">NutriTech</string>
     <string name="welcomeMessageLogin">Bienvenido a Nutritech</string>
     <string name="recoverPassword">Olvido su contraseña? Haga click aquí.</string>
     <string name="loginButton">Ingresar</string>
@@ -13,5 +13,15 @@
     <string name="both_empty">Debe completar los campos primero</string>
     <string name="mail_format_invalid">El formato del mail no es válido</string>
     <string name="user_not_found">El usuario no existe</string>
+
+    <!--Pantalla principal-->
+    <string name="btnVerPlan">Ver plan</string>
+    <string name="btnModifPlan">Modificar plan</string>
+    <string name="resumen_title">RESUMEN</string>
+    <string name="resumen_subtitle">DE TU SITUACIÓN ACTUAL</string>
+    <string name="comida_saludable_desc">Comida saludable</string>
+    <string name="nombre_plan_alimentacion">Plan de alimentacion</string>
+    <string name="daily_phrase_test">La pérdida de peso no comienza en el gimnasio con una campana tonta; comienza en tu cabeza con una decisión.</string>
+    <string name="daily_author_test">Toni Sorenson</string>
 
 </resources>

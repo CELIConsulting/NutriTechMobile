@@ -2,8 +2,8 @@
     <!-- Base application theme. -->
     <style name="Theme.NutriTechMobile" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">#1F5121</item>
-        <item name="colorPrimaryVariant">#BCDD95</item>
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryVariant">@color/secondary</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
@@ -14,9 +14,5 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <!--Login theme-->
-    <style name="LoginTheme" parent="Theme.NutriTechMobile">
-        <item name="android:windowBackground">@color/fondoNutri</item>
-    </style>
 
 </resources>
