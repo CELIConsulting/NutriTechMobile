@@ -9,4 +9,8 @@ class PlanDisplayActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_plan_display)
     }
+
+    private fun setupUi(){
+
+    }
 }
