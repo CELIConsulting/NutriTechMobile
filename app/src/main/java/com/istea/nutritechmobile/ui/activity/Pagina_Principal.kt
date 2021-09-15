@@ -90,7 +90,10 @@ class Pagina_Principal : AppCompatActivity(), IPrincipalView {
     }
 
     override fun goToPlanView() {
+        val intent = intent
+
         Intent(this@Pagina_Principal, PlanDisplayActivity::class.java).apply {
+            putExtra("Email", intent.getStringExtra("Email"))
             startActivity(this)
         }
     }

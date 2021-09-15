@@ -1,21 +1,21 @@
 package com.istea.nutritechmobile.ui.activity
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.EditText
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.button.MaterialButton
 import com.istea.nutritechmobile.R
 import com.istea.nutritechmobile.data.UserResponse
 import com.istea.nutritechmobile.helpers.UIManager
-import com.istea.nutritechmobile.ui.interfaces.ILoginView
 import com.istea.nutritechmobile.helpers.getTextFrom
 import com.istea.nutritechmobile.io.FireStoreHelper
 import com.istea.nutritechmobile.model.LoginRepositoryImp
 import com.istea.nutritechmobile.presenter.LoginPresenterImp
 import com.istea.nutritechmobile.presenter.interfaces.ILoginPresenter
+import com.istea.nutritechmobile.ui.interfaces.ILoginView
 import kotlinx.coroutines.launch
 
 private const val TAG_ACTIVITY = "LoginActivity"
@@ -69,6 +69,7 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         Intent(this@LoginActivity, Pagina_Principal::class.java).apply {
             putExtra("Nombre", user.Nombre)
             putExtra("Apellido", user.Apellido)
+            putExtra("Email",user.Email)
             startActivity(this)
         }
     }

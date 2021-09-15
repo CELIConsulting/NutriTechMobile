@@ -5,9 +5,17 @@ import android.view.Menu
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.lifecycle.lifecycleScope
 import com.istea.nutritechmobile.R
+import com.istea.nutritechmobile.data.Plan
+import com.istea.nutritechmobile.io.FireStoreHelper
+import com.istea.nutritechmobile.model.PlanDisplayRepositoryImp
+import com.istea.nutritechmobile.presenter.PlanDisplayPresenterImp
+import com.istea.nutritechmobile.presenter.interfaces.IPlanDisplayPresenter
+import com.istea.nutritechmobile.ui.interfaces.IPlanDisplayView
+import kotlinx.coroutines.launch
 
-class PlanDisplayActivity : AppCompatActivity() {
+class PlanDisplayActivity : AppCompatActivity(), IPlanDisplayView {
 
     private lateinit var Nombretv: TextView
     private lateinit var Tipotv: TextView
@@ -19,11 +27,18 @@ class PlanDisplayActivity : AppCompatActivity() {
     private lateinit var Cenatv: TextView
     private lateinit var Colaciontv: TextView
     private lateinit var toolbar: Toolbar
+    private val planDisplayPresenter: IPlanDisplayPresenter by lazy {
+        PlanDisplayPresenterImp(this, PlanDisplayRepositoryImp(FireStoreHelper(this)))
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_plan_display)
         setupUi()
+    }
+    override fun onResume() {
+
+        super.onResume()
     }
 
     private fun setupToolbar() {
@@ -31,24 +46,43 @@ class PlanDisplayActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         //Hiding default app icon
-        supportActionBar?.setDisplayShowTitleEnabled(false);
+        supportActionBar?.setDisplayShowTitleEnabled(false)
 
     }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_superior, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
-    private fun setupUi(){
-        Nombretv= findViewById(R.id.Nombretv)
-        Tipotv= findViewById(R.id.Tipotv)
-        CantAguaDiariaTv= findViewById(R.id.CantAguaDiariaTv)
-        CantColacionesDiariasTv= findViewById(R.id.CantColacionesDiariasTv)
-        Desayunotv= findViewById(R.id.Desayunotv)
-        Almuerzotv= findViewById(R.id.Almuerzotv)
-        Meriendatv= findViewById(R.id.Meriendatv)
-        Cenatv= findViewById(R.id.Cenatv)
-        Colaciontv= findViewById(R.id.Colaciontv)
+    private fun setupUi() {
+        Nombretv = findViewById(R.id.Nombretv)
+        Tipotv = findViewById(R.id.Tipotv)
+        CantAguaDiariaTv = findViewById(R.id.CantAguaDiariaTv)
+        CantColacionesDiariasTv = findViewById(R.id.CantColacionesDiariasTv)
+        Desayunotv = findViewById(R.id.Desayunotv)
+        Almuerzotv = findViewById(R.id.Almuerzotv)
+        Meriendatv = findViewById(R.id.Meriendatv)
+        Cenatv = findViewById(R.id.Cenatv)
+        Colaciontv = findViewById(R.id.Colaciontv)
         setupToolbar()
+
+        lifecycleScope.launch{
+            planDisplayPresenter.fillPlanInfo(intent.getStringExtra("Email"))
+        }
+    }
+
+    override suspend fun fillDataView(dataRepo: Plan?) {
+        if (dataRepo != null) {
+            Nombretv.text = dataRepo.Nombre
+            Tipotv.text = dataRepo.Tipo
+            CantAguaDiariaTv.text = dataRepo.CantAguaDiaria.toString()
+            CantColacionesDiariasTv.text = dataRepo.CantColacionesDiarias.toString()
+            Desayunotv.text = dataRepo.Desayuno.toString()
+            Almuerzotv.text = dataRepo.Almuerzo.toString()
+            Meriendatv.text = dataRepo.Merienda.toString()
+            Cenatv.text = dataRepo.Cena.toString()
+            Colaciontv.text = dataRepo.Colacion.toString()
+        }
     }
 }

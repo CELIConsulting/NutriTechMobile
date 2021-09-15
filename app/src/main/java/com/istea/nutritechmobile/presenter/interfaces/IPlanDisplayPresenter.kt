@@ -1,5 +1,5 @@
 package com.istea.nutritechmobile.presenter.interfaces
 
 interface IPlanDisplayPresenter {
-    fun showPlan()
+    suspend fun fillPlanInfo(email: String?)
 }
