@@ -70,6 +70,7 @@
                         android:text="TipoTv"
                         android:textAppearance="@style/TextAppearance.AppCompat.Title"
                         android:textColor="#666666" />
+
                 </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
@@ -117,6 +118,7 @@
                             android:layout_marginRight="15dp"
                             android:layout_marginBottom="15dp"
                             android:text="000"
+                            android:textAlignment="viewStart"
                             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                             android:textColor="#999999" />
 

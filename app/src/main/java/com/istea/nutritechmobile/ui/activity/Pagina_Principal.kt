@@ -2,12 +2,10 @@ package com.istea.nutritechmobile.ui.activity
 
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
-import android.view.Window
 import android.widget.TextView
-import androidx.appcompat.app.ActionBar
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.google.android.material.button.MaterialButton
 import com.istea.nutritechmobile.*
@@ -62,7 +60,7 @@ class Pagina_Principal : AppCompatActivity(), IPrincipalView {
         btnModifPlan = findViewById(R.id.btnModifPlan)
 
         btnVerPlan.setOnClickListener {
-            showInProgressMessage()
+            goToPlanView()
         }
 
         btnModifPlan.setOnClickListener {
@@ -87,6 +85,12 @@ class Pagina_Principal : AppCompatActivity(), IPrincipalView {
 
     override fun goBackToLogin() {
         Intent(this@Pagina_Principal, LoginActivity::class.java).apply {
+            startActivity(this)
+        }
+    }
+
+    override fun goToPlanView() {
+        Intent(this@Pagina_Principal, PlanDisplayActivity::class.java).apply {
             startActivity(this)
         }
     }
