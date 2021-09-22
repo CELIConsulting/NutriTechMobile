@@ -30,6 +30,7 @@ class PlanDisplayActivity : AppCompatActivity(), IPlanDisplayView {
     private val planDisplayPresenter: IPlanDisplayPresenter by lazy {
         PlanDisplayPresenterImp(this, PlanDisplayRepositoryImp(FireStoreHelper(this)))
     }
+    private val noData = "-- no data --"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,11 +79,31 @@ class PlanDisplayActivity : AppCompatActivity(), IPlanDisplayView {
             Tipotv.text = dataRepo.Tipo
             CantAguaDiariaTv.text = dataRepo.CantAguaDiaria.toString()
             CantColacionesDiariasTv.text = dataRepo.CantColacionesDiarias.toString()
-            Desayunotv.text = dataRepo.Desayuno.toString()
-            Almuerzotv.text = dataRepo.Almuerzo.toString()
-            Meriendatv.text = dataRepo.Merienda.toString()
-            Cenatv.text = dataRepo.Cena.toString()
-            Colaciontv.text = dataRepo.Colacion.toString()
+            if (dataRepo.Desayuno.isNotEmpty()){
+                Desayunotv.text = dataRepo.Desayuno.joinToString("\n")
+            }else {
+                Desayunotv.text = this.noData
+            }
+            if (dataRepo.Almuerzo.isNotEmpty()){
+                Almuerzotv.text = dataRepo.Almuerzo.joinToString("\n")
+            }else {
+                Almuerzotv.text = this.noData
+            }
+            if (dataRepo.Merienda.isNotEmpty()){
+                Meriendatv.text = dataRepo.Merienda.joinToString("\n")
+            }else {
+                Meriendatv.text =  this.noData
+            }
+            if (dataRepo.Cena.isNotEmpty()){
+                Cenatv.text = dataRepo.Cena.joinToString("\n")
+            }else {
+                Cenatv.text =  this.noData
+            }
+            if (dataRepo.Colacion.isNotEmpty()){
+                Colaciontv.text = dataRepo.Colacion.joinToString("\n")
+            }else {
+                Colaciontv.text =  this.noData
+            }
         }
     }
 }

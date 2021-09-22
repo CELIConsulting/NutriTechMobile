@@ -49,7 +49,7 @@ class FireStoreHelper(context: Context) {
                     Log.d(TAG_ACTIVITY, "Mail: ${fetchedUser.Email}")
                     Log.d(TAG_ACTIVITY, "Password: ${fetchedUser.Password}")
                     Log.d(TAG_ACTIVITY, "Timestamp: ${fetchedUser.LastUpdated}")
-                    Log.d(TAG_ACTIVITY, "Rol: ${fetchedUser.Rol.Descripcion}")
+                    Log.d(TAG_ACTIVITY, "Rol: ${fetchedUser.Rol}")
                     return fetchedUser
                 }
             }
@@ -71,9 +71,17 @@ class FireStoreHelper(context: Context) {
                 .await()
             if (snapshot.documents.isNotEmpty()) {
                 val planSnapshot = snapshot.documents.first()
-                val fetchedPlan = planSnapshot.toObject(UserResponse::class.java)
-
-
+                val selectedPatient = planSnapshot.toObject(UserResponse::class.java)
+                if (selectedPatient != null) {
+                    val selectedPlan = selectedPatient.PlanAsignado?.PlanAlimentacion
+                    if (selectedPlan != null) {
+                        val snapshot2 = this.planRef.document(selectedPlan).get().await()
+                        if (snapshot2.exists()) {
+                            return snapshot2.toObject(Plan::class.java)
+                        }
+                    }
+                    return null
+                }
                 return null
             }
         } catch (e: Exception) {
