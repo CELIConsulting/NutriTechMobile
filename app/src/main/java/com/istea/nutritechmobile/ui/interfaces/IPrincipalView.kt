@@ -5,4 +5,5 @@ interface IPrincipalView {
     fun generateQuoteOfTheDay(phrase: String, author: String)
     fun showInProgressMessage()
     fun goBackToLogin()
+    fun goToPlanView()
 }

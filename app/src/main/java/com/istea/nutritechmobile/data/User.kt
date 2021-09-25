@@ -1,10 +1,7 @@
 package com.istea.nutritechmobile.data
 
 import com.google.firebase.Timestamp
-import com.google.type.DateTime
 import java.io.Serializable
-import java.time.LocalDateTime
-import java.util.*
 
 data class User(
     val mail: String,
@@ -12,19 +9,37 @@ data class User(
 ) : Serializable
 
 data class UserResponse(
-    val Id: Int? = null,
-    val Email: String,
-    val Password: String,
     val Nombre: String,
     val Apellido: String,
-    val LastUpdated: Timestamp,
-    val Rol: Role
+    val Email: String,
+    val Password: String,
+    val Rol: String,
+    val FechaNacimiento: Timestamp?,
+    val Telefono: String?,
+    val LastUpdated: Timestamp?,
+    val Altura: Float?,
+    val Peso: Float?,
+    val MedidaCintura: Float?,
+    val TipoAlimentacion: String?,
+    val PlanAsignado: PlanAsignacion?,
 ) : Serializable {
-    constructor() : this(null, "", "", "", "", Timestamp.now(), Role())
+    constructor() : this(
+        "",
+        "",
+        "",
+        "",
+        "",
+        Timestamp.now(),
+        "",
+        Timestamp.now(),
+        0f,
+        0f,
+        0f,
+        "",
+        PlanAsignacion(
+            "",
+            "",
+            Timestamp.now()
+        )
+    )
 }
-
-
-
-
-
-

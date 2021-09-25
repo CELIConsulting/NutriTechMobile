@@ -5,6 +5,7 @@ import android.util.Log
 import com.google.firebase.FirebaseApp
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestoreSettings
+import com.istea.nutritechmobile.data.Plan
 import com.istea.nutritechmobile.data.User
 import com.istea.nutritechmobile.data.UserResponse
 import kotlinx.coroutines.tasks.await
@@ -21,6 +22,7 @@ class FireStoreHelper(context: Context) {
     //Collections
     private val usersRef = this.db.collection("Users")
     private val rolesRef = this.db.collection("Roles")
+    private val planRef = this.db.collection("Planes")
 
     init {
         FirebaseApp.initializeApp(context)
@@ -47,7 +49,7 @@ class FireStoreHelper(context: Context) {
                     Log.d(TAG_ACTIVITY, "Mail: ${fetchedUser.Email}")
                     Log.d(TAG_ACTIVITY, "Password: ${fetchedUser.Password}")
                     Log.d(TAG_ACTIVITY, "Timestamp: ${fetchedUser.LastUpdated}")
-                    Log.d(TAG_ACTIVITY, "Rol: ${fetchedUser.Rol.Descripcion}")
+                    Log.d(TAG_ACTIVITY, "Rol: ${fetchedUser.Rol}")
                     return fetchedUser
                 }
             }
@@ -58,6 +60,33 @@ class FireStoreHelper(context: Context) {
         }
 
         Log.d(TAG_ACTIVITY, "USER NULL")
+        return null
+    }
+
+    suspend fun getPlanInfo(email: String?): Plan? {
+        try {
+            val snapshot = this.usersRef
+                .whereEqualTo("Email", email)
+                .get()
+                .await()
+            if (snapshot.documents.isNotEmpty()) {
+                val planSnapshot = snapshot.documents.first()
+                val selectedPatient = planSnapshot.toObject(UserResponse::class.java)
+                if (selectedPatient != null) {
+                    val selectedPlan = selectedPatient.PlanAsignado?.PlanAlimentacion
+                    if (selectedPlan != null) {
+                        val snapshot2 = this.planRef.document(selectedPlan).get().await()
+                        if (snapshot2.exists()) {
+                            return snapshot2.toObject(Plan::class.java)
+                        }
+                    }
+                    return null
+                }
+                return null
+            }
+        } catch (e: Exception) {
+            Log.d(TAG_ACTIVITY, "Exception: ${e.message}")
+        }
         return null
     }
 
