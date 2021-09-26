@@ -1,7 +1,6 @@
 package com.istea.nutritechmobile.presenter
 
 import android.app.Activity
-import androidx.core.view.KeyEventDispatcher
 import com.google.firebase.auth.FirebaseAuth
 import com.istea.nutritechmobile.R
 import com.istea.nutritechmobile.data.User
@@ -10,8 +9,11 @@ import com.istea.nutritechmobile.helpers.mailFormatIsValid
 import com.istea.nutritechmobile.model.interfaces.ILoginRepository
 import com.istea.nutritechmobile.presenter.interfaces.ILoginPresenter
 import com.istea.nutritechmobile.ui.interfaces.ILoginView
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 
 private const val TAG_ACTIVITY = "LoginPresenterImp"
 
@@ -30,7 +32,7 @@ class LoginPresenterImp(
                     if (task.isSuccessful) {
                         // Sign in success, update UI with the signed-in user's information
                         GlobalScope.launch(Dispatchers.IO) {
-                            withContext(Dispatchers.Main){
+                            withContext(Dispatchers.Main) {
                                 val user = User(mail, password)
                                 var userResponse = repo.checkUserData(user)
                                 if (userResponse != null) {
