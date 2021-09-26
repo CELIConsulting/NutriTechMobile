@@ -1,7 +1,8 @@
 package com.istea.nutritechmobile.presenter
 
 import android.app.Activity
-import android.util.Log
+import androidx.core.view.KeyEventDispatcher
+import com.google.firebase.auth.FirebaseAuth
 import com.istea.nutritechmobile.R
 import com.istea.nutritechmobile.data.User
 import com.istea.nutritechmobile.helpers.getTextFromResource
@@ -9,31 +10,51 @@ import com.istea.nutritechmobile.helpers.mailFormatIsValid
 import com.istea.nutritechmobile.model.interfaces.ILoginRepository
 import com.istea.nutritechmobile.presenter.interfaces.ILoginPresenter
 import com.istea.nutritechmobile.ui.interfaces.ILoginView
+import kotlinx.coroutines.*
+import kotlinx.coroutines.tasks.await
 
 private const val TAG_ACTIVITY = "LoginPresenterImp"
 
 class LoginPresenterImp(
     private val view: ILoginView,
     private val repo: ILoginRepository,
+    private val auth: FirebaseAuth,
 ) :
     ILoginPresenter {
     override suspend fun doLogin(mail: String, password: String) {
 
         if (isLoginInputValid(mail, password)) {
-            val user = User(mail, password)
 
-            val userResponse = repo.checkUserData(user)
-
-            if (userResponse != null) {
-                //TODO: Debe avanzar a la pantalla principal
-                view.goToNextScreen(userResponse)
-            } else
-                view.showMessage(
-                    getTextFromResource(
-                        view as Activity,
-                        R.string.user_not_found
+            auth.signInWithEmailAndPassword(mail, password)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        // Sign in success, update UI with the signed-in user's information
+                        GlobalScope.launch(Dispatchers.IO) {
+                            withContext(Dispatchers.Main){
+                                val user = User(mail, password)
+                                var userResponse = repo.checkUserData(user)
+                                if (userResponse != null) {
+                                    view.goToNextScreen(userResponse)
+                                } else {
+                                    view.showMessage(
+                                        getTextFromResource(
+                                            view as Activity,
+                                            R.string.user_not_found
+                                        )
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+                .addOnFailureListener { _ ->
+                    view.showMessage(
+                        getTextFromResource(
+                            view as Activity,
+                            R.string.invalid_credentials
+                        )
                     )
-                )
+                }.await()
         }
     }
 

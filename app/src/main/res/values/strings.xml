@@ -13,6 +13,7 @@
     <string name="both_empty">Debe completar los campos primero</string>
     <string name="mail_format_invalid">El formato del mail no es válido</string>
     <string name="user_not_found">El usuario no existe</string>
+    <string name="invalid_credentials">Credenciales invalidas</string>
 
     <!--Pantalla principal-->
     <string name="btnVerPlan">Ver plan</string>
