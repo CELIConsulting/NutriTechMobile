@@ -63,28 +63,18 @@ class LoginActivity : AppCompatActivity(), ILoginView {
     }
 
     override fun goToNextScreen(currentUser: UserResponse) {
+        try {
+            Log.d(TAG_ACTIVITY, "SENDING OBJECT TO MAIN ACTIVITY")
 
-        Intent(this@LoginActivity, PaginaPrincipalActivity::class.java).apply {
-            startActivity(this)
+            Intent(this@LoginActivity, PaginaPrincipalActivity::class.java).apply {
+                putExtra(LOGGED_USER, currentUser)
+                startActivity(this)
+            }
+
+            Log.d(TAG_ACTIVITY, "SENDING OBJECT OK!")
+        } catch (e: Exception) {
+            Log.d(TAG_ACTIVITY, "SENDING OBJECT ERROR! BECAUSE ${e.message?.uppercase()}")
         }
-
-//TODO: Implement parcelable with User data class
-//        try {
-//            Log.d(TAG_ACTIVITY, "SENDING OBJECT TO MAIN ACTIVITY")
-//
-//            val bundle = Bundle().apply {
-//                putSerializable(LOGGED_USER, currentUser)
-//            }
-//
-//            Intent(this@LoginActivity, PaginaPrincipalActivity::class.java).apply {
-//                putExtras(bundle)
-//                startActivity(this)
-//            }
-//
-//            Log.d(TAG_ACTIVITY, "SENDING OBJECT OK!")
-//        } catch (e: Exception) {
-//            Log.d(TAG_ACTIVITY, "SENDING OBJECT ERROR! BECAUSE ${e.message?.uppercase()}")
-//        }
 
 
     }

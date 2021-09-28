@@ -51,7 +51,6 @@ class PaginaPrincipalActivity : AppCompatActivity(), IPrincipalView {
     override fun onResume() {
         principalPresenter.loggedUserData()
         principalPresenter.getQuoteOfTheDay()
-//        getLoggedUserData()
         super.onResume()
     }
 
@@ -90,20 +89,6 @@ class PaginaPrincipalActivity : AppCompatActivity(), IPrincipalView {
         setupToolbar()
     }
 
-    private fun getLoggedUserData() {
-        println("OBTENIENDO USUARIO DESDE ACTIVITY")
-        val loggedUser = intent.extras?.getSerializable(LOGGED_USER) as UserResponse?
-
-        loggedUser?.let { it ->
-            println(it.Nombre)
-            println(it.Apellido)
-            println(it.Telefono ?: "NOT ASSIGNED")
-            println(it.TipoAlimentacion ?: "NOT ASSIGNED")
-            println(it.FechaNacimiento.toString())
-        }
-
-    }
-
     override fun welcomeUser(name: String, lastName: String) {
         txtUsuarioBienvenida.text = "Bienvenido $name $lastName".uppercase()
     }
@@ -131,9 +116,6 @@ class PaginaPrincipalActivity : AppCompatActivity(), IPrincipalView {
     }
 
     override fun goToProfileView() {
-        //TODO: 1-  Pasar objeto paciente que se obtuvo (GET) desde el Login
-        //TODO: 2-  Hacer un (GET) cada vez que se accede al perfil para obtener datos actualizados
-
         Intent(this@PaginaPrincipalActivity, PerfilPacienteActivity::class.java).apply {
             startActivity(this)
         }
