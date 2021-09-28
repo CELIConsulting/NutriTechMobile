@@ -6,4 +6,5 @@ interface IPrincipalView {
     fun showInProgressMessage()
     fun goBackToLogin()
     fun goToPlanView()
+    fun goToProfileView()
 }

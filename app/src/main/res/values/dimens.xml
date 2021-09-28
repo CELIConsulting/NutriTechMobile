@@ -17,5 +17,9 @@
     <dimen name="quoteOfTheDay_text_size">16sp</dimen>
     <dimen name="authorOfTheDay_box_padBottom">10dp</dimen>
     <dimen name="authorOfTheDay_box_marginEnd">22dp</dimen>
+    <dimen name="app_bar_height">100dp</dimen>
+
+    <!--Pantalla perfil-->
+    <dimen name="perfil_margin">10dp</dimen>
 
 </resources>

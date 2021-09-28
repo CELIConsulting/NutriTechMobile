@@ -1,7 +1,6 @@
 package com.istea.nutritechmobile.presenter
 
 import android.app.Activity
-import android.util.Log
 import com.istea.nutritechmobile.R
 import com.istea.nutritechmobile.data.User
 import com.istea.nutritechmobile.helpers.getTextFromResource

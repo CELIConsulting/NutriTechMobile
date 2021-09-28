@@ -18,8 +18,8 @@ import com.istea.nutritechmobile.presenter.interfaces.ILoginPresenter
 import com.istea.nutritechmobile.ui.interfaces.ILoginView
 import kotlinx.coroutines.launch
 
+const val LOGGED_USER = "LOGGED_USER"
 private const val TAG_ACTIVITY = "LoginActivity"
-private const val LOGGED_USER = "LOGGED_USER"
 
 class LoginActivity : AppCompatActivity(), ILoginView {
     private lateinit var etLoginMail: EditText
@@ -62,16 +62,31 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         UIManager.showMessageShort(this, message)
     }
 
-    override fun goToNextScreen(user: UserResponse) {
-        Log.d(TAG_ACTIVITY, "User: ${user.Nombre} Rol: ${user.Apellido}")
+    override fun goToNextScreen(currentUser: UserResponse) {
 
-        //TODO: Solucionar problema de serializacion al enviar objeto a través de un Intent
-        Intent(this@LoginActivity, Pagina_Principal::class.java).apply {
-            putExtra("Nombre", user.Nombre)
-            putExtra("Apellido", user.Apellido)
-            putExtra("Email",user.Email)
+        Intent(this@LoginActivity, PaginaPrincipalActivity::class.java).apply {
             startActivity(this)
         }
+
+//TODO: Implement parcelable with User data class
+//        try {
+//            Log.d(TAG_ACTIVITY, "SENDING OBJECT TO MAIN ACTIVITY")
+//
+//            val bundle = Bundle().apply {
+//                putSerializable(LOGGED_USER, currentUser)
+//            }
+//
+//            Intent(this@LoginActivity, PaginaPrincipalActivity::class.java).apply {
+//                putExtras(bundle)
+//                startActivity(this)
+//            }
+//
+//            Log.d(TAG_ACTIVITY, "SENDING OBJECT OK!")
+//        } catch (e: Exception) {
+//            Log.d(TAG_ACTIVITY, "SENDING OBJECT ERROR! BECAUSE ${e.message?.uppercase()}")
+//        }
+
+
     }
 
 
