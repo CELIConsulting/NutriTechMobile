@@ -1,9 +1,7 @@
 package com.istea.nutritechmobile.presenter
 
 import android.app.Activity
-import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.istea.nutritechmobile.R
 import com.istea.nutritechmobile.data.User
 import com.istea.nutritechmobile.helpers.getTextFromResource
@@ -16,7 +14,6 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
-import kotlin.math.log
 
 private const val TAG_ACTIVITY = "LoginPresenterImp"
 
@@ -29,41 +26,36 @@ class LoginPresenterImp(
     override suspend fun doLogin(mail: String, password: String) {
 
         if (isLoginInputValid(mail, password)) {
-            try {
-                auth.signInWithEmailAndPassword(mail, password)
-                    .addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
-                            // Sign in success, update UI with the signed-in user's information
-                            GlobalScope.launch(Dispatchers.IO) {
-                                withContext(Dispatchers.Main) {
-                                    val user = User(mail, password)
-                                    var userResponse = repo.checkUserData(user)
-                                    if (userResponse != null) {
-                                        view.goToNextScreen(userResponse)
-                                    } else {
-                                        view.showMessage(
-                                            getTextFromResource(
-                                                view as Activity,
-                                                R.string.user_not_found
-                                            )
+            auth.signInWithEmailAndPassword(mail, password)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        // Sign in success, update UI with the signed-in user's information
+                        GlobalScope.launch(Dispatchers.IO) {
+                            withContext(Dispatchers.Main) {
+                                val user = User(mail, password)
+                                var userResponse = repo.checkUserData(user)
+                                if (userResponse != null) {
+                                    view.goToNextScreen(userResponse)
+                                } else {
+                                    view.showMessage(
+                                        getTextFromResource(
+                                            view as Activity,
+                                            R.string.user_not_found
                                         )
-                                    }
+                                    )
                                 }
                             }
                         }
                     }
-                    .addOnFailureListener {
-                        view.showMessage(
-                            getTextFromResource(
-                                view as Activity,
-                                R.string.invalid_credentials
-                            )
+                }
+                .addOnFailureListener {
+                    view.showMessage(
+                        getTextFromResource(
+                            view as Activity,
+                            R.string.invalid_credentials
                         )
-                    }.await()
-
-            }catch (e: FirebaseAuthInvalidUserException){
-                Log.e(TAG_ACTIVITY,"ups ocurrio un error $e")
-            }
+                    )
+                }
         }
     }
 
