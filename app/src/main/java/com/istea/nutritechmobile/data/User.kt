@@ -11,19 +11,19 @@ data class User(
 ) : Serializable
 
 data class UserResponse(
-    val Nombre: String,
-    val Apellido: String,
-    val Email: String,
-    val Password: String,
-    val Rol: String,
-    val FechaNacimiento: Timestamp?,
-    val Telefono: String?,
-    val LastUpdated: Timestamp?,
-    val Altura: Float?,
-    val Peso: Float?,
-    val MedidaCintura: Float?,
-    val TipoAlimentacion: String?,
-    val PlanAsignado: PlanAsignacion?,
+    var Nombre: String,
+    var Apellido: String,
+    var Email: String,
+    var Password: String,
+    var Rol: String,
+    var FechaNacimiento: Timestamp?,
+    var Telefono: String,
+    var LastUpdated: Timestamp?,
+    var Altura: Float?,
+    var Peso: Float?,
+    var MedidaCintura: Float?,
+    var TipoAlimentacion: String,
+    var PlanAsignado: PlanAsignacion?,
 ) : Parcelable {
 
     constructor(parcel: Parcel) : this(
@@ -33,12 +33,12 @@ data class UserResponse(
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readParcelable(Timestamp::class.java.classLoader),
-        parcel.readString(),
+        parcel.readString() ?: "",
         parcel.readParcelable(Timestamp::class.java.classLoader),
         parcel.readValue(Float::class.java.classLoader) as? Float,
         parcel.readValue(Float::class.java.classLoader) as? Float,
         parcel.readValue(Float::class.java.classLoader) as? Float,
-        parcel.readString(),
+        parcel.readString() ?: "",
         parcel.readParcelable(PlanAsignacion::class.java.classLoader) as PlanAsignacion?
     ) {
     }

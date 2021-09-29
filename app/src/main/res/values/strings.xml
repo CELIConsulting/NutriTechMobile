@@ -48,4 +48,5 @@ Convallis a cras semper auctor. Vitae aliquet nec ullamcorper sit amet risus nul
     <string name="perfilApellido">Ingrese su apellido</string>
     <string name="perfilMail">Ingrese su mail</string>
     <string name="perfilFechaNacimiento">Ingrese Fecha Nacimiento</string>
+    <string name="btnActualizarPerfil">Actualizar datos</string>
 </resources>

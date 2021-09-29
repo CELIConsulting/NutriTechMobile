@@ -33,9 +33,7 @@ class SplashScreenActivity : AppCompatActivity() {
 
     private fun callSessionManager() {
         GlobalScope.launch(Dispatchers.IO){
-            Log.i(TAG_ACTIVITY, "Coroutine to get Shared Preferences starts here!")
             SessionManager.getPreferences(this@SplashScreenActivity.applicationContext)
-            Log.i(TAG_ACTIVITY, "Coroutine to get Shared Preferences ends here!")
         }
     }
 
