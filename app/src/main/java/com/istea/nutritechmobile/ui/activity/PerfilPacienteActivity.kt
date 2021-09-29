@@ -3,6 +3,7 @@ package com.istea.nutritechmobile.ui.activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.EditText
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.button.MaterialButton
@@ -15,6 +16,7 @@ import com.istea.nutritechmobile.presenter.PerfilPacientePresenterImp
 import com.istea.nutritechmobile.presenter.interfaces.IPerfilPacientePresenter
 import com.istea.nutritechmobile.ui.interfaces.IPerfilPacienteView
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 
 import kotlinx.coroutines.launch
 import java.util.*
@@ -75,7 +77,7 @@ class PerfilPacienteActivity : AppCompatActivity(), IPerfilPacienteView {
         etFechaNacimiento.setText(getFechaNacimiento(paciente.FechaNacimiento))
         etTelefono.setText(if (!paciente.Telefono.isEmpty()) paciente.Telefono else campoNoAsignado)
         etAltura.setText(if (paciente.Altura != null && paciente.Altura!! > 0) paciente.Altura.toString() else campoNoAsignado)
-        etPeso.setText(if (paciente.Peso != null  && paciente.Peso!! > 0) paciente.Peso.toString() else campoNoAsignado)
+        etPeso.setText(if (paciente.Peso != null && paciente.Peso!! > 0) paciente.Peso.toString() else campoNoAsignado)
         etMedidaCintura.setText(if (paciente.MedidaCintura != null && paciente.MedidaCintura!! > 0) paciente.MedidaCintura.toString() else campoNoAsignado)
         etTipoAlimentacion.setText(if (!paciente.TipoAlimentacion.isEmpty()) paciente.TipoAlimentacion else campoNoAsignado)
     }

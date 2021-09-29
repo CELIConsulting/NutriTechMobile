@@ -1,6 +1,7 @@
 package com.istea.nutritechmobile.presenter
 
 import android.app.Activity
+import android.util.Log
 import android.view.View
 import com.istea.nutritechmobile.data.UserResponse
 import com.istea.nutritechmobile.helpers.UIManager
@@ -22,9 +23,10 @@ class PerfilPacientePresenterImp(private val view: IPerfilPacienteView) : IPerfi
         } else {
             view.goBackToLogin()
         }
+
     }
 
     override suspend fun updatePaciente(paciente: UserResponse) {
-        UIManager.showMessageShort(view as Activity, "Funcion en desarrollo" )
+        UIManager.showMessageShort(view as Activity, "Funcion en desarrollo")
     }
 }

@@ -43,15 +43,15 @@ class LoginPresenterImp(
                                 }
 
                                 view.goToMainScreen()
+                            } else {
+                                view.showMessage(
+                                    getTextFromResource(
+                                        view as Activity,
+                                        R.string.user_not_found
+                                    )
+                                )
                             }
                         }
-                    } else {
-                        view.showMessage(
-                            getTextFromResource(
-                                view as Activity,
-                                R.string.user_not_found
-                            )
-                        )
                     }
                 }
                 .addOnFailureListener {

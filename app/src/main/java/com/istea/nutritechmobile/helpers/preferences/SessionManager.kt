@@ -6,6 +6,9 @@ import android.util.Log
 import androidx.core.content.edit
 import com.google.gson.Gson
 import com.istea.nutritechmobile.data.UserResponse
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.withContext
 
 const val TAG_ACTIVITY = "SessionManager"
 
@@ -21,8 +24,9 @@ class SessionManager {
 
         ///Getting shared preferences || ASYNC
         suspend fun getPreferences(context: Context) {
-            sharedPreferences =
+            sharedPreferences = withContext(Dispatchers.IO) {
                 context.getSharedPreferences(SESSION_PREFERENCES, Context.MODE_PRIVATE)
+            }
         }
 
         ///Saving user in shared preferences || ASYNC
@@ -53,8 +57,6 @@ class SessionManager {
                 Log.d(TAG_ACTIVITY, "User was restored from shared preferences")
                 gson.fromJson(userGSON, UserResponse::class.java)
             }
-
-
         }
 
 
