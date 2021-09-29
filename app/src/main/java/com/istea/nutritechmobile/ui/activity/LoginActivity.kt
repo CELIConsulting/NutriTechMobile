@@ -16,6 +16,7 @@ import com.istea.nutritechmobile.model.LoginRepositoryImp
 import com.istea.nutritechmobile.presenter.LoginPresenterImp
 import com.istea.nutritechmobile.presenter.interfaces.ILoginPresenter
 import com.istea.nutritechmobile.ui.interfaces.ILoginView
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 const val LOGGED_USER = "LOGGED_USER"
@@ -41,7 +42,7 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         btnLogin = findViewById(R.id.btnLogin)
 
         btnLogin.setOnClickListener {
-            lifecycleScope.launch {
+            lifecycleScope.launch(Dispatchers.Main) {
                 Log.d(TAG_ACTIVITY, "Coroutine: begin")
                 login()
                 Log.d(TAG_ACTIVITY, "Coroutine: End")
@@ -62,12 +63,9 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         UIManager.showMessageShort(this, message)
     }
 
-    override fun goToNextScreen(currentUser: UserResponse) {
+    override fun goToMainScreen() {
         try {
-            Log.d(TAG_ACTIVITY, "SENDING OBJECT TO MAIN ACTIVITY")
-
             Intent(this@LoginActivity, PaginaPrincipalActivity::class.java).apply {
-                putExtra(LOGGED_USER, currentUser)
                 startActivity(this)
             }
 

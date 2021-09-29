@@ -4,5 +4,5 @@ import com.istea.nutritechmobile.data.UserResponse
 
 interface ILoginView {
     fun showMessage(message: String)
-    fun goToNextScreen(currentUser: UserResponse)
+    fun goToMainScreen()
 }

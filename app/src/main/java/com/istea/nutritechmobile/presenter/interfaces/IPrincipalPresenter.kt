@@ -1,6 +1,6 @@
 package com.istea.nutritechmobile.presenter.interfaces
 
 interface IPrincipalPresenter {
-    fun loggedUserData()
+    suspend fun loggedUserData()
     fun getQuoteOfTheDay()
 }

@@ -5,25 +5,35 @@ import android.util.Log
 import com.istea.nutritechmobile.R
 import com.istea.nutritechmobile.data.UserResponse
 import com.istea.nutritechmobile.helpers.getTextFromResource
+import com.istea.nutritechmobile.helpers.preferences.SessionManager
 import com.istea.nutritechmobile.presenter.interfaces.IPrincipalPresenter
 import com.istea.nutritechmobile.ui.activity.LOGGED_USER
 import com.istea.nutritechmobile.ui.interfaces.IPrincipalView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 //TODO: Falta agregar capa de repo para consumir API para las frases
 //TODO: Guardar los datos del usuario logueado en el storage / Ver alguna clase Utility
 //TODO: Se borraría la key pertinente al hacer logout
 
-
 private const val TAG_ACTIVITY = "PrincipalPresenterImp"
 
 class PrincipalPresenterImp(private val view: IPrincipalView) : IPrincipalPresenter {
-    override fun loggedUserData() {
+    override suspend fun loggedUserData() {
         try {
+            val loggedUser: UserResponse? = withContext(Dispatchers.IO) {
+                SessionManager.getLoggedUser()
+            }
 
-            val activity = view as Activity
-            activity.intent.extras?.getParcelable<UserResponse>(LOGGED_USER)?.let {
-                view.welcomeUser(it.Nombre, it.Apellido)
+            if (loggedUser != null) {
+                Log.i(TAG_ACTIVITY, "Usuario no nulo")
+                view.welcomeUser(loggedUser.Nombre, loggedUser.Apellido)
+            } else {
+                Log.i(TAG_ACTIVITY, "Usuario nulo")
+                view.goBackToLogin()
             }
 
         } catch (exception: Exception) {

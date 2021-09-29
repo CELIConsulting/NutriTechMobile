@@ -1,13 +1,19 @@
 package com.istea.nutritechmobile.presenter
 
 import android.app.Activity
+import android.util.Log
 import com.istea.nutritechmobile.R
 import com.istea.nutritechmobile.data.User
 import com.istea.nutritechmobile.helpers.getTextFromResource
 import com.istea.nutritechmobile.helpers.mailFormatIsValid
+import com.istea.nutritechmobile.helpers.preferences.SessionManager
 import com.istea.nutritechmobile.model.interfaces.ILoginRepository
 import com.istea.nutritechmobile.presenter.interfaces.ILoginPresenter
 import com.istea.nutritechmobile.ui.interfaces.ILoginView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 private const val TAG_ACTIVITY = "LoginPresenterImp"
 
@@ -19,13 +25,17 @@ class LoginPresenterImp(
     override suspend fun doLogin(mail: String, password: String) {
 
         if (isLoginInputValid(mail, password)) {
-            val user = User(mail, password)
 
-            val userResponse = repo.checkUserData(user)
+            val userResponse = withContext(Dispatchers.IO) {
+                repo.checkUserData(User(mail, password))
+            }
 
             if (userResponse != null) {
-                //TODO: Debe avanzar a la pantalla principal
-                view.goToNextScreen(userResponse)
+                GlobalScope.launch(Dispatchers.IO) {
+                    SessionManager.saveLoggedUser(userResponse)
+                }
+
+                view.goToMainScreen()
             } else
                 view.showMessage(
                     getTextFromResource(
@@ -35,6 +45,7 @@ class LoginPresenterImp(
                 )
         }
     }
+
 
     private fun isLoginInputValid(mail: String, password: String): Boolean {
 

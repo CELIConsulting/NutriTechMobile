@@ -8,15 +8,20 @@ import android.view.Menu
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.Timestamp
 import com.istea.nutritechmobile.*
 import com.istea.nutritechmobile.data.UserResponse
 import com.istea.nutritechmobile.helpers.UIManager
+import com.istea.nutritechmobile.helpers.preferences.SessionManager
 import com.istea.nutritechmobile.presenter.PrincipalPresenterImp
 import com.istea.nutritechmobile.presenter.interfaces.IPrincipalPresenter
 import com.istea.nutritechmobile.ui.interfaces.IPrincipalView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 private const val TAG_ACTIVITY = "PrincipalActivity"
 
@@ -49,7 +54,10 @@ class PaginaPrincipalActivity : AppCompatActivity(), IPrincipalView {
     }
 
     override fun onResume() {
-        principalPresenter.loggedUserData()
+        lifecycleScope.launch(Dispatchers.Main) {
+            principalPresenter.loggedUserData()
+        }
+
         principalPresenter.getQuoteOfTheDay()
         super.onResume()
     }
@@ -121,4 +129,15 @@ class PaginaPrincipalActivity : AppCompatActivity(), IPrincipalView {
         }
     }
 
+    override fun onDestroy() {
+        GlobalScope.launch(Dispatchers.IO) {
+            userLogout()
+        }
+
+        super.onDestroy()
+    }
+
+    private suspend fun userLogout() {
+        SessionManager.saveLoggedUser(null)
+    }
 }
