@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:showIn="@layout/activity_perfil_scroll">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/perfil_margin"
+        android:orientation="vertical">
+
+        <!--Nombre-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txtNombre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            app:errorTextColor="@color/error">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etNombre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:hint="@string/perfilNombre"
+                android:inputType="text"
+                android:singleLine="true"
+                android:textSize="20sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <!--Apellido-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txtApellido"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            app:errorTextColor="@color/error">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etApellido"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:hint="@string/perfilApellido"
+                android:inputType="text"
+                android:singleLine="true"
+                android:textSize="20sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <!--Mail-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txtMail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            app:errorTextColor="@color/error">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etMail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:hint="@string/perfilMail"
+                android:inputType="textEmailAddress"
+                android:singleLine="true"
+                android:textSize="20sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--Fecha de Nacimiento-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txtFechaNacimiento"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            app:errorTextColor="@color/error">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etFechaNacimiento"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:hint="@string/perfilFechaNacimiento"
+                android:inputType="date"
+                android:singleLine="true"
+                android:textSize="20sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--Telefono-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txtTelefono"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            app:errorTextColor="@color/error">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etTelefono"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/perfilTelefono"
+                android:inputType="text"
+                android:singleLine="true"
+                android:textSize="20sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <!--Altura-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txtAltura"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            app:errorTextColor="@color/error">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etAltura"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/perfilAltura"
+                android:inputType="numberDecimal"
+                android:singleLine="true"
+                android:textSize="20sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--Peso-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txtPeso"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            app:errorTextColor="@color/error">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etPeso"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/perfilPeso"
+                android:inputType="numberDecimal"
+                android:singleLine="true"
+                android:textSize="20sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--Medida cintura-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txtMedidaCintura"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            app:errorTextColor="@color/error">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etMedidaCintura"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/perfilMedidaCintura"
+                android:inputType="numberDecimal"
+                android:singleLine="true"
+                android:textSize="20sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--Tipo alimentación-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txtTipoAlimentacion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            app:errorTextColor="@color/error">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etTipoAlimentacion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/perfilTipoAlimentacion"
+                android:inputType="textMultiLine"
+                android:lines="5"
+                android:maxLines="5"
+                android:text="@string/loremLong"
+                android:textSize="20sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnUpdate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/btnActualizarPerfil" />
+
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>
