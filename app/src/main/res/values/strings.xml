@@ -23,5 +23,7 @@
     <string name="nombre_plan_alimentacion">Plan de alimentacion</string>
     <string name="daily_phrase_test">La pérdida de peso no comienza en el gimnasio con una campana tonta; comienza en tu cabeza con una decisión.</string>
     <string name="daily_author_test">Toni Sorenson</string>
+    <string name="hiciste_ejercicio">Hiciste Ejercicio?</string>
+    <string name="guardar">Guardar</string>
 
 </resources>
