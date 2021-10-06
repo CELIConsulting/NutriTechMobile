@@ -86,7 +86,7 @@ class Camera(
             archivoFoto = createImageFile()
 
             if (archivoFoto != null) {
-                var urlFoto =
+                val urlFoto =
                     FileProvider.getUriForFile(activity.applicationContext, AUTHORITY, archivoFoto)
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, urlFoto)
                 activity.startActivityForResult(intent, REQUEST_TAKE_PHOTO)

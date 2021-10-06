@@ -2,9 +2,11 @@ package com.istea.nutritechmobile.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.istea.nutritechmobile.R
 import com.istea.nutritechmobile.io.FireStoreHelper
 import com.istea.nutritechmobile.model.CargaDiariaRepositoryImp
@@ -25,6 +27,7 @@ class CargaDiariaActivity : AppCompatActivity(), ICargaDiariaView {
 
     private lateinit var camera: Camera
     private lateinit var toolbar: Toolbar
+    private lateinit var bottomNavigationView: BottomNavigationView
 
     private val cargaDiariaPresenter: ICargaDiariaPresenter by lazy {
         CargaDiariaPresenterImp(this, CargaDiariaRepositoryImp(FireStoreHelper(this)))
@@ -34,6 +37,7 @@ class CargaDiariaActivity : AppCompatActivity(), ICargaDiariaView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_carga_diaria)
         setupUi()
+        setupBottomNavigationBar()
         bindEvents()
     }
 
@@ -78,5 +82,40 @@ class CargaDiariaActivity : AppCompatActivity(), ICargaDiariaView {
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         camera.requestPermissionsResult(requestCode, permissions, grantResults)
+    }
+
+    private fun goToDailyRegistry() {
+        Intent(this@CargaDiariaActivity, CargaDiariaActivity::class.java).apply {
+            startActivity(this)
+        }
+    }
+
+    private fun setupBottomNavigationBar() {
+        val mOnNavigationItemSelectedListener =
+            BottomNavigationView.OnNavigationItemSelectedListener { item ->
+                when (item.itemId) {
+                    R.id.registro_diario -> {
+                        goToDailyRegistry()
+                        return@OnNavigationItemSelectedListener true
+                    }
+                    R.id.recetas -> {
+                        Log.e("Pagina Principal", " recetas")
+                        return@OnNavigationItemSelectedListener true
+
+                    }
+                    R.id.progreso -> {
+                        Log.e("Pagina Principal", " progreso")
+                        return@OnNavigationItemSelectedListener true
+
+                    }
+                    R.id.info_personal -> {
+                        Log.e("Pagina Principal", " info")
+                        return@OnNavigationItemSelectedListener true
+
+                    }
+                }
+                false
+            }
+        bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
     }
 }
