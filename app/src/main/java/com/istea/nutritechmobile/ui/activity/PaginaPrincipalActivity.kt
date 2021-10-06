@@ -76,6 +76,7 @@ class PaginaPrincipalActivity : AppCompatActivity(), IPrincipalView {
         btnVerPlan = findViewById(R.id.btnVerPlan)
         btnModifPlan = findViewById(R.id.btnModifPlan)
         bottomNavBar = findViewById(R.id.bottomNavigationView)
+        bottomNavBar.selectedItemId = R.id.progreso
 
         btnVerPlan.setOnClickListener {
             goToPlanView()
@@ -91,6 +92,19 @@ class PaginaPrincipalActivity : AppCompatActivity(), IPrincipalView {
                     goToProfileView()
                     true
                 }
+                R.id.recetas -> {
+                    showInProgressMessage()
+                    true
+                }
+                R.id.progreso -> {
+                    showInProgressMessage()
+                    true
+                }
+                R.id.registro_diario -> {
+                    showInProgressMessage()
+                    true
+                }
+
                 else -> false
             }
 
