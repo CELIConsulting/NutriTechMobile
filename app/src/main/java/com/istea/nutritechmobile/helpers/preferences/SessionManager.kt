@@ -24,6 +24,7 @@ class SessionManager {
 
         ///Getting shared preferences || ASYNC
         suspend fun getPreferences(context: Context) {
+            Log.i(TAG_ACTIVITY, "Getting shared preferences....")
             sharedPreferences = withContext(Dispatchers.IO) {
                 context.getSharedPreferences(SESSION_PREFERENCES, Context.MODE_PRIVATE)
             }
@@ -32,6 +33,7 @@ class SessionManager {
         ///Saving user in shared preferences || ASYNC
         suspend fun saveLoggedUser(user: UserResponse?) {
 
+            Log.i(TAG_ACTIVITY, "Saving user....")
             if (user != null) {
                 val userGSON = gson.toJson(user)
                 sharedPreferences.edit {
@@ -49,6 +51,7 @@ class SessionManager {
 
         ///Getting user in shared preferences || ASYNC
         suspend fun getLoggedUser(): UserResponse? {
+            Log.i(TAG_ACTIVITY, "Getting user....")
             val userGSON = sharedPreferences.getString(LOGGED_USER, DEFAULT_USER)
 
             return if (userGSON.isNullOrEmpty()) {

@@ -31,7 +31,6 @@ class LoginPresenterImp(
             auth.signInWithEmailAndPassword(mail, password)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-                        // Sign in success, update UI with the signed-in user's information
                         GlobalScope.launch(Dispatchers.Main) {
                             val userResponse = withContext(Dispatchers.IO) {
                                 repo.checkUserData(User(mail, password))
