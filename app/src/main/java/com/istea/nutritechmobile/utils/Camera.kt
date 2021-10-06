@@ -36,6 +36,10 @@ class Camera(
         requestPermission()
     }
 
+    fun cleanPhoto() {
+        imageView.setImageResource(android.R.color.transparent);
+    }
+
     private fun requestPermission() {
         ActivityCompat.shouldShowRequestPermissionRationale(activity, permissionCamera)
 

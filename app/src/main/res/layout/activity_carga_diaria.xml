@@ -15,7 +15,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/imgFoodUpload"
         android:layout_width="341dp"
         android:layout_height="158dp"
         android:contentDescription="TODO"
@@ -28,7 +28,7 @@
         tools:srcCompat="@tools:sample/avatars" />
 
     <ImageButton
-        android:id="@+id/imageButton3"
+        android:id="@+id/btnTakeCapture"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackgroundBorderless"
@@ -39,12 +39,12 @@
         app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
         app:layout_constraintHorizontal_bias="0.718"
         app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2"
+        app:layout_constraintTop_toBottomOf="@+id/imgFoodUpload"
         app:srcCompat="@drawable/ic_baseline_photo_camera_24"
         tools:ignore="SpeakableTextPresentCheck,DuplicateSpeakableTextCheck,DuplicateSpeakableTextCheck" />
 
     <ImageButton
-        android:id="@+id/imageButton2"
+        android:id="@+id/btnDeleteCapture"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackgroundBorderless"
@@ -54,7 +54,7 @@
         app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
         app:layout_constraintHorizontal_bias="0.924"
         app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2"
+        app:layout_constraintTop_toBottomOf="@+id/imgFoodUpload"
         app:srcCompat="@drawable/ic_baseline_delete_outline_24"
         tools:ignore="SpeakableTextPresentCheck"
         android:contentDescription="TODO" />
@@ -98,7 +98,7 @@
         app:layout_constraintGuide_begin="336dp" />
 
     <CheckBox
-        android:id="@+id/checkBox"
+        android:id="@+id/chkDoExcersice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:minHeight="48dp"
@@ -111,7 +111,7 @@
         app:layout_constraintVertical_bias="0.051" />
 
     <EditText
-        android:id="@+id/editTextTextMultiLine"
+        android:id="@+id/etObservacions"
         android:layout_width="345dp"
         android:layout_height="128dp"
         android:layout_marginStart="20dp"
@@ -126,7 +126,7 @@
         />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btnSubmit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/guardar"
