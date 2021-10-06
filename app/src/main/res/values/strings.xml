@@ -13,6 +13,7 @@
     <string name="both_empty">Debe completar los campos primero</string>
     <string name="mail_format_invalid">El formato del mail no es válido</string>
     <string name="user_not_found">El usuario no existe</string>
+    <string name="invalid_credentials">Credenciales invalidas</string>
 
     <!--Pantalla principal-->
     <string name="btnVerPlan">Ver plan</string>
@@ -26,4 +27,29 @@
     <string name="hiciste_ejercicio">Hiciste Ejercicio?</string>
     <string name="guardar">Guardar</string>
 
+    <!--Pantalla perfil-->
+    <string name="perfilAltura">Ingrese su altura</string>
+    <string name="perfilPeso">Ingrese su peso</string>
+    <string name="perfilMedidaCintura">Ingrese la medida de su cintura</string>
+
+    <!--BottomNavBar-->
+    <string name="bottomNavBar_registroDiario">Registro Diario</string>
+    <string name="bottomNavBar_recetas">Recetas</string>
+    <string name="bottomNavBar_progreso">Progreso</string>
+    <string name="bottomNavBar_perfil">Perfil</string>
+
+    <!--Dummy text-->
+    <string name="loremShort">Lorem ipsum dolor sit amet</string>
+    <string name="loremLong">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Mauris vitae ultricies leo integer malesuada nunc vel. Ornare quam viverra orci sagittis. Id volutpat lacus laoreet non curabitur gravida arcu. Gravida dictum fusce ut placerat orci nulla pellentesque. Porta non pulvinar neque laoreet suspendisse interdum. Auctor neque vitae tempus quam pellentesque nec. Ut diam quam nulla porttitor massa id neque. Sed egestas egestas fringilla phasellus faucibus scelerisque eleifend donec pretium. Non arcu risus quis varius quam quisque id diam vel.
+
+Vel quam elementum pulvinar etiam. Blandit turpis cursus in hac habitasse. Eu facilisis sed odio morbi quis commodo. Sodales ut eu sem integer vitae. Posuere morbi leo urna molestie at elementum eu facilisis sed. Sit amet facilisis magna etiam tempor orci eu. Nulla posuere sollicitudin aliquam ultrices sagittis. Scelerisque eleifend donec pretium vulputate. Cras tincidunt lobortis feugiat vivamus at. Amet dictum sit amet justo donec enim diam. A lacus vestibulum sed arcu non. Mattis enim ut tellus elementum sagittis vitae et. Enim neque volutpat ac tincidunt vitae semper quis. Donec ultrices tincidunt arcu non sodales neque sodales ut. Massa ultricies mi quis hendrerit dolor magna eget est. Quam elementum pulvinar etiam non quam lacus suspendisse. Nulla facilisi morbi tempus iaculis. Integer quis auctor elit sed vulputate mi sit amet. Maecenas volutpat blandit aliquam etiam erat velit scelerisque.
+
+Convallis a cras semper auctor. Vitae aliquet nec ullamcorper sit amet risus nullam. Neque convallis a cras semper. Orci ac auctor augue mauris augue neque gravida in fermentum. Ultrices sagittis orci a scelerisque purus semper eget. Turpis cursus in hac habitasse platea dictumst. Egestas integer eget aliquet nibh praesent tristique. Ornare aenean euismod elementum nisi quis. Venenatis lectus magna fringilla urna porttitor. Eget est lorem ipsum dolor sit amet consectetur adipiscing elit.</string>
+    <string name="perfilTelefono">Ingrese su teléfono</string>
+    <string name="perfilTipoAlimentacion">Ingrese su tipo de alimentación actual</string>
+    <string name="perfilNombre">Ingrese su nombre</string>
+    <string name="perfilApellido">Ingrese su apellido</string>
+    <string name="perfilMail">Ingrese su mail</string>
+    <string name="perfilFechaNacimiento">Ingrese Fecha Nacimiento</string>
+    <string name="btnActualizarPerfil">Actualizar datos</string>
 </resources>

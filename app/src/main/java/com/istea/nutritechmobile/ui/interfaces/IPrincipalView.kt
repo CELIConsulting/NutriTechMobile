@@ -7,4 +7,5 @@ interface IPrincipalView {
     fun goBackToLogin()
     fun goToPlanView()
     fun goToDailyRegistry()
+    fun goToProfileView()
 }

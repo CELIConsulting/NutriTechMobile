@@ -45,9 +45,13 @@ dependencies {
     //Firestore
     implementation platform('com.google.firebase:firebase-bom:28.4.0')
     implementation 'com.google.firebase:firebase-firestore-ktx'
+    implementation 'com.google.firebase:firebase-auth-ktx'
 
     //Kotlin coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1'
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.3.1"
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.2.1'
+
+    //GSON
+    implementation 'com.google.code.gson:gson:2.8.8'
 }

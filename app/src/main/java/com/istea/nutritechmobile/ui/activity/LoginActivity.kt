@@ -7,6 +7,8 @@ import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.button.MaterialButton
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.istea.nutritechmobile.R
 import com.istea.nutritechmobile.data.UserResponse
 import com.istea.nutritechmobile.helpers.UIManager
@@ -16,17 +18,18 @@ import com.istea.nutritechmobile.model.LoginRepositoryImp
 import com.istea.nutritechmobile.presenter.LoginPresenterImp
 import com.istea.nutritechmobile.presenter.interfaces.ILoginPresenter
 import com.istea.nutritechmobile.ui.interfaces.ILoginView
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+const val LOGGED_USER = "LOGGED_USER"
 private const val TAG_ACTIVITY = "LoginActivity"
-private const val LOGGED_USER = "LOGGED_USER"
 
 class LoginActivity : AppCompatActivity(), ILoginView {
     private lateinit var etLoginMail: EditText
     private lateinit var etLoginPassword: EditText
     private lateinit var btnLogin: MaterialButton
     private val loginPresenter: ILoginPresenter by lazy {
-        LoginPresenterImp(this, LoginRepositoryImp(FireStoreHelper(this)))
+        LoginPresenterImp(this, LoginRepositoryImp(FireStoreHelper(this)), Firebase.auth)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,7 +44,7 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         btnLogin = findViewById(R.id.btnLogin)
 
         btnLogin.setOnClickListener {
-            lifecycleScope.launch {
+            lifecycleScope.launch(Dispatchers.Main) {
                 Log.d(TAG_ACTIVITY, "Coroutine: begin")
                 login()
                 Log.d(TAG_ACTIVITY, "Coroutine: End")
@@ -62,16 +65,18 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         UIManager.showMessageShort(this, message)
     }
 
-    override fun goToNextScreen(user: UserResponse) {
-        Log.d(TAG_ACTIVITY, "User: ${user.Nombre} Rol: ${user.Apellido}")
+    override fun goToMainScreen() {
+        try {
+            Intent(this@LoginActivity, PaginaPrincipalActivity::class.java).apply {
+                startActivity(this)
+            }
 
-        //TODO: Solucionar problema de serializacion al enviar objeto a través de un Intent
-        Intent(this@LoginActivity, Pagina_Principal::class.java).apply {
-            putExtra("Nombre", user.Nombre)
-            putExtra("Apellido", user.Apellido)
-            putExtra("Email",user.Email)
-            startActivity(this)
+            Log.d(TAG_ACTIVITY, "SENDING OBJECT OK!")
+        } catch (e: Exception) {
+            Log.d(TAG_ACTIVITY, "SENDING OBJECT ERROR! BECAUSE ${e.message?.uppercase()}")
         }
+
+
     }
 
 

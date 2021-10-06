@@ -24,6 +24,9 @@
             android:name=".ui.activity.CargaDiariaActivity"
             android:exported="true" />
         <activity
+            android:name=".ui.activity.PerfilPacienteActivity"
+            android:exported="true" />
+        <activity
             android:name=".ui.activity.PlanDisplayActivity"
             android:exported="true" />
         <activity
@@ -37,7 +40,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.activity.Pagina_Principal"
+            android:name=".ui.activity.PaginaPrincipalActivity"
             android:exported="true" />
         <activity
             android:name=".ui.activity.LoginActivity"

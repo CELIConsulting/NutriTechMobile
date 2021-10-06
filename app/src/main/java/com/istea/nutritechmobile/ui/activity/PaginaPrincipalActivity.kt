@@ -9,22 +9,32 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.Timestamp
 import com.istea.nutritechmobile.*
+import com.istea.nutritechmobile.data.UserResponse
 import com.istea.nutritechmobile.helpers.UIManager
+import com.istea.nutritechmobile.helpers.preferences.SessionManager
 import com.istea.nutritechmobile.presenter.PrincipalPresenterImp
 import com.istea.nutritechmobile.presenter.interfaces.IPrincipalPresenter
 import com.istea.nutritechmobile.ui.interfaces.IPrincipalView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
+private const val TAG_ACTIVITY = "PrincipalActivity"
 
-class Pagina_Principal : AppCompatActivity(), IPrincipalView {
+class PaginaPrincipalActivity : AppCompatActivity(), IPrincipalView {
     private lateinit var txtUsuarioBienvenida: TextView
     private lateinit var txtFraseDelDia: TextView
     private lateinit var txtAutorDelDia: TextView
     private lateinit var btnVerPlan: MaterialButton
     private lateinit var btnModifPlan: MaterialButton
     private lateinit var toolbar: Toolbar
-    private lateinit var bottomNavigationView: BottomNavigationView
+    private lateinit var bottomNavBar: BottomNavigationView
+
     private val principalPresenter: IPrincipalPresenter by lazy {
         PrincipalPresenterImp(this)
     }
@@ -72,7 +82,10 @@ class Pagina_Principal : AppCompatActivity(), IPrincipalView {
     }
 
     override fun onResume() {
-        principalPresenter.loggedUserData()
+        lifecycleScope.launch(Dispatchers.Main) {
+            principalPresenter.loggedUserData()
+        }
+
         principalPresenter.getQuoteOfTheDay()
         super.onResume()
     }
@@ -88,7 +101,7 @@ class Pagina_Principal : AppCompatActivity(), IPrincipalView {
         txtAutorDelDia = findViewById(R.id.txtAutorDelDia)
         btnVerPlan = findViewById(R.id.btnVerPlan)
         btnModifPlan = findViewById(R.id.btnModifPlan)
-        bottomNavigationView = findViewById(R.id.bottomNavigationView)
+        bottomNavBar = findViewById(R.id.bottomNavigationView)
 
         btnVerPlan.setOnClickListener {
             goToPlanView()
@@ -96,6 +109,17 @@ class Pagina_Principal : AppCompatActivity(), IPrincipalView {
 
         btnModifPlan.setOnClickListener {
             showInProgressMessage()
+        }
+
+        bottomNavBar.setOnItemSelectedListener { menu ->
+            when (menu.itemId) {
+                R.id.info_personal -> {
+                    goToProfileView()
+                    true
+                }
+                else -> false
+            }
+
         }
 
         setupToolbar()
@@ -116,15 +140,13 @@ class Pagina_Principal : AppCompatActivity(), IPrincipalView {
     }
 
     override fun goBackToLogin() {
-        Intent(this@Pagina_Principal, LoginActivity::class.java).apply {
+        Intent(this@PaginaPrincipalActivity, LoginActivity::class.java).apply {
             startActivity(this)
         }
     }
 
     override fun goToPlanView() {
-        val intent = intent
-
-        Intent(this@Pagina_Principal, PlanDisplayActivity::class.java).apply {
+        Intent(this@PaginaPrincipalActivity, PlanDisplayActivity::class.java).apply {
             putExtra("Email", intent.getStringExtra("Email"))
             startActivity(this)
         }
@@ -133,5 +155,23 @@ class Pagina_Principal : AppCompatActivity(), IPrincipalView {
         Intent(this@Pagina_Principal, CargaDiariaActivity::class.java).apply {
             startActivity(this)
         }
+    }
+
+    override fun goToProfileView() {
+        Intent(this@PaginaPrincipalActivity, PerfilPacienteActivity::class.java).apply {
+            startActivity(this)
+        }
+    }
+
+    override fun onDestroy() {
+        GlobalScope.launch(Dispatchers.IO) {
+            userLogout()
+        }
+
+        super.onDestroy()
+    }
+
+    private suspend fun userLogout() {
+        SessionManager.saveLoggedUser(null)
     }
 }

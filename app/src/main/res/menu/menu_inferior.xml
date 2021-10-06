@@ -3,21 +3,21 @@
     <item
         android:id="@+id/registro_diario"
         android:icon="@android:drawable/ic_menu_edit"
-        android:title="Registro Diario" />
+        android:title="@string/bottomNavBar_registroDiario" />
 
     <item
         android:id="@+id/recetas"
         android:icon="?android:attr/actionModeFindDrawable"
-        android:title="Recetas" />
+        android:title="@string/bottomNavBar_recetas" />
 
     <item
         android:id="@+id/progreso"
         android:icon="@android:drawable/ic_menu_myplaces"
-        android:title="Progreso" />
+        android:title="@string/bottomNavBar_progreso" />
 
     <item
         android:id="@+id/info_personal"
         android:icon="?attr/actionModePasteDrawable"
-        android:title="Informacion Personal" />
+        android:title="@string/bottomNavBar_perfil" />
 
 </menu>

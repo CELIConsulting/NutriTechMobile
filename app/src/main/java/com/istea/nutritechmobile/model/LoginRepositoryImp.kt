@@ -1,6 +1,5 @@
 package com.istea.nutritechmobile.model
 
-import android.util.Log
 import com.istea.nutritechmobile.data.User
 import com.istea.nutritechmobile.data.UserResponse
 import com.istea.nutritechmobile.io.FireStoreHelper
