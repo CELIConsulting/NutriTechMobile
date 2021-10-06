@@ -1,6 +1,7 @@
 package com.istea.nutritechmobile.ui.activity
 
 import android.content.Intent
+import android.content.Intent.*
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.EditText
@@ -18,7 +19,7 @@ import com.istea.nutritechmobile.presenter.PerfilPacientePresenterImp
 import com.istea.nutritechmobile.presenter.interfaces.IPerfilPacientePresenter
 import com.istea.nutritechmobile.ui.interfaces.IPerfilPacienteView
 import kotlinx.coroutines.Dispatchers
-
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -116,20 +117,17 @@ class PerfilPacienteActivity : AppCompatActivity(), IPerfilPacienteView {
 
     override fun goBackToLogin() {
         lifecycleScope.launch(Dispatchers.IO) {
-            SessionManager.saveLoggedUser(null)
+            userLogout()
         }
 
         Intent(this, LoginActivity::class.java).apply {
+            flags = FLAG_ACTIVITY_CLEAR_TASK or FLAG_ACTIVITY_NEW_TASK
             startActivity(this)
-            finish()
         }
     }
 
     override fun goBackToMain() {
-        Intent(this, PaginaPrincipalActivity::class.java).apply {
-            startActivity(this)
-            finish()
-        }
+        finish()
     }
 
     private fun buildPacienteFromForm(): UserResponse {
@@ -143,14 +141,24 @@ class PerfilPacienteActivity : AppCompatActivity(), IPerfilPacienteView {
         updatedUser.FechaNacimiento = setFechaNacimiento()
 
         updatedUser.Altura =
-            if (etAltura.text.toString().isNotEmpty() && etAltura.text.toString() != campoNoAsignado ) etAltura.text.toString()
+            if (etAltura.text.toString()
+                    .isNotEmpty() && etAltura.text.toString() != campoNoAsignado
+            ) etAltura.text.toString()
                 .toFloat() else 0f
         updatedUser.Peso =
-            if (etPeso.text.toString().isNotEmpty() && etPeso.text.toString() != campoNoAsignado) etPeso.text.toString().toFloat() else 0f
+            if (etPeso.text.toString()
+                    .isNotEmpty() && etPeso.text.toString() != campoNoAsignado
+            ) etPeso.text.toString().toFloat() else 0f
         updatedUser.MedidaCintura =
-            if (etMedidaCintura.text.toString().isNotEmpty() && etMedidaCintura.text.toString() != campoNoAsignado) etMedidaCintura.text.toString()
+            if (etMedidaCintura.text.toString()
+                    .isNotEmpty() && etMedidaCintura.text.toString() != campoNoAsignado
+            ) etMedidaCintura.text.toString()
                 .toFloat() else 0f
 
         return updatedUser;
+    }
+
+    private suspend fun userLogout() {
+        SessionManager.saveLoggedUser(null)
     }
 }
