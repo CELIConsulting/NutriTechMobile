@@ -3,10 +3,12 @@ package com.istea.nutritechmobile.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.button.MaterialButton
 import com.istea.nutritechmobile.*
 import com.istea.nutritechmobile.helpers.UIManager
@@ -22,6 +24,7 @@ class Pagina_Principal : AppCompatActivity(), IPrincipalView {
     private lateinit var btnVerPlan: MaterialButton
     private lateinit var btnModifPlan: MaterialButton
     private lateinit var toolbar: Toolbar
+    private lateinit var bottomNavigationView: BottomNavigationView
     private val principalPresenter: IPrincipalPresenter by lazy {
         PrincipalPresenterImp(this)
     }
@@ -38,7 +41,34 @@ class Pagina_Principal : AppCompatActivity(), IPrincipalView {
 
         //Hiding default app icon
         supportActionBar?.setDisplayShowTitleEnabled(false);
+    }
 
+    private fun setupBottomNavigationBar(){
+        val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener{ item ->
+            when (item.itemId) {
+                R.id.registro_diario -> {
+                    goToDailyRegistry()
+                    return@OnNavigationItemSelectedListener true
+                }
+                R.id.recetas -> {
+                    Log.e("Pagina Principal", " recetas")
+                    return@OnNavigationItemSelectedListener true
+
+                }
+                R.id.progreso -> {
+                    Log.e("Pagina Principal", " progreso")
+                    return@OnNavigationItemSelectedListener true
+
+                }
+                R.id.info_personal -> {
+                    Log.e("Pagina Principal", " info")
+                    return@OnNavigationItemSelectedListener true
+
+                }
+            }
+            false
+        }
+        bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
     }
 
     override fun onResume() {
@@ -58,6 +88,7 @@ class Pagina_Principal : AppCompatActivity(), IPrincipalView {
         txtAutorDelDia = findViewById(R.id.txtAutorDelDia)
         btnVerPlan = findViewById(R.id.btnVerPlan)
         btnModifPlan = findViewById(R.id.btnModifPlan)
+        bottomNavigationView = findViewById(R.id.bottomNavigationView)
 
         btnVerPlan.setOnClickListener {
             goToPlanView()
@@ -68,6 +99,7 @@ class Pagina_Principal : AppCompatActivity(), IPrincipalView {
         }
 
         setupToolbar()
+        setupBottomNavigationBar()
     }
 
     override fun welcomeUser(name: String, lastName: String) {
@@ -97,5 +129,9 @@ class Pagina_Principal : AppCompatActivity(), IPrincipalView {
             startActivity(this)
         }
     }
-
+    override fun goToDailyRegistry(){
+        Intent(this@Pagina_Principal, CargaDiariaActivity::class.java).apply {
+            startActivity(this)
+        }
+    }
 }
