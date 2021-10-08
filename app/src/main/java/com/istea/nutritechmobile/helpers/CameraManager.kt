@@ -1,4 +1,4 @@
-package com.istea.nutritechmobile.utils
+package com.istea.nutritechmobile.helpers
 
 import android.app.Activity
 import android.content.Intent
@@ -13,15 +13,16 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
+import com.istea.nutritechmobile.helpers.extensions.stringFromDate
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
-private const val TAG = "Camera_util"
+private const val TAG = "CameraManager"
 
-class Camera(
+class CameraManager(
     private var activity: Activity,
-    private var imageView: ImageView
+    private var imageView: ImageView,
 ) {
     private val REQUEST_TAKE_PHOTO = 1
     private val AUTHORITY = "com.istea.nutritechmobile"
@@ -37,7 +38,7 @@ class Camera(
     }
 
     fun cleanPhoto() {
-        imageView.setImageResource(android.R.color.transparent);
+        imageView.setImageResource(android.R.color.transparent)
     }
 
     private fun requestPermission() {
@@ -102,9 +103,6 @@ class Camera(
                 if (resultCode == AppCompatActivity.RESULT_OK) {
                     //obtener imagen
                     Log.d(TAG, "obtener imagen")
-                    /*val extras = data?.extras //tiene la info de toda la camara
-                    val imageBitmap = extras?.get("data") as Bitmap
-                    */
                     showBitmap(urlFotoActual)
 
                 } else {
@@ -123,7 +121,7 @@ class Camera(
 
 
     private fun createImageFile(): File {
-        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        val timeStamp = Date().stringFromDate()
         val nombreArchivoImagen = "Exlibris_" + timeStamp + "_"
         val directorio = activity.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         val imagen = File.createTempFile(nombreArchivoImagen, ".jpg", directorio)

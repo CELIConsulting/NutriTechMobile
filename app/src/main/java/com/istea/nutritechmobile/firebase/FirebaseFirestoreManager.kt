@@ -1,4 +1,4 @@
-package com.istea.nutritechmobile.io
+package com.istea.nutritechmobile.firebase
 
 import android.content.Context
 import android.util.Log
@@ -10,10 +10,11 @@ import com.istea.nutritechmobile.data.User
 import com.istea.nutritechmobile.data.UserResponse
 import kotlinx.coroutines.tasks.await
 
-private const val TAG_ACTIVITY = "FirestoreService"
 
-class FireStoreHelper(context: Context) {
-    //Settings
+private const val TAG = "FirebaseFirestoreManager"
+
+class FirebaseFirestoreManager(context: Context) {
+
     private var db = FirebaseFirestore.getInstance()
     private val settings = firestoreSettings {
         isPersistenceEnabled = true
@@ -38,28 +39,28 @@ class FireStoreHelper(context: Context) {
                 .get()
                 .await()
 
-            //Generar user a partir del snapshot
+            // Generar user a partir del snapshot
             if (snapshot.documents.isNotEmpty()) {
                 val userSnapshot = snapshot.documents.first()
                 val fetchedUser = userSnapshot.toObject(UserResponse::class.java)
 
                 if (fetchedUser != null) {
-                    Log.d(TAG_ACTIVITY, "Nombre: ${fetchedUser.Nombre}")
-                    Log.d(TAG_ACTIVITY, "Apellido: ${fetchedUser.Apellido}")
-                    Log.d(TAG_ACTIVITY, "Mail: ${fetchedUser.Email}")
-                    Log.d(TAG_ACTIVITY, "Password: ${fetchedUser.Password}")
-                    Log.d(TAG_ACTIVITY, "Timestamp: ${fetchedUser.LastUpdated}")
-                    Log.d(TAG_ACTIVITY, "Rol: ${fetchedUser.Rol}")
+                    Log.d(TAG, "Nombre: ${fetchedUser.Nombre}")
+                    Log.d(TAG, "Apellido: ${fetchedUser.Apellido}")
+                    Log.d(TAG, "Mail: ${fetchedUser.Email}")
+                    Log.d(TAG, "Password: ${fetchedUser.Password}")
+                    Log.d(TAG, "Timestamp: ${fetchedUser.LastUpdated}")
+                    Log.d(TAG, "Rol: ${fetchedUser.Rol}")
                     return fetchedUser
                 }
             }
 
 
         } catch (e: Exception) {
-            Log.d(TAG_ACTIVITY, "Exception: ${e.message}")
+            Log.d(TAG, "Exception: ${e.message}")
         }
 
-        Log.d(TAG_ACTIVITY, "USER NULL")
+        Log.d(TAG, "USER NULL")
         return null
     }
 
@@ -85,9 +86,8 @@ class FireStoreHelper(context: Context) {
                 return null
             }
         } catch (e: Exception) {
-            Log.d(TAG_ACTIVITY, "Exception: ${e.message}")
+            Log.d(TAG, "Exception: ${e.message}")
         }
         return null
     }
-
 }

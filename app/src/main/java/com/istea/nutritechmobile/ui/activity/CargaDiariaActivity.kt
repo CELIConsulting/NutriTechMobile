@@ -8,12 +8,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.istea.nutritechmobile.R
-import com.istea.nutritechmobile.io.FireStoreHelper
+import com.istea.nutritechmobile.firebase.FireStoreHelper
 import com.istea.nutritechmobile.model.CargaDiariaRepositoryImp
 import com.istea.nutritechmobile.presenter.CargaDiariaPresenterImp
 import com.istea.nutritechmobile.presenter.interfaces.ICargaDiariaPresenter
 import com.istea.nutritechmobile.ui.interfaces.ICargaDiariaView
-import com.istea.nutritechmobile.utils.Camera
+import com.istea.nutritechmobile.helpers.CameraManager
 
 class CargaDiariaActivity : AppCompatActivity(), ICargaDiariaView {
 
@@ -25,7 +25,7 @@ class CargaDiariaActivity : AppCompatActivity(), ICargaDiariaView {
     private lateinit var etObservacions: EditText
     private lateinit var btnSubmit: Button
 
-    private lateinit var camera: Camera
+    private lateinit var camera: CameraManager
     private lateinit var toolbar: Toolbar
     private lateinit var bottomNavigationView: BottomNavigationView
 
@@ -54,7 +54,8 @@ class CargaDiariaActivity : AppCompatActivity(), ICargaDiariaView {
         chkDoExcersice = findViewById(R.id.chkDoExcersice)
         etObservacions = findViewById(R.id.etObservacions)
         btnSubmit = findViewById(R.id.btnSubmit)
-        camera = Camera(this, imgFoodUpload)
+        // FIXME: usar current user aca o en el llamado al metodo de sacar foto ?
+        camera = CameraManager(this, imgFoodUpload)
         setupToolbar()
     }
 

@@ -11,7 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.istea.nutritechmobile.R
 import com.istea.nutritechmobile.data.Plan
-import com.istea.nutritechmobile.io.FireStoreHelper
+import com.istea.nutritechmobile.firebase.FireStoreHelper
 import com.istea.nutritechmobile.model.PlanDisplayRepositoryImp
 import com.istea.nutritechmobile.presenter.PlanDisplayPresenterImp
 import com.istea.nutritechmobile.presenter.interfaces.IPlanDisplayPresenter

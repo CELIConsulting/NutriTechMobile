@@ -2,7 +2,7 @@ package com.istea.nutritechmobile.model
 
 import com.istea.nutritechmobile.data.User
 import com.istea.nutritechmobile.data.UserResponse
-import com.istea.nutritechmobile.io.FireStoreHelper
+import com.istea.nutritechmobile.firebase.FireStoreHelper
 import com.istea.nutritechmobile.model.interfaces.ILoginRepository
 
 private const val TAG_ACTIVITY = "LoginRepositoryImp"
