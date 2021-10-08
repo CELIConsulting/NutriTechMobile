@@ -11,7 +11,6 @@ import androidx.appcompat.widget.Toolbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.button.MaterialButton
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.Timestamp
 import com.istea.nutritechmobile.*
 import com.istea.nutritechmobile.data.UserResponse
@@ -78,7 +77,7 @@ class PaginaPrincipalActivity : AppCompatActivity(), IPrincipalView {
             }
             false
         }
-        bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+        bottomNavBar.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
     }
 
     override fun onResume() {
