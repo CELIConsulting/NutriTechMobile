@@ -39,7 +39,7 @@ class PlanDisplayActivity : AppCompatActivity(), IPlanDisplayView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_plan_display)
-        setupUi()
+        setupUI()
         setupBottomNavigationBar()
     }
     override fun onResume() {
@@ -60,7 +60,7 @@ class PlanDisplayActivity : AppCompatActivity(), IPlanDisplayView {
         return super.onCreateOptionsMenu(menu)
     }
 
-    private fun setupUI() {
+    override fun setupUI() {
         Nombretv = findViewById(R.id.Nombretv)
         Tipotv = findViewById(R.id.Tipotv)
         CantAguaDiariaTv = findViewById(R.id.CantAguaDiariaTv)

@@ -54,7 +54,6 @@ class CargaDiariaActivity : AppCompatActivity(), ICargaDiariaView {
         chkDoExcersice = findViewById(R.id.chkDoExcersice)
         etObservacions = findViewById(R.id.etObservacions)
         btnSubmit = findViewById(R.id.btnSubmit)
-        // FIXME: usar current user aca o en el llamado al metodo de sacar foto ?
         camera = CameraManager(this, imgFoodUpload)
         setupToolbar()
     }

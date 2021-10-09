@@ -13,9 +13,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
+import com.istea.nutritechmobile.firebase.FirebaseAuthManager
 import com.istea.nutritechmobile.helpers.extensions.stringFromDate
 import java.io.File
-import java.text.SimpleDateFormat
 import java.util.*
 
 private const val TAG = "CameraManager"
@@ -83,13 +83,17 @@ class CameraManager(
 
         if (intent.resolveActivity(activity.packageManager) != null) {
 
-            var archivoFoto: File? = null
-            archivoFoto = createImageFile()
+            var imageFile: File? = null
+            var fileRoute: String? = null
+            val result = createImageFile()
+            imageFile = result["imagen"] as File?
+            fileRoute = result["filename"] as String?
 
-            if (archivoFoto != null) {
+            if (imageFile != null) {
                 val urlFoto =
-                    FileProvider.getUriForFile(activity.applicationContext, AUTHORITY, archivoFoto)
+                    FileProvider.getUriForFile(activity.applicationContext, AUTHORITY, imageFile)
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, urlFoto)
+                intent.putExtra("filenameImage", fileRoute)
                 activity.startActivityForResult(intent, REQUEST_TAKE_PHOTO)
             }
         }
@@ -97,7 +101,6 @@ class CameraManager(
 
 
     fun activityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-
         when (requestCode) {
             REQUEST_TAKE_PHOTO -> {
                 if (resultCode == AppCompatActivity.RESULT_OK) {
@@ -120,14 +123,13 @@ class CameraManager(
     }
 
 
-    private fun createImageFile(): File {
-        val timeStamp = Date().stringFromDate()
-        val nombreArchivoImagen = "Exlibris_" + timeStamp + "_"
+    private fun createImageFile(): HashMap<String, Any> {
+        val filename = "${FirebaseAuthManager().getAuthUser()}_{Date().stringFromDate()}"
         val directorio = activity.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-        val imagen = File.createTempFile(nombreArchivoImagen, ".jpg", directorio)
+        val imagen = File.createTempFile(filename, ".jpg", directorio)
         urlFotoActual = "file://" + imagen.absolutePath //me regresa toda la url de la imagen
         pathImageFile = imagen.absolutePath
-        return imagen
+        return hashMapOf(Pair("filename", filename), Pair("image", imagen))
     }
 
     fun getPath(): String {

@@ -151,7 +151,7 @@ class PaginaPrincipalActivity : AppCompatActivity(), IPrincipalView {
         }
     }
     override fun goToDailyRegistry() {
-        Intent(this@Pagina_Principal, CargaDiariaActivity::class.java).apply {
+        Intent(this@PaginaPrincipalActivity, CargaDiariaActivity::class.java).apply {
             startActivity(this)
         }
     }
