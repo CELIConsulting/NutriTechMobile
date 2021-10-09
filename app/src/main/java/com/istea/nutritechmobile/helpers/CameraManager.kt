@@ -14,7 +14,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
 import com.istea.nutritechmobile.firebase.FirebaseAuthManager
-import com.istea.nutritechmobile.helpers.extensions.stringFromDate
 import java.io.File
 import java.util.*
 

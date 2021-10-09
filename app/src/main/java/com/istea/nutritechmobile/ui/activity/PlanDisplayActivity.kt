@@ -11,7 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.istea.nutritechmobile.R
 import com.istea.nutritechmobile.data.Plan
-import com.istea.nutritechmobile.firebase.FireStoreHelper
+import com.istea.nutritechmobile.firebase.FirebaseFirestoreManager
 import com.istea.nutritechmobile.model.PlanDisplayRepositoryImp
 import com.istea.nutritechmobile.presenter.PlanDisplayPresenterImp
 import com.istea.nutritechmobile.presenter.interfaces.IPlanDisplayPresenter
@@ -32,7 +32,7 @@ class PlanDisplayActivity : AppCompatActivity(), IPlanDisplayView {
     private lateinit var toolbar: Toolbar
     private lateinit var bottomNavigationView: BottomNavigationView
     private val planDisplayPresenter: IPlanDisplayPresenter by lazy {
-        PlanDisplayPresenterImp(this, PlanDisplayRepositoryImp(FireStoreHelper(this)))
+        PlanDisplayPresenterImp(this, PlanDisplayRepositoryImp(FirebaseFirestoreManager(this)))
     }
     private val noData = "-- No data --"
 
@@ -41,9 +41,6 @@ class PlanDisplayActivity : AppCompatActivity(), IPlanDisplayView {
         setContentView(R.layout.activity_plan_display)
         setupUI()
         setupBottomNavigationBar()
-    }
-    override fun onResume() {
-        super.onResume()
     }
 
     private fun setupToolbar() {

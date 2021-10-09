@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.istea.nutritechmobile.R
-import com.istea.nutritechmobile.firebase.FireStoreHelper
+import com.istea.nutritechmobile.firebase.FirebaseFirestoreManager
 import com.istea.nutritechmobile.model.CargaDiariaRepositoryImp
 import com.istea.nutritechmobile.presenter.CargaDiariaPresenterImp
 import com.istea.nutritechmobile.presenter.interfaces.ICargaDiariaPresenter
@@ -30,7 +30,7 @@ class CargaDiariaActivity : AppCompatActivity(), ICargaDiariaView {
     private lateinit var bottomNavigationView: BottomNavigationView
 
     private val cargaDiariaPresenter: ICargaDiariaPresenter by lazy {
-        CargaDiariaPresenterImp(this, CargaDiariaRepositoryImp(FireStoreHelper(this)))
+        CargaDiariaPresenterImp(this, CargaDiariaRepositoryImp(FirebaseFirestoreManager(this)))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

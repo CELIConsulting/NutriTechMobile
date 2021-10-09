@@ -2,6 +2,7 @@ package com.istea.nutritechmobile.firebase
 
 import android.content.Context
 import com.google.firebase.auth.FirebaseAuth
+import com.istea.nutritechmobile.helpers.CameraManager
 
 private const val TAG = "FirebaseAuthManager"
 

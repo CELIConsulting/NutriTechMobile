@@ -7,12 +7,11 @@ import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.button.MaterialButton
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import com.istea.nutritechmobile.R
+import com.istea.nutritechmobile.firebase.FirebaseAuthManager
+import com.istea.nutritechmobile.firebase.FirebaseFirestoreManager
 import com.istea.nutritechmobile.helpers.UIManager
 import com.istea.nutritechmobile.helpers.getTextFrom
-import com.istea.nutritechmobile.firebase.FireStoreHelper
 import com.istea.nutritechmobile.model.LoginRepositoryImp
 import com.istea.nutritechmobile.presenter.LoginPresenterImp
 import com.istea.nutritechmobile.presenter.interfaces.ILoginPresenter
@@ -28,7 +27,11 @@ class LoginActivity : AppCompatActivity(), ILoginView {
     private lateinit var etLoginPassword: EditText
     private lateinit var btnLogin: MaterialButton
     private val loginPresenter: ILoginPresenter by lazy {
-        LoginPresenterImp(this, LoginRepositoryImp(FireStoreHelper(this)), Firebase.auth)
+        LoginPresenterImp(
+            this,
+            LoginRepositoryImp(FirebaseFirestoreManager(this)),
+            FirebaseAuthManager(this).getAuth()
+        )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
