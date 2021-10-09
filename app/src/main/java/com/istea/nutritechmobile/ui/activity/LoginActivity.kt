@@ -30,7 +30,7 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         LoginPresenterImp(
             this,
             LoginRepositoryImp(FirebaseFirestoreManager(this)),
-            FirebaseAuthManager(this).getAuth()
+            FirebaseAuthManager().getAuth()
         )
     }
 

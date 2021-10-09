@@ -13,6 +13,8 @@ import kotlinx.coroutines.tasks.await
 
 private const val TAG = "FirebaseFirestoreManager"
 
+// FIXME: Organizar esta clase para que todo lo que tenga que ver con
+// se realice aca
 class FirebaseFirestoreManager(context: Context) {
 
     private var db = FirebaseFirestore.getInstance()

@@ -11,6 +11,8 @@ import java.time.format.DateTimeFormatter
 
 private const val TAG = "FirebaseStorageManager"
 
+
+//TODO: se usa el context en algun lado
 class FirebaseStorageManager(context: Context, firebaseAuthManager: FirebaseAuthManager) {
     private val storage = FirebaseStorage.getInstance()
     private val auth = firebaseAuthManager.getAuth()

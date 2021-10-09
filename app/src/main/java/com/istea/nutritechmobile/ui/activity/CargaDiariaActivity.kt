@@ -9,11 +9,11 @@ import androidx.appcompat.widget.Toolbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.istea.nutritechmobile.R
 import com.istea.nutritechmobile.firebase.FirebaseFirestoreManager
+import com.istea.nutritechmobile.helpers.CameraManager
 import com.istea.nutritechmobile.model.CargaDiariaRepositoryImp
 import com.istea.nutritechmobile.presenter.CargaDiariaPresenterImp
 import com.istea.nutritechmobile.presenter.interfaces.ICargaDiariaPresenter
 import com.istea.nutritechmobile.ui.interfaces.ICargaDiariaView
-import com.istea.nutritechmobile.helpers.CameraManager
 
 class CargaDiariaActivity : AppCompatActivity(), ICargaDiariaView {
 
@@ -26,6 +26,7 @@ class CargaDiariaActivity : AppCompatActivity(), ICargaDiariaView {
     private lateinit var btnSubmit: Button
 
     private lateinit var camera: CameraManager
+    private lateinit var hiddenFileUpload: TextView
     private lateinit var toolbar: Toolbar
     private lateinit var bottomNavigationView: BottomNavigationView
 
@@ -54,7 +55,8 @@ class CargaDiariaActivity : AppCompatActivity(), ICargaDiariaView {
         chkDoExcersice = findViewById(R.id.chkDoExcersice)
         etObservacions = findViewById(R.id.etObservacions)
         btnSubmit = findViewById(R.id.btnSubmit)
-        camera = CameraManager(this, imgFoodUpload)
+        camera = CameraManager(this, imgFoodUpload, hiddenFileUpload)
+        bottomNavigationView = findViewById(R.id.bottomNavigationView)
         setupToolbar()
     }
 

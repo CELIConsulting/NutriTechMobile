@@ -9,11 +9,13 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
 import com.istea.nutritechmobile.firebase.FirebaseAuthManager
+import com.istea.nutritechmobile.helpers.extensions.stringFromDate
 import java.io.File
 import java.util.*
 
@@ -22,6 +24,7 @@ private const val TAG = "CameraManager"
 class CameraManager(
     private var activity: Activity,
     private var imageView: ImageView,
+    private var textHidden: TextView,
 ) {
     private val REQUEST_TAKE_PHOTO = 1
     private val AUTHORITY = "com.istea.nutritechmobile"
@@ -66,6 +69,7 @@ class CameraManager(
                 ) {
                     dispatchTakePictureIntent()
                 } else {
+                    // FIXME: usar la funcion que utilizamos para enviar toast desde todos lados
                     Toast.makeText(
                         activity.applicationContext,
                         "No diste permiso para acceder a la camara y almacenamiento",
@@ -85,14 +89,12 @@ class CameraManager(
             var imageFile: File? = null
             var fileRoute: String? = null
             val result = createImageFile()
-            imageFile = result["imagen"] as File?
-            fileRoute = result["filename"] as String?
+            imageFile = result["image"] as File?
 
             if (imageFile != null) {
                 val urlFoto =
                     FileProvider.getUriForFile(activity.applicationContext, AUTHORITY, imageFile)
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, urlFoto)
-                intent.putExtra("filenameImage", fileRoute)
                 activity.startActivityForResult(intent, REQUEST_TAKE_PHOTO)
             }
         }
@@ -103,10 +105,7 @@ class CameraManager(
         when (requestCode) {
             REQUEST_TAKE_PHOTO -> {
                 if (resultCode == AppCompatActivity.RESULT_OK) {
-                    //obtener imagen
-                    Log.d(TAG, "obtener imagen")
                     showBitmap(urlFotoActual)
-
                 } else {
                     Log.d(TAG, "Canceled capture")
                 }
@@ -115,18 +114,18 @@ class CameraManager(
     }
 
     private fun showBitmap(url: String) {
+        textHidden.text = url
         val uri = Uri.parse(url)
         val stream = activity.contentResolver.openInputStream(uri)
         val imageBitmap = BitmapFactory.decodeStream(stream)
         imageView.setImageBitmap(imageBitmap)
     }
 
-
     private fun createImageFile(): HashMap<String, Any> {
-        val filename = "${FirebaseAuthManager().getAuthUser()}_{Date().stringFromDate()}"
+        val filename = "${FirebaseAuthManager().getAuth().currentUser?.email}_${Date()}"
         val directorio = activity.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         val imagen = File.createTempFile(filename, ".jpg", directorio)
-        urlFotoActual = "file://" + imagen.absolutePath //me regresa toda la url de la imagen
+        urlFotoActual = "file://${imagen.absolutePath}"
         pathImageFile = imagen.absolutePath
         return hashMapOf(Pair("filename", filename), Pair("image", imagen))
     }

@@ -6,6 +6,7 @@ import com.istea.nutritechmobile.helpers.CameraManager
 
 private const val TAG = "FirebaseAuthManager"
 
+//FIXME: pasasr todas las operaciones con auth a esta clase.
 class FirebaseAuthManager() {
     private val auth = FirebaseAuth.getInstance()
 
