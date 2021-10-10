@@ -10,12 +10,13 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.istea.nutritechmobile.R
 import com.istea.nutritechmobile.firebase.FirebaseFirestoreManager
 import com.istea.nutritechmobile.helpers.CameraManager
-import com.istea.nutritechmobile.model.CargaDiariaRepositoryImp
-import com.istea.nutritechmobile.presenter.CargaDiariaPresenterImp
-import com.istea.nutritechmobile.presenter.interfaces.ICargaDiariaPresenter
+import com.istea.nutritechmobile.model.DailyRegistryRepositoryImp
+import com.istea.nutritechmobile.presenter.DailyRegistryPresenterImp
+import com.istea.nutritechmobile.presenter.interfaces.IDailyRegistryPresenter
 import com.istea.nutritechmobile.ui.interfaces.ICargaDiariaView
+import com.istea.nutritechmobile.ui.interfaces.IToolbar
 
-class CargaDiariaActivity : AppCompatActivity(), ICargaDiariaView {
+class DailyRegistryActivity : AppCompatActivity(), ICargaDiariaView, IToolbar {
 
 
     private lateinit var imgFoodUpload: ImageView
@@ -30,8 +31,8 @@ class CargaDiariaActivity : AppCompatActivity(), ICargaDiariaView {
     private lateinit var toolbar: Toolbar
     private lateinit var bottomNavigationView: BottomNavigationView
 
-    private val cargaDiariaPresenter: ICargaDiariaPresenter by lazy {
-        CargaDiariaPresenterImp(this, CargaDiariaRepositoryImp(FirebaseFirestoreManager(this)))
+    private val DailyRegistryPresenter: IDailyRegistryPresenter by lazy {
+        DailyRegistryPresenterImp(this, DailyRegistryRepositoryImp(FirebaseFirestoreManager(this)))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -87,13 +88,29 @@ class CargaDiariaActivity : AppCompatActivity(), ICargaDiariaView {
         camera.requestPermissionsResult(requestCode, permissions, grantResults)
     }
 
-    private fun goToDailyRegistry() {
-        Intent(this@CargaDiariaActivity, CargaDiariaActivity::class.java).apply {
+    override fun goToDailyRegistry() {
+        Intent(this@DailyRegistryActivity, DailyRegistryActivity::class.java).apply {
             startActivity(this)
         }
     }
 
-    private fun setupBottomNavigationBar() {
+    override fun goToPaginaPrincipal() {
+        TODO("Not yet implemented")
+    }
+
+    override fun goToPerfilPaciente() {
+        TODO("Not yet implemented")
+    }
+
+    override fun goToPlanDisplay() {
+        TODO("Not yet implemented")
+    }
+
+    override fun goToLogin() {
+        TODO("Not yet implemented")
+    }
+
+    override fun setupBottomNavigationBar() {
         val mOnNavigationItemSelectedListener =
             BottomNavigationView.OnNavigationItemSelectedListener { item ->
                 when (item.itemId) {

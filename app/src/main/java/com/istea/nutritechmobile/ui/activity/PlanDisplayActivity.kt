@@ -111,7 +111,7 @@ class PlanDisplayActivity : AppCompatActivity(), IPlanDisplayView {
     }
 
     private fun goToDailyRegistry() {
-        Intent(this@PlanDisplayActivity, CargaDiariaActivity::class.java).apply {
+        Intent(this@PlanDisplayActivity, DailyRegistryActivity::class.java).apply {
             startActivity(this)
         }
     }

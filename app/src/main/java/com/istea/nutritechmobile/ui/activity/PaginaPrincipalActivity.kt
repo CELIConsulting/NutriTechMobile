@@ -11,9 +11,7 @@ import androidx.appcompat.widget.Toolbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.button.MaterialButton
-import com.google.firebase.Timestamp
 import com.istea.nutritechmobile.*
-import com.istea.nutritechmobile.data.UserResponse
 import com.istea.nutritechmobile.helpers.UIManager
 import com.istea.nutritechmobile.helpers.preferences.SessionManager
 import com.istea.nutritechmobile.presenter.PrincipalPresenterImp
@@ -151,7 +149,7 @@ class PaginaPrincipalActivity : AppCompatActivity(), IPrincipalView {
         }
     }
     override fun goToDailyRegistry() {
-        Intent(this@PaginaPrincipalActivity, CargaDiariaActivity::class.java).apply {
+        Intent(this@PaginaPrincipalActivity, DailyRegistryActivity::class.java).apply {
             startActivity(this)
         }
     }
