@@ -2,12 +2,14 @@ package com.istea.nutritechmobile.ui.activity
 
 
 import android.content.Intent
+import android.content.Intent.*
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.ContentInfoCompat
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -74,6 +76,7 @@ class PaginaPrincipalActivity : AppCompatActivity(), IPrincipalView {
         btnVerPlan = findViewById(R.id.btnVerPlan)
         btnModifPlan = findViewById(R.id.btnModifPlan)
         bottomNavBar = findViewById(R.id.bottomNavigationView)
+        bottomNavBar.selectedItemId = R.id.progreso
 
         btnVerPlan.setOnClickListener {
             goToPlanView()
@@ -89,6 +92,19 @@ class PaginaPrincipalActivity : AppCompatActivity(), IPrincipalView {
                     goToProfileView()
                     true
                 }
+                R.id.recetas -> {
+                    showInProgressMessage()
+                    true
+                }
+                R.id.progreso -> {
+                    showInProgressMessage()
+                    true
+                }
+                R.id.registro_diario -> {
+                    showInProgressMessage()
+                    true
+                }
+
                 else -> false
             }
 
@@ -112,6 +128,7 @@ class PaginaPrincipalActivity : AppCompatActivity(), IPrincipalView {
 
     override fun goBackToLogin() {
         Intent(this@PaginaPrincipalActivity, LoginActivity::class.java).apply {
+            flags = FLAG_ACTIVITY_CLEAR_TASK or FLAG_ACTIVITY_NEW_TASK
             startActivity(this)
         }
     }

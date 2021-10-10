@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/registro_diario"
-        android:icon="@android:drawable/ic_menu_edit"
-        android:title="@string/bottomNavBar_registroDiario" />
-
-    <item
-        android:id="@+id/recetas"
-        android:icon="?android:attr/actionModeFindDrawable"
-        android:title="@string/bottomNavBar_recetas" />
-
-    <item
         android:id="@+id/progreso"
         android:icon="@android:drawable/ic_menu_myplaces"
         android:title="@string/bottomNavBar_progreso" />
 
     <item
+        android:id="@+id/recetas"
+        android:icon="@drawable/ic_recipes"
+        android:title="@string/bottomNavBar_recetas" />
+
+    <item
+        android:id="@+id/registro_diario"
+        android:icon="@android:drawable/ic_menu_edit"
+        android:title="@string/bottomNavBar_registroDiario" />
+
+    <item
         android:id="@+id/info_personal"
-        android:icon="?attr/actionModePasteDrawable"
+        android:icon="@drawable/ic_profile"
         android:title="@string/bottomNavBar_perfil" />
 
 </menu>
