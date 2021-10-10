@@ -80,7 +80,6 @@ class CameraManager(
         }
     }
 
-
     private fun dispatchTakePictureIntent() {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 
@@ -99,7 +98,6 @@ class CameraManager(
             }
         }
     }
-
 
     fun activityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when (requestCode) {
