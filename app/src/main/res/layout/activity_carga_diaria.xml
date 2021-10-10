@@ -17,7 +17,7 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
-        android:layout_width="385dp"
+        android:layout_width="372dp"
         android:layout_height="253dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -74,6 +74,13 @@
                     app:srcCompat="@drawable/ic_baseline_delete_outline_24"
                     tools:ignore="SpeakableTextPresentCheck" />
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/hiddenFileUpload"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:visibility="invisible" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
@@ -83,7 +90,6 @@
         android:layout_height="271dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.487"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView"
         app:layout_constraintVertical_bias="0.195">

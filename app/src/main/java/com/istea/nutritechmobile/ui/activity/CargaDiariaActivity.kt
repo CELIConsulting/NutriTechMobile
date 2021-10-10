@@ -55,6 +55,7 @@ class CargaDiariaActivity : AppCompatActivity(), ICargaDiariaView {
         chkDoExcersice = findViewById(R.id.chkDoExcersice)
         etObservacions = findViewById(R.id.etObservacions)
         btnSubmit = findViewById(R.id.btnSubmit)
+        hiddenFileUpload = findViewById(R.id.hiddenFileUpload)
         camera = CameraManager(this, imgFoodUpload, hiddenFileUpload)
         bottomNavigationView = findViewById(R.id.bottomNavigationView)
         setupToolbar()

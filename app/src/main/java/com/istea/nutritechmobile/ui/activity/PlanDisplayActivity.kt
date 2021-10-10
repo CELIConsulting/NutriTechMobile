@@ -67,6 +67,7 @@ class PlanDisplayActivity : AppCompatActivity(), IPlanDisplayView {
         Meriendatv = findViewById(R.id.Meriendatv)
         Cenatv = findViewById(R.id.Cenatv)
         Colaciontv = findViewById(R.id.Colaciontv)
+        bottomNavigationView = findViewById(R.id.bottomNavigationView)
         setupToolbar()
 
         lifecycleScope.launch {
