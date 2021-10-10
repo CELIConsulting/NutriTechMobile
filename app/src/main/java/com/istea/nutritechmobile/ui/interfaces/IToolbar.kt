@@ -1,10 +1,11 @@
 package com.istea.nutritechmobile.ui.interfaces
 
+import com.google.android.material.bottomnavigation.BottomNavigationView
+
 interface IToolbar {
-    fun setupBottomNavigationBar()
-    fun goToLogin()
-    fun goToDailyRegistry()
-    fun goToPaginaPrincipal()
-    fun goToPerfilPaciente()
-    fun goToPlanDisplay()
+    fun setupBottomNavigationBar(bottomNavigationView: BottomNavigationView)
+    fun goToDailyRegistryView()
+    fun goToRecipesView()
+    fun goToProgressView()
+    fun goToProfileView()
 }

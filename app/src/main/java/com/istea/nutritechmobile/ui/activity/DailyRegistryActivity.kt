@@ -2,7 +2,6 @@ package com.istea.nutritechmobile.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -10,14 +9,17 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.istea.nutritechmobile.R
 import com.istea.nutritechmobile.firebase.FirebaseFirestoreManager
 import com.istea.nutritechmobile.helpers.CameraManager
+import com.istea.nutritechmobile.helpers.UIManager
 import com.istea.nutritechmobile.model.DailyRegistryRepositoryImp
 import com.istea.nutritechmobile.presenter.DailyRegistryPresenterImp
 import com.istea.nutritechmobile.presenter.interfaces.IDailyRegistryPresenter
 import com.istea.nutritechmobile.ui.interfaces.ICargaDiariaView
 import com.istea.nutritechmobile.ui.interfaces.IToolbar
 
-class DailyRegistryActivity : AppCompatActivity(), ICargaDiariaView, IToolbar {
+private const val TAG = "DailyRegistryActivity"
+private const val NOTIMPLEMENTEDYET = "funcion sin implementar"
 
+class DailyRegistryActivity : AppCompatActivity(), ICargaDiariaView, IToolbar {
 
     private lateinit var imgFoodUpload: ImageView
     private lateinit var btnTakeCapture: ImageButton
@@ -39,8 +41,6 @@ class DailyRegistryActivity : AppCompatActivity(), ICargaDiariaView, IToolbar {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_carga_diaria)
         setupUi()
-        setupBottomNavigationBar()
-        bindEvents()
     }
 
     private fun setupToolbar() {
@@ -60,6 +60,8 @@ class DailyRegistryActivity : AppCompatActivity(), ICargaDiariaView, IToolbar {
         camera = CameraManager(this, imgFoodUpload, hiddenFileUpload)
         bottomNavigationView = findViewById(R.id.bottomNavigationView)
         setupToolbar()
+        setupBottomNavigationBar(bottomNavigationView)
+        bindEvents()
     }
 
     private fun bindEvents() {
@@ -88,48 +90,46 @@ class DailyRegistryActivity : AppCompatActivity(), ICargaDiariaView, IToolbar {
         camera.requestPermissionsResult(requestCode, permissions, grantResults)
     }
 
-    override fun goToDailyRegistry() {
+    override fun goToDailyRegistryView() {
         Intent(this@DailyRegistryActivity, DailyRegistryActivity::class.java).apply {
             startActivity(this)
         }
     }
 
-    override fun goToPaginaPrincipal() {
-        TODO("Not yet implemented")
+    override fun goToProfileView() {
+        Intent(this@DailyRegistryActivity, PerfilPacienteActivity::class.java).apply {
+            startActivity(this)
+        }
     }
 
-    override fun goToPerfilPaciente() {
-        TODO("Not yet implemented")
+    override fun goToRecipesView() {
+        UIManager.showMessageShort(this, NOTIMPLEMENTEDYET)
     }
 
-    override fun goToPlanDisplay() {
-        TODO("Not yet implemented")
+    override fun goToProgressView() {
+        UIManager.showMessageShort(this, NOTIMPLEMENTEDYET)
     }
 
-    override fun goToLogin() {
-        TODO("Not yet implemented")
-    }
-
-    override fun setupBottomNavigationBar() {
+    override fun setupBottomNavigationBar(bottomNavigationView: BottomNavigationView) {
         val mOnNavigationItemSelectedListener =
             BottomNavigationView.OnNavigationItemSelectedListener { item ->
                 when (item.itemId) {
                     R.id.registro_diario -> {
-                        goToDailyRegistry()
+                        goToDailyRegistryView()
                         return@OnNavigationItemSelectedListener true
                     }
                     R.id.recetas -> {
-                        Log.e("Pagina Principal", " recetas")
+                        goToRecipesView()
                         return@OnNavigationItemSelectedListener true
 
                     }
                     R.id.progreso -> {
-                        Log.e("Pagina Principal", " progreso")
+                        goToProgressView()
                         return@OnNavigationItemSelectedListener true
 
                     }
                     R.id.info_personal -> {
-                        Log.e("Pagina Principal", " info")
+                        goToProfileView()
                         return@OnNavigationItemSelectedListener true
 
                     }
