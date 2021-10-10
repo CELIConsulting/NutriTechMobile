@@ -9,6 +9,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.istea.nutritechmobile.R
 import com.istea.nutritechmobile.firebase.FirebaseFirestoreManager
 import com.istea.nutritechmobile.helpers.CameraManager
+import com.istea.nutritechmobile.helpers.NOTIMPLEMENTEDYET
 import com.istea.nutritechmobile.helpers.UIManager
 import com.istea.nutritechmobile.model.DailyRegistryRepositoryImp
 import com.istea.nutritechmobile.presenter.DailyRegistryPresenterImp
@@ -17,7 +18,6 @@ import com.istea.nutritechmobile.ui.interfaces.ICargaDiariaView
 import com.istea.nutritechmobile.ui.interfaces.IToolbar
 
 private const val TAG = "DailyRegistryActivity"
-private const val NOTIMPLEMENTEDYET = "funcion sin implementar"
 
 class DailyRegistryActivity : AppCompatActivity(), ICargaDiariaView, IToolbar {
 
