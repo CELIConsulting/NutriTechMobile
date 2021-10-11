@@ -15,7 +15,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
 import com.istea.nutritechmobile.firebase.FirebaseAuthManager
-import com.istea.nutritechmobile.helpers.extensions.stringFromDate
 import java.io.File
 import java.util.*
 
@@ -25,6 +24,7 @@ class CameraManager(
     private var activity: Activity,
     private var imageView: ImageView,
     private var textHidden: TextView,
+    private var hiddenImageName: TextView,
 ) {
     private val REQUEST_TAKE_PHOTO = 1
     private val AUTHORITY = "com.istea.nutritechmobile"
@@ -34,6 +34,7 @@ class CameraManager(
 
     private var pathImageFile = ""
     private var urlFotoActual = " "
+    private var filename = ""
 
     fun takePhoto() {
         requestPermission()
@@ -85,8 +86,7 @@ class CameraManager(
 
         if (intent.resolveActivity(activity.packageManager) != null) {
 
-            var imageFile: File? = null
-            var fileRoute: String? = null
+            val imageFile: File?
             val result = createImageFile()
             imageFile = result["image"] as File?
 
@@ -112,7 +112,8 @@ class CameraManager(
     }
 
     private fun showBitmap(url: String) {
-        textHidden.text = url
+        textHidden.text = pathImageFile
+        hiddenImageName.text = filename
         val uri = Uri.parse(url)
         val stream = activity.contentResolver.openInputStream(uri)
         val imageBitmap = BitmapFactory.decodeStream(stream)
@@ -120,12 +121,12 @@ class CameraManager(
     }
 
     private fun createImageFile(): HashMap<String, Any> {
-        val filename = "${FirebaseAuthManager().getAuth().currentUser?.email}_${Date()}"
+        filename = "${FirebaseAuthManager().getAuth().currentUser?.email}_${Date()}"
         val directorio = activity.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         val imagen = File.createTempFile(filename, ".jpg", directorio)
         urlFotoActual = "file://${imagen.absolutePath}"
         pathImageFile = imagen.absolutePath
-        return hashMapOf(Pair("filename", filename), Pair("image", imagen))
+        return hashMapOf(Pair("filename", pathImageFile), Pair("image", imagen))
     }
 
     fun getPath(): String {

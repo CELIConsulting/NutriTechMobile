@@ -15,18 +15,20 @@ private const val TAG = "FirebaseStorageManager"
 //TODO: se usa el context en algun lado
 class FirebaseStorageManager(context: Context, firebaseAuthManager: FirebaseAuthManager) {
     private val storage = FirebaseStorage.getInstance()
-    private val auth = firebaseAuthManager.getAuth()
+    private val authEmail = firebaseAuthManager.getAuthEmail()
+    private val storageRef = storage.getReference("users")
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun uploadImgFood(bytes: ByteArray) {
 
-        val filePath = "${auth.currentUser!!.uid}-${
+        val filePath = "${authEmail}-${
             DateTimeFormatter
                 .ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS")
                 .withZone(ZoneOffset.UTC)
                 .format(Instant.now())
         }.jpg"
-        storage.getReference("users")
+        storageRef
+            .child(authEmail)
             .child(
                 filePath
             )

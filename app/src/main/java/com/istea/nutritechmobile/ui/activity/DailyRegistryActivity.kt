@@ -5,21 +5,25 @@ import android.os.Bundle
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.widget.addTextChangedListener
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.istea.nutritechmobile.R
+import com.istea.nutritechmobile.data.DailyUploadRegistry
+import com.istea.nutritechmobile.firebase.FirebaseAuthManager
 import com.istea.nutritechmobile.firebase.FirebaseFirestoreManager
+import com.istea.nutritechmobile.firebase.FirebaseStorageManager
 import com.istea.nutritechmobile.helpers.CameraManager
 import com.istea.nutritechmobile.helpers.NOTIMPLEMENTEDYET
 import com.istea.nutritechmobile.helpers.UIManager
 import com.istea.nutritechmobile.model.DailyRegistryRepositoryImp
 import com.istea.nutritechmobile.presenter.DailyRegistryPresenterImp
 import com.istea.nutritechmobile.presenter.interfaces.IDailyRegistryPresenter
-import com.istea.nutritechmobile.ui.interfaces.ICargaDiariaView
+import com.istea.nutritechmobile.ui.interfaces.IDailyRegistryView
 import com.istea.nutritechmobile.ui.interfaces.IToolbar
 
 private const val TAG = "DailyRegistryActivity"
 
-class DailyRegistryActivity : AppCompatActivity(), ICargaDiariaView, IToolbar {
+class DailyRegistryActivity : AppCompatActivity(), IDailyRegistryView, IToolbar {
 
     private lateinit var imgFoodUpload: ImageView
     private lateinit var btnTakeCapture: ImageButton
@@ -27,14 +31,26 @@ class DailyRegistryActivity : AppCompatActivity(), ICargaDiariaView, IToolbar {
     private lateinit var chkDoExcersice: CheckBox
     private lateinit var etObservacions: EditText
     private lateinit var btnSubmit: Button
-
-    private lateinit var camera: CameraManager
     private lateinit var hiddenFileUpload: TextView
+    private lateinit var hiddenImageName: TextView
     private lateinit var toolbar: Toolbar
     private lateinit var bottomNavigationView: BottomNavigationView
 
-    private val DailyRegistryPresenter: IDailyRegistryPresenter by lazy {
-        DailyRegistryPresenterImp(this, DailyRegistryRepositoryImp(FirebaseFirestoreManager(this)))
+    private val firebaseStorageManager: FirebaseStorageManager by lazy {
+        FirebaseStorageManager(this, FirebaseAuthManager())
+    }
+
+    private val camera: CameraManager by lazy {
+        CameraManager(this, imgFoodUpload, hiddenFileUpload, hiddenImageName)
+    }
+
+    private val dailyRegistryPresenter: IDailyRegistryPresenter by lazy {
+        DailyRegistryPresenterImp(
+            this,
+            DailyRegistryRepositoryImp(FirebaseFirestoreManager(this)),
+            firebaseStorageManager,
+            camera
+        )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,8 +73,9 @@ class DailyRegistryActivity : AppCompatActivity(), ICargaDiariaView, IToolbar {
         etObservacions = findViewById(R.id.etObservacions)
         btnSubmit = findViewById(R.id.btnSubmit)
         hiddenFileUpload = findViewById(R.id.hiddenFileUpload)
-        camera = CameraManager(this, imgFoodUpload, hiddenFileUpload)
+        hiddenImageName = findViewById(R.id.hiddenImageName)
         bottomNavigationView = findViewById(R.id.bottomNavigationView)
+        btnSubmit.isEnabled = false
         setupToolbar()
         setupBottomNavigationBar(bottomNavigationView)
         bindEvents()
@@ -72,8 +89,43 @@ class DailyRegistryActivity : AppCompatActivity(), ICargaDiariaView, IToolbar {
             camera.cleanPhoto()
         }
         btnSubmit.setOnClickListener {
-
+            submitInformation()
         }
+        etObservacions.addTextChangedListener {
+            validateForm()
+        }
+        hiddenFileUpload.addTextChangedListener {
+            validateForm()
+        }
+    }
+
+    private fun submitInformation() {
+        val dailyUploadRegistry = buildDailyUploadRegistry()
+        val user = FirebaseAuthManager().getAuthEmail()
+        dailyRegistryPresenter.addDailyRegistry(dailyUploadRegistry, user)
+    }
+
+    private fun buildDailyUploadRegistry(): DailyUploadRegistry {
+        val dailyUploadRegistry = DailyUploadRegistry()
+
+        dailyUploadRegistry.DoExcersice = chkDoExcersice.isChecked
+        dailyUploadRegistry.UrlImage = hiddenFileUpload.text.toString()
+        dailyUploadRegistry.ImageName = hiddenImageName.text.toString()
+        dailyUploadRegistry.Observations = etObservacions.text.toString()
+
+        return dailyUploadRegistry
+    }
+
+    private fun validateForm() {
+        if (hiddenFileUpload.text.isNotEmpty()) {
+            if (etObservacions.text.isNotEmpty()) {
+                activateSubmitButton()
+            }
+        }
+    }
+
+    private fun activateSubmitButton() {
+        btnSubmit.isEnabled = true
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

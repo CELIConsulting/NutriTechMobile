@@ -18,13 +18,14 @@ import com.istea.nutritechmobile.helpers.preferences.SessionManager
 import com.istea.nutritechmobile.presenter.PrincipalPresenterImp
 import com.istea.nutritechmobile.presenter.interfaces.IPrincipalPresenter
 import com.istea.nutritechmobile.ui.interfaces.IPrincipalView
+import com.istea.nutritechmobile.ui.interfaces.IToolbar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 private const val TAG_ACTIVITY = "PrincipalActivity"
 
-class PaginaPrincipalActivity : AppCompatActivity(), IPrincipalView {
+class PaginaPrincipalActivity : AppCompatActivity(), IPrincipalView,IToolbar {
     private lateinit var txtUsuarioBienvenida: TextView
     private lateinit var txtFraseDelDia: TextView
     private lateinit var txtAutorDelDia: TextView
@@ -49,35 +50,6 @@ class PaginaPrincipalActivity : AppCompatActivity(), IPrincipalView {
 
         //Hiding default app icon
         supportActionBar?.setDisplayShowTitleEnabled(false)
-    }
-
-    private fun setupBottomNavigationBar() {
-        val mOnNavigationItemSelectedListener =
-            BottomNavigationView.OnNavigationItemSelectedListener { item ->
-                when (item.itemId) {
-                    R.id.registro_diario -> {
-                        goToDailyRegistry()
-                        return@OnNavigationItemSelectedListener true
-                    }
-                    R.id.recetas -> {
-                        Log.e("Pagina Principal", " recetas")
-                        return@OnNavigationItemSelectedListener true
-
-                    }
-                    R.id.progreso -> {
-                        Log.e("Pagina Principal", " progreso")
-                        return@OnNavigationItemSelectedListener true
-
-                    }
-                    R.id.info_personal -> {
-                        Log.e("Pagina Principal", " info")
-                        return@OnNavigationItemSelectedListener true
-
-                    }
-                }
-                false
-            }
-        bottomNavBar.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
     }
 
     override fun onResume() {
@@ -110,33 +82,8 @@ class PaginaPrincipalActivity : AppCompatActivity(), IPrincipalView {
         btnModifPlan.setOnClickListener {
             showInProgressMessage()
         }
-
-        bottomNavBar.setOnItemSelectedListener { menu ->
-            when (menu.itemId) {
-                R.id.info_personal -> {
-                    goToProfileView()
-                    true
-                }
-                R.id.recetas -> {
-                    showInProgressMessage()
-                    true
-                }
-                R.id.progreso -> {
-                    showInProgressMessage()
-                    true
-                }
-                R.id.registro_diario -> {
-                    showInProgressMessage()
-                    true
-                }
-
-                else -> false
-            }
-
-        }
-
         setupToolbar()
-        setupBottomNavigationBar()
+        setupBottomNavigationBar(bottomNavBar)
     }
 
     override fun welcomeUser(name: String, lastName: String) {
@@ -166,10 +113,47 @@ class PaginaPrincipalActivity : AppCompatActivity(), IPrincipalView {
         }
     }
 
-    override fun goToDailyRegistry() {
+    override fun setupBottomNavigationBar(bottomNavigationView: BottomNavigationView) {
+        val mOnNavigationItemSelectedListener =
+            BottomNavigationView.OnNavigationItemSelectedListener { item ->
+                when (item.itemId) {
+                    R.id.registro_diario -> {
+                        goToDailyRegistryView()
+                        return@OnNavigationItemSelectedListener true
+                    }
+                    R.id.recetas -> {
+                        goToRecipesView()
+                        return@OnNavigationItemSelectedListener true
+
+                    }
+                    R.id.progreso -> {
+                        goToProgressView()
+                        return@OnNavigationItemSelectedListener true
+
+                    }
+                    R.id.info_personal -> {
+                        goToProfileView()
+                        return@OnNavigationItemSelectedListener true
+
+                    }
+                }
+                false
+            }
+        bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+    }
+
+    override fun goToDailyRegistryView() {
         Intent(this@PaginaPrincipalActivity, DailyRegistryActivity::class.java).apply {
             startActivity(this)
         }
+    }
+
+    override fun goToRecipesView() {
+        showInProgressMessage()
+    }
+
+    override fun goToProgressView() {
+        showInProgressMessage()
     }
 
     override fun goToProfileView() {

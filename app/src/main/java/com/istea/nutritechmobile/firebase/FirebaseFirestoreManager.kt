@@ -6,6 +6,7 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.FirebaseApp
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestoreSettings
+import com.istea.nutritechmobile.data.DailyUploadRegistry
 import com.istea.nutritechmobile.data.Plan
 import com.istea.nutritechmobile.data.User
 import com.istea.nutritechmobile.data.UserResponse
@@ -95,9 +96,7 @@ class FirebaseFirestoreManager(context: Context) {
         return null
     }
 
-
     suspend fun updatePatientProfile(user: UserResponse): Task<Void> {
-
         //Por el momento, definir unicamente los campos que deben ser modificados
         val modifiedFields = hashMapOf<String, Any?>()
         modifiedFields[CAMPO_ALTURA] = user.Altura
@@ -110,5 +109,10 @@ class FirebaseFirestoreManager(context: Context) {
             .document(user.Email)
             .update(modifiedFields)
 
+    }
+
+    fun addDailyUpload(dailyUploadRegistry: DailyUploadRegistry, user: String): Task<Void> {
+        return usersRef.document(user).collection(DAILYUPLOAD)
+            .document(dailyUploadRegistry.ImageName).set(dailyUploadRegistry)
     }
 }
