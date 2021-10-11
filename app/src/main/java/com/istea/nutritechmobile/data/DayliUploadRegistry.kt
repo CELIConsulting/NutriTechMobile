@@ -4,26 +4,27 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.ServerTimestamp
-import java.io.Serializable
 
-data class PlanAsignacion(
-    val PlanAlimentacion: String,
-    val NotasAdicionales: String,
+data class DayliUploadRegistry(
+    val ImageName: String,
+    val DoExcersice: Boolean,
+    val Observations: String,
     @ServerTimestamp
     val LastAssignment: Timestamp,
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString() ?: "",
+        parcel.readByte() != 0.toByte(),
         parcel.readString() ?: "",
         parcel.readParcelable(Timestamp::class.java.classLoader) ?: Timestamp.now()
-    ) {
-    }
+    )
 
-    constructor() : this("", "", Timestamp.now())
+    constructor() : this("", false, "", Timestamp.now())
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(PlanAlimentacion)
-        parcel.writeString(NotasAdicionales)
+        parcel.writeString(ImageName)
+        parcel.writeByte(if (DoExcersice) 1 else 0)
+        parcel.writeString(Observations)
         parcel.writeParcelable(LastAssignment, flags)
     }
 
@@ -31,13 +32,14 @@ data class PlanAsignacion(
         return 0
     }
 
-    companion object CREATOR : Parcelable.Creator<PlanAsignacion> {
-        override fun createFromParcel(parcel: Parcel): PlanAsignacion {
-            return PlanAsignacion(parcel)
+    companion object CREATOR : Parcelable.Creator<DayliUploadRegistry> {
+        override fun createFromParcel(parcel: Parcel): DayliUploadRegistry {
+            return DayliUploadRegistry(parcel)
         }
 
-        override fun newArray(size: Int): Array<PlanAsignacion?> {
+        override fun newArray(size: Int): Array<DayliUploadRegistry?> {
             return arrayOfNulls(size)
         }
     }
+
 }

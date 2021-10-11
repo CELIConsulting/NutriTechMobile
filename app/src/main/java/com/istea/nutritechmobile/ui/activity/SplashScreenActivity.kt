@@ -19,19 +19,27 @@ class SplashScreenActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_screen)
 
-        lifecycleScope.launch(Dispatchers.Main) {
+        GlobalScope.launch(Dispatchers.IO) {
             invokeSessionManager()
-            delay(1000L)
+        }
+
+        lifecycleScope.launch(Dispatchers.Main) {
+            delay(2500L)
             launchlogin()
+            Log.i(TAG_ACTIVITY, "Finishing activity")
             finish()
         }
+    
+
     }
 
     private suspend fun invokeSessionManager() {
+        Log.i(TAG_ACTIVITY, "Invoking Session Manager")
         SessionManager.getPreferences(this@SplashScreenActivity.applicationContext)
     }
 
-    private fun launchlogin() {
+    private suspend fun launchlogin() {
+        Log.i(TAG_ACTIVITY, "Launching login")
         val intent = Intent(this, LoginActivity::class.java)
         startActivity(intent)
     }

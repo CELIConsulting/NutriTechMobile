@@ -19,14 +19,16 @@ class FirebaseStorageManager(context: Context, firebaseAuthManager: FirebaseAuth
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun uploadImgFood(bytes: ByteArray) {
+
+        val filePath = "${auth.currentUser!!.uid}-${
+            DateTimeFormatter
+                .ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS")
+                .withZone(ZoneOffset.UTC)
+                .format(Instant.now())
+        }.jpg"
         storage.getReference("users")
             .child(
-                "${auth.currentUser!!.uid}-${
-                    DateTimeFormatter
-                        .ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS")
-                        .withZone(ZoneOffset.UTC)
-                        .format(Instant.now())
-                }.jpg"
+                filePath
             )
             .putBytes(bytes)
             .addOnCompleteListener {

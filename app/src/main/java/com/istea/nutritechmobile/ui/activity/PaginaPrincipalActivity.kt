@@ -2,14 +2,15 @@ package com.istea.nutritechmobile.ui.activity
 
 
 import android.content.Intent
+import android.content.Intent.*
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.button.MaterialButton
 import com.istea.nutritechmobile.*
 import com.istea.nutritechmobile.helpers.UIManager
@@ -47,34 +48,35 @@ class PaginaPrincipalActivity : AppCompatActivity(), IPrincipalView {
         setSupportActionBar(toolbar)
 
         //Hiding default app icon
-        supportActionBar?.setDisplayShowTitleEnabled(false);
+        supportActionBar?.setDisplayShowTitleEnabled(false)
     }
 
-    private fun setupBottomNavigationBar(){
-        val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener{ item ->
-            when (item.itemId) {
-                R.id.registro_diario -> {
-                    goToDailyRegistry()
-                    return@OnNavigationItemSelectedListener true
-                }
-                R.id.recetas -> {
-                    Log.e("Pagina Principal", " recetas")
-                    return@OnNavigationItemSelectedListener true
+    private fun setupBottomNavigationBar() {
+        val mOnNavigationItemSelectedListener =
+            BottomNavigationView.OnNavigationItemSelectedListener { item ->
+                when (item.itemId) {
+                    R.id.registro_diario -> {
+                        goToDailyRegistry()
+                        return@OnNavigationItemSelectedListener true
+                    }
+                    R.id.recetas -> {
+                        Log.e("Pagina Principal", " recetas")
+                        return@OnNavigationItemSelectedListener true
 
-                }
-                R.id.progreso -> {
-                    Log.e("Pagina Principal", " progreso")
-                    return@OnNavigationItemSelectedListener true
+                    }
+                    R.id.progreso -> {
+                        Log.e("Pagina Principal", " progreso")
+                        return@OnNavigationItemSelectedListener true
 
-                }
-                R.id.info_personal -> {
-                    Log.e("Pagina Principal", " info")
-                    return@OnNavigationItemSelectedListener true
+                    }
+                    R.id.info_personal -> {
+                        Log.e("Pagina Principal", " info")
+                        return@OnNavigationItemSelectedListener true
 
+                    }
                 }
+                false
             }
-            false
-        }
         bottomNavBar.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
     }
 
@@ -99,6 +101,7 @@ class PaginaPrincipalActivity : AppCompatActivity(), IPrincipalView {
         btnVerPlan = findViewById(R.id.btnVerPlan)
         btnModifPlan = findViewById(R.id.btnModifPlan)
         bottomNavBar = findViewById(R.id.bottomNavigationView)
+        bottomNavBar.selectedItemId = R.id.progreso
 
         btnVerPlan.setOnClickListener {
             goToPlanView()
@@ -114,6 +117,19 @@ class PaginaPrincipalActivity : AppCompatActivity(), IPrincipalView {
                     goToProfileView()
                     true
                 }
+                R.id.recetas -> {
+                    showInProgressMessage()
+                    true
+                }
+                R.id.progreso -> {
+                    showInProgressMessage()
+                    true
+                }
+                R.id.registro_diario -> {
+                    showInProgressMessage()
+                    true
+                }
+
                 else -> false
             }
 
@@ -138,6 +154,7 @@ class PaginaPrincipalActivity : AppCompatActivity(), IPrincipalView {
 
     override fun goBackToLogin() {
         Intent(this@PaginaPrincipalActivity, LoginActivity::class.java).apply {
+            flags = FLAG_ACTIVITY_CLEAR_TASK or FLAG_ACTIVITY_NEW_TASK
             startActivity(this)
         }
     }
@@ -148,6 +165,7 @@ class PaginaPrincipalActivity : AppCompatActivity(), IPrincipalView {
             startActivity(this)
         }
     }
+
     override fun goToDailyRegistry() {
         Intent(this@PaginaPrincipalActivity, DailyRegistryActivity::class.java).apply {
             startActivity(this)

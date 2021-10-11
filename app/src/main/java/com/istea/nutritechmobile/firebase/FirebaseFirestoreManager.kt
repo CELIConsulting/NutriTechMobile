@@ -2,12 +2,14 @@ package com.istea.nutritechmobile.firebase
 
 import android.content.Context
 import android.util.Log
+import com.google.android.gms.tasks.Task
 import com.google.firebase.FirebaseApp
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestoreSettings
 import com.istea.nutritechmobile.data.Plan
 import com.istea.nutritechmobile.data.User
 import com.istea.nutritechmobile.data.UserResponse
+import com.istea.nutritechmobile.helpers.*
 import kotlinx.coroutines.tasks.await
 
 
@@ -24,8 +26,8 @@ class FirebaseFirestoreManager(context: Context) {
 
     //Collections
     private val usersRef = this.db.collection("Users")
-    private val rolesRef = this.db.collection("Roles")
     private val planRef = this.db.collection("Planes")
+    private val rolesRef = this.db.collection("Roles")
 
     init {
         FirebaseApp.initializeApp(context)
@@ -91,5 +93,22 @@ class FirebaseFirestoreManager(context: Context) {
             Log.d(TAG, "Exception: ${e.message}")
         }
         return null
+    }
+
+
+    suspend fun updatePatientProfile(user: UserResponse): Task<Void> {
+
+        //Por el momento, definir unicamente los campos que deben ser modificados
+        val modifiedFields = hashMapOf<String, Any?>()
+        modifiedFields[CAMPO_ALTURA] = user.Altura
+        modifiedFields[CAMPO_PESO] = user.Peso
+        modifiedFields[CAMPO_TELEFONO] = user.Telefono
+        modifiedFields[CAMPO_MEDIDA] = user.MedidaCintura
+        modifiedFields[CAMPO_TIPOALIMENTACION] = user.TipoAlimentacion
+
+        return usersRef
+            .document(user.Email)
+            .update(modifiedFields)
+
     }
 }

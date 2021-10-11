@@ -16,8 +16,6 @@ import kotlinx.coroutines.withContext
 
 
 //TODO: Falta agregar capa de repo para consumir API para las frases
-//TODO: Guardar los datos del usuario logueado en el storage / Ver alguna clase Utility
-//TODO: Se borraría la key pertinente al hacer logout
 
 private const val TAG_ACTIVITY = "PrincipalPresenterImp"
 
