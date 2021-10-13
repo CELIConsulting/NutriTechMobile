@@ -35,8 +35,6 @@ class PerfilPacientePresenterImp(
             Log.d(TAG_ACTIVITY, "Cannot get patient because: ${exception.message}")
             finishSession()
         }
-
-
     }
 
     override suspend fun updatePaciente(paciente: UserResponse) {

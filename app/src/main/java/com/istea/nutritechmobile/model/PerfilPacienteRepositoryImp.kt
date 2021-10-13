@@ -3,12 +3,12 @@ package com.istea.nutritechmobile.model
 import com.google.android.gms.tasks.Task
 import com.istea.nutritechmobile.data.UserResponse
 import com.istea.nutritechmobile.helpers.preferences.SessionManager
-import com.istea.nutritechmobile.io.FireStoreHelper
+import com.istea.nutritechmobile.firebase.FirebaseFirestoreManager
 import com.istea.nutritechmobile.model.interfaces.IPerfilPacienteRepository
 import kotlinx.coroutines.*
 
 
-class PerfilPacienteRepositoryImp(private val fireStoreHelper: FireStoreHelper) :
+class PerfilPacienteRepositoryImp(private val firebaseFirestoreManager: FirebaseFirestoreManager) :
     IPerfilPacienteRepository {
 
     override suspend fun getLoggedUser(): UserResponse? =
@@ -29,7 +29,7 @@ class PerfilPacienteRepositoryImp(private val fireStoreHelper: FireStoreHelper) 
     }
 
     override suspend fun updatePatient(profileData: UserResponse): Task<Void> {
-        return fireStoreHelper.updatePatientProfile(profileData)
+        return firebaseFirestoreManager.updatePatientProfile(profileData)
     }
 
 }

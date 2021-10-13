@@ -1,4 +1,4 @@
-package com.istea.nutritechmobile.io
+package com.istea.nutritechmobile.firebase
 
 import android.content.Context
 import android.util.Log
@@ -6,20 +6,20 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.FirebaseApp
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestoreSettings
+import com.istea.nutritechmobile.data.DailyUploadRegistry
 import com.istea.nutritechmobile.data.Plan
 import com.istea.nutritechmobile.data.User
 import com.istea.nutritechmobile.data.UserResponse
+import com.istea.nutritechmobile.helpers.*
 import kotlinx.coroutines.tasks.await
 
-private const val TAG_ACTIVITY = "FirestoreService"
-private const val CAMPO_ALTURA = "Altura"
-private const val CAMPO_PESO = "Peso"
-private const val CAMPO_MEDIDA = "MedidaCintura"
-private const val CAMPO_TELEFONO = "Telefono"
-private const val CAMPO_TIPOALIMENTACION = "TipoAlimentacion"
 
-class FireStoreHelper(context: Context) {
-    //Settings
+private const val TAG = "FirebaseFirestoreManager"
+
+// FIXME: Organizar esta clase para que todo lo que tenga que ver con
+// se realice aca
+class FirebaseFirestoreManager(context: Context) {
+
     private var db = FirebaseFirestore.getInstance()
     private val settings = firestoreSettings {
         isPersistenceEnabled = true
@@ -44,28 +44,28 @@ class FireStoreHelper(context: Context) {
                 .get()
                 .await()
 
-            //Generar user a partir del snapshot
+            // Generar user a partir del snapshot
             if (snapshot.documents.isNotEmpty()) {
                 val userSnapshot = snapshot.documents.first()
                 val fetchedUser = userSnapshot.toObject(UserResponse::class.java)
 
                 if (fetchedUser != null) {
-                    Log.d(TAG_ACTIVITY, "Nombre: ${fetchedUser.Nombre}")
-                    Log.d(TAG_ACTIVITY, "Apellido: ${fetchedUser.Apellido}")
-                    Log.d(TAG_ACTIVITY, "Mail: ${fetchedUser.Email}")
-                    Log.d(TAG_ACTIVITY, "Password: ${fetchedUser.Password}")
-                    Log.d(TAG_ACTIVITY, "Timestamp: ${fetchedUser.LastUpdated}")
-                    Log.d(TAG_ACTIVITY, "Rol: ${fetchedUser.Rol}")
+                    Log.d(TAG, "Nombre: ${fetchedUser.Nombre}")
+                    Log.d(TAG, "Apellido: ${fetchedUser.Apellido}")
+                    Log.d(TAG, "Mail: ${fetchedUser.Email}")
+                    Log.d(TAG, "Password: ${fetchedUser.Password}")
+                    Log.d(TAG, "Timestamp: ${fetchedUser.LastUpdated}")
+                    Log.d(TAG, "Rol: ${fetchedUser.Rol}")
                     return fetchedUser
                 }
             }
 
 
         } catch (e: Exception) {
-            Log.d(TAG_ACTIVITY, "Exception: ${e.message}")
+            Log.d(TAG, "Exception: ${e.message}")
         }
 
-        Log.d(TAG_ACTIVITY, "USER NULL")
+        Log.d(TAG, "USER NULL")
         return null
     }
 
@@ -91,13 +91,12 @@ class FireStoreHelper(context: Context) {
                 return null
             }
         } catch (e: Exception) {
-            Log.d(TAG_ACTIVITY, "Exception: ${e.message}")
+            Log.d(TAG, "Exception: ${e.message}")
         }
         return null
     }
 
     suspend fun updatePatientProfile(user: UserResponse): Task<Void> {
-
         //Por el momento, definir unicamente los campos que deben ser modificados
         val modifiedFields = hashMapOf<String, Any?>()
         modifiedFields[CAMPO_ALTURA] = user.Altura
@@ -110,5 +109,10 @@ class FireStoreHelper(context: Context) {
             .document(user.Email)
             .update(modifiedFields)
 
+    }
+
+    fun addDailyUpload(dailyUploadRegistry: DailyUploadRegistry, user: String): Task<Void> {
+        return usersRef.document(user).collection(DAILYUPLOAD)
+            .document(dailyUploadRegistry.ImageName).set(dailyUploadRegistry)
     }
 }

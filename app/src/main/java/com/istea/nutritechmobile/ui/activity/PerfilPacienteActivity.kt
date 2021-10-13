@@ -13,7 +13,7 @@ import com.istea.nutritechmobile.data.UserResponse
 import com.istea.nutritechmobile.helpers.extensions.dateFromString
 import com.istea.nutritechmobile.helpers.extensions.stringFromDate
 import com.istea.nutritechmobile.helpers.preferences.SessionManager
-import com.istea.nutritechmobile.io.FireStoreHelper
+import com.istea.nutritechmobile.firebase.FirebaseFirestoreManager
 import com.istea.nutritechmobile.model.PerfilPacienteRepositoryImp
 import com.istea.nutritechmobile.presenter.PerfilPacientePresenterImp
 import com.istea.nutritechmobile.presenter.interfaces.IPerfilPacientePresenter
@@ -38,7 +38,7 @@ class PerfilPacienteActivity : AppCompatActivity(), IPerfilPacienteView {
     private lateinit var btnUpdate: MaterialButton
     private var calendar: GregorianCalendar = GregorianCalendar()
     private val perfilPresenter: IPerfilPacientePresenter by lazy {
-        PerfilPacientePresenterImp(this, PerfilPacienteRepositoryImp(FireStoreHelper(this)))
+        PerfilPacientePresenterImp(this, PerfilPacienteRepositoryImp(FirebaseFirestoreManager(this)))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
