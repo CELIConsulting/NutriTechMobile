@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
 import com.istea.nutritechmobile.firebase.FirebaseAuthManager
+import com.istea.nutritechmobile.helpers.images.BitmapHelper
 import java.io.File
 import java.util.*
 
@@ -116,8 +117,7 @@ class CameraManager(
         textHidden.text = pathImageFile
         hiddenImageName.text = filename
         val uri = Uri.parse(url)
-        val stream = activity.contentResolver.openInputStream(uri)
-        val imageBitmap = BitmapFactory.decodeStream(stream)
+        val imageBitmap = BitmapHelper.handleSamplingAndRotationBitmap(activity, uri)
         imageView.setImageBitmap(imageBitmap)
     }
 
