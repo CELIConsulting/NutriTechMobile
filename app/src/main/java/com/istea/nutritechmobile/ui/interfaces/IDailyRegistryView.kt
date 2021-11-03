@@ -1,4 +1,4 @@
 package com.istea.nutritechmobile.ui.interfaces
 
-interface IDailyRegistryView {
+interface IDailyRegistryView: IToolbar {
 }

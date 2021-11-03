@@ -44,6 +44,7 @@ class CameraManager(
         imageView.setImageResource(android.R.color.transparent)
     }
 
+    //Solicita los permisos al usuario para poder utilizar la camara
     private fun requestPermission() {
         ActivityCompat.shouldShowRequestPermissionRationale(activity, permissionCamera)
 
@@ -56,6 +57,7 @@ class CameraManager(
         )
     }
 
+    /**Si la aplicacion obtiene los permisos, saca la foto**/
     fun requestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -70,12 +72,10 @@ class CameraManager(
                 ) {
                     dispatchTakePictureIntent()
                 } else {
-                    // FIXME: usar la funcion que utilizamos para enviar toast desde todos lados
-                    Toast.makeText(
+                    UIManager.showMessageShort(
                         activity.applicationContext,
-                        "No diste permiso para acceder a la camara y almacenamiento",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                        "No diste permiso para acceder a la camara y almacenamiento"
+                    )
                 }
             }
         }
@@ -99,6 +99,7 @@ class CameraManager(
         }
     }
 
+    /**Nos devuelve un resultado luego de invocar la camara**/
     fun activityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when (requestCode) {
             REQUEST_TAKE_PHOTO -> {

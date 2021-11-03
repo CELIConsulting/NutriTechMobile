@@ -23,7 +23,7 @@ import com.istea.nutritechmobile.ui.interfaces.IToolbar
 
 private const val TAG = "DailyRegistryActivity"
 
-class DailyRegistryActivity : AppCompatActivity(), IDailyRegistryView, IToolbar {
+class DailyRegistryActivity : AppCompatActivity(), IDailyRegistryView{
 
     private lateinit var imgFoodUpload: ImageView
     private lateinit var btnTakeCapture: ImageButton
@@ -159,7 +159,9 @@ class DailyRegistryActivity : AppCompatActivity(), IDailyRegistryView, IToolbar 
     }
 
     override fun goToProgressView() {
-        UIManager.showMessageShort(this, NOTIMPLEMENTEDYET)
+        Intent(this@DailyRegistryActivity, RegistroCorporalActivity::class.java).apply {
+            startActivity(this)
+        }
     }
 
     override fun setupBottomNavigationBar(bottomNavigationView: BottomNavigationView) {

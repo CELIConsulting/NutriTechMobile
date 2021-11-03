@@ -60,7 +60,7 @@
                     android:contentDescription="TODO"
                     android:minWidth="48dp"
                     android:minHeight="48dp"
-                    app:srcCompat="@drawable/ic_baseline_photo_camera_24"
+                    app:srcCompat="@drawable/ic_baseline_photo_camera"
                     tools:ignore="SpeakableTextPresentCheck,DuplicateSpeakableTextCheck,DuplicateSpeakableTextCheck" />
 
                 <ImageButton
@@ -72,7 +72,7 @@
                     android:contentDescription="TODO"
                     android:minWidth="48dp"
                     android:minHeight="48dp"
-                    app:srcCompat="@drawable/ic_baseline_delete_outline_24"
+                    app:srcCompat="@drawable/ic_baseline_delete_outline"
                     tools:ignore="SpeakableTextPresentCheck" />
             </LinearLayout>
 
