@@ -22,7 +22,7 @@
     <!--Pantalla perfil-->
     <dimen name="perfil_margin">10dp</dimen>
 
-    <!--Registro corporal-->
+    <!--Registro corporal / Carga diaria -->
     <dimen name="cardview_height">150dp</dimen>
     <dimen name="cardview_width">372dp</dimen>
     <dimen name="cardview_photo_height">253dp</dimen>
@@ -39,5 +39,6 @@
     <dimen name="pic_width">140dp</dimen>
     <dimen name="pic_margin">27dp</dimen>
     <dimen name="pic_thumbnail_size">96dp</dimen>
+    <dimen name="observaciones_box_height">120dp</dimen>
 
 </resources>

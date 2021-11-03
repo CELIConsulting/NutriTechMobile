@@ -15,145 +15,206 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/txtTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_vertical_cardview"
+        android:layout_marginBottom="@dimen/margin_vertical_cardview"
+        android:text="@string/dailyFoodUploadTitle"
+        android:textAlignment="center"
+        android:textSize="@dimen/titleFontSize"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
+
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="372dp"
-        android:layout_height="253dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="250dp"
+        app:cardCornerRadius="8dp"
+        app:layout_constraintBottom_toTopOf="@id/cardView2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintTop_toBottomOf="@+id/txtTitle"
         app:layout_constraintVertical_bias="0.03">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:orientation="vertical">
+            android:background="@drawable/background_cardview">
 
             <ImageView
                 android:id="@+id/imgFoodUpload"
-                android:layout_width="match_parent"
-                android:layout_height="158dp"
-                android:layout_marginBottom="27dp"
-                android:layout_marginTop="27dp"
-                android:contentDescription="TODO"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/margin_top_10dp"
+                app:layout_constraintBottom_toTopOf="@id/btnDeleteCapture"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="ImageContrastCheck"
                 tools:srcCompat="@tools:sample/avatars" />
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/txtPhotoAddThumbnail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:orientation="horizontal">
+                android:layout_marginTop="@dimen/margin_top_10dp"
+                android:text="@string/aviso_comida_diaria"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageButton
-                    android:id="@+id/btnTakeCapture"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:contentDescription="TODO"
-                    android:minWidth="48dp"
-                    android:minHeight="48dp"
-                    app:srcCompat="@drawable/ic_baseline_photo_camera"
-                    tools:ignore="SpeakableTextPresentCheck,DuplicateSpeakableTextCheck,DuplicateSpeakableTextCheck" />
+            <ImageView
+                android:id="@+id/imgPhotoAddThumbnail"
+                android:layout_width="@dimen/pic_width"
+                android:layout_height="@dimen/pic_height"
+                android:layout_marginTop="@dimen/pic_margin"
+                android:layout_marginBottom="@dimen/pic_margin"
+                android:background="@drawable/ic_baseline_food"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toTopOf="@id/btnDeleteCapture"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtPhotoAddThumbnail"
+                tools:ignore="ImageContrastCheck" />
 
-                <ImageButton
-                    android:id="@+id/btnDeleteCapture"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:contentDescription="TODO"
-                    android:minWidth="48dp"
-                    android:minHeight="48dp"
-                    app:srcCompat="@drawable/ic_baseline_delete_outline"
-                    tools:ignore="SpeakableTextPresentCheck" />
-            </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/btnTakeCapture"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/photo_icon_margin_end"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:minWidth="@dimen/photo_icon_size"
+                android:minHeight="@dimen/photo_icon_size"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/btnDeleteCapture"
+                app:srcCompat="@drawable/ic_add_photo"
+                tools:ignore="SpeakableTextPresentCheck,DuplicateSpeakableTextCheck,DuplicateSpeakableTextCheck" />
+
+            <ImageButton
+                android:id="@+id/btnDeleteCapture"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/photo_icon_margin_end"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:minWidth="@dimen/photo_icon_size"
+                android:minHeight="@dimen/photo_icon_size"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:srcCompat="@drawable/ic_baseline_delete_outline"
+                tools:ignore="SpeakableTextPresentCheck" />
 
             <TextView
                 android:id="@+id/hiddenFileUpload"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView"
-                android:visibility="invisible" />
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
             <TextView
                 android:id="@+id/hiddenImageName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView"
-                android:visibility="invisible" />
-        </LinearLayout>
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView2"
-        android:layout_width="372dp"
-        android:layout_height="271dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="@dimen/cardview_width"
+        android:layout_height="200dp"
+        app:cardCornerRadius="8dp"
+        android:layout_marginTop="@dimen/margin_top_10dp"
+        app:layout_constraintBottom_toTopOf="@id/btnSubmit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView"
-        app:layout_constraintVertical_bias="0.195">
+        app:layout_constraintTop_toBottomOf="@+id/cardView">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:background="@drawable/background_cardview">
 
             <CheckBox
                 android:id="@+id/chkDoExcersice"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:minHeight="48dp"
                 android:layout_marginStart="24dp"
-                android:layout_marginEnd="24dp"
+                android:layout_marginTop="@dimen/margin_top_10dp"
+                android:minHeight="48dp"
                 android:text="@string/hiciste_ejercicio"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
-                app:layout_constraintHorizontal_bias="0.079"
-                app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
-                app:layout_constraintTop_toTopOf="@+id/guidelineSection"
-                app:layout_constraintVertical_bias="0.051" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
                 android:id="@+id/etObservacions"
                 android:layout_width="match_parent"
-                android:layout_height="143dp"
+                android:layout_height="@dimen/observaciones_box_height"
                 android:layout_marginLeft="24dp"
                 android:layout_marginRight="24dp"
-                android:ems="10"
-                android:gravity="start|top"
+                android:lines="6"
+                android:overScrollMode="always"
+                android:scrollbarStyle="insideInset"
+                android:scrollHorizontally="false"
+                android:hint="@string/observaciones_hint"
                 android:inputType="textMultiLine"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
-                app:layout_constraintTop_toTopOf="@+id/guidelineSection"
-                tools:ignore="SpeakableTextPresentCheck" />
+                app:layout_constraintTop_toBottomOf="@id/chkDoExcersice"
+                tools:ignore="SpeakableTextPresentCheck"/>
 
-            <Button
-                android:id="@+id/btnSubmit"
+
+            <!--Utilities-->
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineLeft"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="24dp"
-                android:text="@string/guardar"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
-                app:layout_constraintHorizontal_bias="0.914"
-                app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
-                app:layout_constraintTop_toTopOf="@+id/guidelineSection"
-                app:layout_constraintVertical_bias="0.662" />
-        </LinearLayout>
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="@dimen/guideline_margin" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineRight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="@dimen/guideline_margin" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineBottom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_end="@dimen/guideline_bottom" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineSection"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="336dp" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
 
-    <!--Utilities-->
+    <Button
+        android:id="@+id/btnSubmit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_guardar"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigationView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.94"
+        app:layout_constraintTop_toBottomOf="@id/cardView2" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
@@ -162,36 +223,10 @@
         android:background="@color/secondary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView2"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintVertical_bias="1.0"
         app:menu="@menu/menu_inferior" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineLeft"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="@dimen/guideline_margin" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineRight"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_end="@dimen/guideline_margin" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineBottom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_end="@dimen/guideline_bottom" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineSection"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="336dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,7 +5,9 @@ import android.os.Bundle
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.istea.nutritechmobile.R
 import com.istea.nutritechmobile.data.DailyUploadRegistry
@@ -20,6 +22,9 @@ import com.istea.nutritechmobile.presenter.DailyRegistryPresenterImp
 import com.istea.nutritechmobile.presenter.interfaces.IDailyRegistryPresenter
 import com.istea.nutritechmobile.ui.interfaces.IDailyRegistryView
 import com.istea.nutritechmobile.ui.interfaces.IToolbar
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 private const val TAG = "DailyRegistryActivity"
 
@@ -33,6 +38,8 @@ class DailyRegistryActivity : AppCompatActivity(), IDailyRegistryView{
     private lateinit var btnSubmit: Button
     private lateinit var hiddenFileUpload: TextView
     private lateinit var hiddenImageName: TextView
+    private lateinit var txtPhotoAddThumbnail: TextView
+    private lateinit var imgPhotoAddThumbnail: ImageView
     private lateinit var toolbar: Toolbar
     private lateinit var bottomNavigationView: BottomNavigationView
 
@@ -67,6 +74,8 @@ class DailyRegistryActivity : AppCompatActivity(), IDailyRegistryView{
 
     private fun setupUi() {
         imgFoodUpload = findViewById(R.id.imgFoodUpload)
+        txtPhotoAddThumbnail = findViewById(R.id.txtPhotoAddThumbnail)
+        imgPhotoAddThumbnail = findViewById(R.id.imgPhotoAddThumbnail)
         btnTakeCapture = findViewById(R.id.btnTakeCapture)
         btnDeleteCapture = findViewById(R.id.btnDeleteCapture)
         chkDoExcersice = findViewById(R.id.chkDoExcersice)
@@ -76,17 +85,40 @@ class DailyRegistryActivity : AppCompatActivity(), IDailyRegistryView{
         hiddenImageName = findViewById(R.id.hiddenImageName)
         bottomNavigationView = findViewById(R.id.bottomNavigationView)
         btnSubmit.isEnabled = false
+        enableDefaultPhotoThumbnail()
         setupToolbar()
         setupBottomNavigationBar(bottomNavigationView)
         bindEvents()
     }
 
+
+
+    private fun enableDefaultPhotoThumbnail() {
+        imgFoodUpload.isVisible = false
+        imgPhotoAddThumbnail.isVisible = true
+        txtPhotoAddThumbnail.isVisible = true
+    }
+
+    private fun disableDefaultPhotoThumbnail() {
+        imgFoodUpload.isVisible = true
+        imgPhotoAddThumbnail.isVisible = false
+        txtPhotoAddThumbnail.isVisible = false
+    }
+
+
     private fun bindEvents() {
         btnTakeCapture.setOnClickListener {
             camera.takePhoto()
+            lifecycleScope.launch(Dispatchers.Main) {
+                delay(1000)
+                disableDefaultPhotoThumbnail()
+            }
         }
+
         btnDeleteCapture.setOnClickListener {
             camera.cleanPhoto()
+            hiddenFileUpload.text = ""
+            enableDefaultPhotoThumbnail()
         }
         btnSubmit.setOnClickListener {
             submitInformation()
@@ -117,6 +149,8 @@ class DailyRegistryActivity : AppCompatActivity(), IDailyRegistryView{
     }
 
     private fun validateForm() {
+        deactivateSubmitButton()
+
         if (hiddenFileUpload.text.isNotEmpty()) {
             if (etObservacions.text.isNotEmpty()) {
                 activateSubmitButton()
@@ -126,6 +160,10 @@ class DailyRegistryActivity : AppCompatActivity(), IDailyRegistryView{
 
     private fun activateSubmitButton() {
         btnSubmit.isEnabled = true
+    }
+
+    private fun deactivateSubmitButton() {
+        btnSubmit.isEnabled = false
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
