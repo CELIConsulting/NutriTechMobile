@@ -52,4 +52,16 @@ Convallis a cras semper auctor. Vitae aliquet nec ullamcorper sit amet risus nul
     <string name="perfilMail">Ingrese su mail</string>
     <string name="perfilFechaNacimiento">Ingrese Fecha Nacimiento</string>
     <string name="btnActualizarPerfil">Actualizar datos</string>
+
+    <!--Registro corporal-->
+    <string name="peso_input">Peso:</string>
+    <string name="cintura_input">Cintura:</string>
+    <string name="btn_guardar">Guardar</string>
+    <string name="registroCorporalTitle">Registro Corporal</string>
+    <string name="aviso_foto_corporal">Saca una foto de tu cuerpo</string>
+
+    <!--Carga diaria-->
+    <string name="aviso_comida_diaria">Saca una foto de tu comida</string>
+    <string name="dailyFoodUploadTitle">Reporte alimenticio</string>
+    <string name="observaciones_hint">Observaciones</string>
 </resources>

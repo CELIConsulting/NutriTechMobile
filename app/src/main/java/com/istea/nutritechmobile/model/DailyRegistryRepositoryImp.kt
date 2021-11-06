@@ -10,6 +10,6 @@ class DailyRegistryRepositoryImp(
 ): IDailyRegistryRepository {
 
     override suspend fun addDailyUpload(dailyUploadRegistry: DailyUploadRegistry, user: String): Task<Void> {
-        return firebaseFirestoreManager.addDailyUpload(dailyUploadRegistry, user)
+        return firebaseFirestoreManager.addDailyUpload(user, dailyUploadRegistry)
     }
 }

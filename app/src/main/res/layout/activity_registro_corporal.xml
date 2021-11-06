@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.activity.DailyRegistryActivity">
-
+    tools:context=".ui.activity.RegistroCorporalActivity">
 
     <include
         android:id="@id/toolbar"
@@ -21,49 +20,125 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_vertical_cardview"
         android:layout_marginBottom="@dimen/margin_vertical_cardview"
-        android:text="@string/dailyFoodUploadTitle"
+        android:text="@string/registroCorporalTitle"
         android:textAlignment="center"
         android:textSize="@dimen/titleFontSize"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
-
+    <!--Input section-->
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
-        android:layout_width="372dp"
-        android:layout_height="250dp"
+        android:id="@+id/cardViewMeasures"
+        android:layout_width="@dimen/cardview_width"
+        android:layout_height="@dimen/cardview_height"
+        android:layout_marginTop="@dimen/margin_top_10dp"
         app:cardCornerRadius="8dp"
-        app:layout_constraintBottom_toTopOf="@id/cardView2"
+        app:layout_constraintBottom_toTopOf="@id/cardViewPhoto"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtTitle"
-        app:layout_constraintVertical_bias="0.03">
+        app:layout_constraintTop_toBottomOf="@+id/txtTitle">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="center"
+            android:background="@drawable/background_cardview">
+
+            <TextView
+                android:id="@+id/txtPeso"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_horizontal_form"
+                android:text="@string/peso_input"
+                android:textSize="@dimen/inputFontSize"
+                app:layout_constraintBottom_toTopOf="@+id/txtCintura"
+                app:layout_constraintEnd_toStartOf="@id/etPeso"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="spread" />
+
+            <EditText
+                android:id="@+id/etPeso"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_horizontal_form"
+                android:inputType="numberDecimal"
+                app:layout_constraintBottom_toBottomOf="@+id/txtPeso"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/guideLineCW_Measures_Vertical"
+                app:layout_constraintTop_toTopOf="@id/txtPeso" />
+
+            <TextView
+                android:id="@+id/txtCintura"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_horizontal_form"
+                android:text="@string/cintura_input"
+                android:textSize="@dimen/inputFontSize"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/etCintura"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtPeso" />
+
+            <EditText
+                android:id="@+id/etCintura"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_horizontal_form"
+                android:inputType="numberDecimal"
+                app:layout_constraintBottom_toBottomOf="@+id/txtCintura"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/guideLineCW_Measures_Vertical"
+                app:layout_constraintTop_toTopOf="@id/txtCintura" />
+
+            <!--Helpers-->
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideLineCW_Measures_Vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="150dp" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!--Camera section-->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardViewPhoto"
+        android:layout_width="372dp"
+        android:layout_height="253dp"
+        android:layout_marginTop="@dimen/margin_vertical_cardview"
+        app:cardCornerRadius="8dp"
+        app:layout_constraintBottom_toTopOf="@id/btnGuardar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardViewMeasures">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:background="@drawable/background_cardview">
 
             <ImageView
-                android:id="@+id/imgFoodUpload"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_marginTop="@dimen/margin_top_10dp"
-                app:layout_constraintBottom_toTopOf="@id/btnDeleteCapture"
+                android:id="@+id/imgEstadoFisico"
+                android:layout_width="@dimen/pic_width"
+                android:layout_height="@dimen/pic_height"
+                android:layout_marginTop="@dimen/pic_margin"
+                android:layout_marginBottom="@dimen/pic_margin"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toTopOf="@id/btnDeletePhoto"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="ImageContrastCheck"
-                tools:srcCompat="@tools:sample/avatars" />
+                tools:ignore="ImageContrastCheck" />
 
             <TextView
                 android:id="@+id/txtPhotoAddThumbnail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_top_10dp"
-                android:text="@string/aviso_comida_diaria"
+                android:text="@string/aviso_foto_corporal"
                 android:visibility="invisible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -75,33 +150,32 @@
                 android:layout_height="@dimen/pic_height"
                 android:layout_marginTop="@dimen/pic_margin"
                 android:layout_marginBottom="@dimen/pic_margin"
-                android:background="@drawable/ic_baseline_food"
-                android:visibility="invisible"
-                app:layout_constraintBottom_toTopOf="@id/btnDeleteCapture"
+                android:background="@drawable/ic_body_pic"
+                android:visibility="visible"
+                app:layout_constraintBottom_toTopOf="@id/btnDeletePhoto"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/txtPhotoAddThumbnail"
                 tools:ignore="ImageContrastCheck" />
 
-
             <ImageButton
-                android:id="@+id/btnTakeCapture"
+                android:id="@+id/btnTakePhoto"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/photo_icon_margin_end"
+                android:layout_marginEnd="@dimen/photo_icon_margin_end"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:minWidth="@dimen/photo_icon_size"
                 android:minHeight="@dimen/photo_icon_size"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/btnDeleteCapture"
+                app:layout_constraintEnd_toStartOf="@id/btnDeletePhoto"
                 app:srcCompat="@drawable/ic_add_photo"
                 tools:ignore="SpeakableTextPresentCheck,DuplicateSpeakableTextCheck,DuplicateSpeakableTextCheck" />
 
             <ImageButton
-                android:id="@+id/btnDeleteCapture"
+                android:id="@+id/btnDeletePhoto"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/photo_icon_margin_end"
+                android:layout_marginEnd="@dimen/photo_icon_margin_end"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:minWidth="@dimen/photo_icon_size"
                 android:minHeight="@dimen/photo_icon_size"
@@ -128,93 +202,18 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardView2"
-        android:layout_width="@dimen/cardview_width"
-        android:layout_height="200dp"
-        app:cardCornerRadius="8dp"
-        android:layout_marginTop="@dimen/margin_top_10dp"
-        app:layout_constraintBottom_toTopOf="@id/btnSubmit"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/background_cardview">
-
-            <CheckBox
-                android:id="@+id/chkDoExcersice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="@dimen/margin_top_10dp"
-                android:minHeight="48dp"
-                android:text="@string/hiciste_ejercicio"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <EditText
-                android:id="@+id/etObservacions"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/observaciones_box_height"
-                android:layout_marginLeft="24dp"
-                android:layout_marginRight="24dp"
-                android:lines="6"
-                android:overScrollMode="always"
-                android:scrollbarStyle="insideInset"
-                android:scrollHorizontally="false"
-                android:hint="@string/observaciones_hint"
-                android:inputType="textMultiLine"
-                app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
-                app:layout_constraintTop_toBottomOf="@id/chkDoExcersice"
-                tools:ignore="SpeakableTextPresentCheck"/>
-
-
-            <!--Utilities-->
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guidelineLeft"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_begin="@dimen/guideline_margin" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guidelineRight"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_end="@dimen/guideline_margin" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guidelineBottom"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_end="@dimen/guideline_bottom" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guidelineSection"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_begin="336dp" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.cardview.widget.CardView>
-
-    <Button
-        android:id="@+id/btnSubmit"
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnGuardar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/btn_guardar"
+        app:layout_constraintBottom_toBottomOf="@id/bottomNavigationView"
         app:layout_constraintBottom_toTopOf="@id/bottomNavigationView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintHorizontal_bias="0.94"
-        app:layout_constraintTop_toBottomOf="@id/cardView2" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cardViewPhoto" />
+
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
@@ -228,5 +227,5 @@
         app:menu="@menu/menu_inferior" />
 
 
-
 </androidx.constraintlayout.widget.ConstraintLayout>
+

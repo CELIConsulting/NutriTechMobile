@@ -153,7 +153,9 @@ class PaginaPrincipalActivity : AppCompatActivity(), IPrincipalView,IToolbar {
     }
 
     override fun goToProgressView() {
-        showInProgressMessage()
+        Intent(this@PaginaPrincipalActivity, RegistroCorporalActivity::class.java).apply {
+            startActivity(this)
+        }
     }
 
     override fun goToProfileView() {

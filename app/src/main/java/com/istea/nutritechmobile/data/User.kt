@@ -19,6 +19,7 @@ data class UserResponse(
     var Rol: String,
     var FechaNacimiento: Timestamp?,
     var Telefono: String,
+    @ServerTimestamp
     var LastUpdated: Timestamp?,
     var Altura: Float?,
     var Peso: Float?,
