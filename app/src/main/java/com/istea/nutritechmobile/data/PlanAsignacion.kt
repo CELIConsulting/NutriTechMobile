@@ -3,11 +3,13 @@ package com.istea.nutritechmobile.data
 import android.os.Parcel
 import android.os.Parcelable
 import com.google.firebase.Timestamp
+import com.google.firebase.firestore.ServerTimestamp
 import java.io.Serializable
 
 data class PlanAsignacion(
     val PlanAlimentacion: String,
     val NotasAdicionales: String,
+    @ServerTimestamp
     val LastAssignment: Timestamp,
 ) : Parcelable {
     constructor(parcel: Parcel) : this(

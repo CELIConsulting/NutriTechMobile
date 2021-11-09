@@ -62,6 +62,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="30dp"
+        app:passwordToggleEnabled="true"
+        app:passwordToggleDrawable="@drawable/toggle_pass"
+        app:passwordToggleTint="@color/primary"
         app:errorTextColor="@color/error">
 
         <com.google.android.material.textfield.TextInputEditText

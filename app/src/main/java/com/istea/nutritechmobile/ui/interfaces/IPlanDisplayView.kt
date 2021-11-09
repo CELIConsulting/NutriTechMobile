@@ -4,4 +4,5 @@ import com.istea.nutritechmobile.data.Plan
 
 interface IPlanDisplayView {
     suspend fun fillDataView(dataRepo: Plan?)
+    fun setupUI()
 }
