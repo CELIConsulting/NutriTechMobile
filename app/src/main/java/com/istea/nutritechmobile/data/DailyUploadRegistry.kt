@@ -56,5 +56,6 @@ enum class Food{
     DESAYUNO,
     ALMUERZO,
     MERIENDA,
-    CENA
+    CENA,
+    COLACION
 }
