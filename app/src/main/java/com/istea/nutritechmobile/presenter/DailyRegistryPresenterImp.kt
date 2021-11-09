@@ -35,10 +35,13 @@ class DailyRegistryPresenterImp(
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
                             val image = File(dailyUploadRegistry.UrlImage)
-                            if (image.exists()){
+                            if (image.exists()) {
                                 val bytes = image.readBytes()
-                                storage.uploadImgFood(bytes)
+                                GlobalScope.launch(Dispatchers.IO) {
+                                    storage.uploadImgFood(bytes)
+                                }
                                 showSuccessAddMessage()
+                                view.resetForm()
                             }
                         }
                     }
@@ -53,13 +56,13 @@ class DailyRegistryPresenterImp(
 
     private fun showFailureAddMessage() {
         UIManager.showMessageShort(
-            view as Activity, "El Registro diario no se inserto correctamente, intente nuevamente"
+            view as Activity, "El registro de su comida no pudo agregarse, intente nuevamente"
         )
     }
 
     private fun showSuccessAddMessage() {
         UIManager.showMessageShort(
-            view as Activity, "El Registro diario se insertar correctamente"
+            view as Activity, "El registro de su comida fue agregado correctamente"
         )
     }
 }

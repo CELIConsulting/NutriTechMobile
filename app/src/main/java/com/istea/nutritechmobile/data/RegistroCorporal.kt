@@ -6,12 +6,12 @@ import com.google.firebase.Timestamp
 import com.google.firebase.firestore.ServerTimestamp
 
 data class RegistroCorporal(
-    var ImageName: String,
-    var UrlImage: String,
-    var Peso: Float,
-    var MedidaCintura: Float,
+    val ImageName: String,
+    val UrlImage: String,
+    val Peso: Float,
+    val MedidaCintura: Float,
     @ServerTimestamp
-    var LastAssignment: Timestamp = Timestamp.now()
+    val LastAssignment: Timestamp = Timestamp.now()
 ) : Parcelable {
 
     constructor() : this("", "", 0f, 0f, Timestamp.now())

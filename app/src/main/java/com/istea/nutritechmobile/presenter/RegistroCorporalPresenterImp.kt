@@ -38,8 +38,8 @@ class RegistroCorporalPresenterImp(
                                 GlobalScope.launch(Dispatchers.IO) {
                                     storage.uploadImgBody(stream)
                                 }
-
                                 showSuccessAddMessage()
+                                view.resetForm()
                             }
                         }
                     }
