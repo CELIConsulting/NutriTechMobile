@@ -8,6 +8,7 @@ import com.istea.nutritechmobile.data.DailyUploadRegistry
 import com.istea.nutritechmobile.firebase.FirebaseStorageManager
 import com.istea.nutritechmobile.helpers.CameraManager
 import com.istea.nutritechmobile.helpers.UIManager
+import com.istea.nutritechmobile.helpers.images.BitmapHelper
 import com.istea.nutritechmobile.model.interfaces.IDailyRegistryRepository
 import com.istea.nutritechmobile.presenter.interfaces.IDailyRegistryPresenter
 import com.istea.nutritechmobile.ui.interfaces.IDailyRegistryView
@@ -36,9 +37,10 @@ class DailyRegistryPresenterImp(
                         if (task.isSuccessful) {
                             val image = File(dailyUploadRegistry.UrlImage)
                             if (image.exists()) {
-                                val bytes = image.readBytes()
+                                val stream =
+                                    BitmapHelper.reduceImageSizeToUpload(view as Activity, image)
                                 GlobalScope.launch(Dispatchers.IO) {
-                                    storage.uploadImgFood(bytes)
+                                    storage.uploadImgFood(stream)
                                 }
                                 showSuccessAddMessage()
                                 view.resetForm()

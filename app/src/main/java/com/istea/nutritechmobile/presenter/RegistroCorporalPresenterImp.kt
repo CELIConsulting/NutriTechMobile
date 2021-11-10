@@ -1,6 +1,7 @@
 package com.istea.nutritechmobile.presenter
 
 import android.app.Activity
+import android.content.Context
 import android.os.Build
 import android.util.Log
 import android.view.View
@@ -16,6 +17,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.io.File
+import android.graphics.Bitmap
+import com.istea.nutritechmobile.helpers.images.BitmapHelper
+import java.io.ByteArrayOutputStream
+
 
 private const val TAG_ACTIVITY = "RegistroCorporalPresenterImp"
 
@@ -34,7 +39,8 @@ class RegistroCorporalPresenterImp(
                         if (task.isSuccessful) {
                             val image = File(registro.UrlImage)
                             if (image.exists()) {
-                                val stream = image.readBytes()
+                                val stream =
+                                    BitmapHelper.reduceImageSizeToUpload(view as Activity, image)
                                 GlobalScope.launch(Dispatchers.IO) {
                                     storage.uploadImgBody(stream)
                                 }
