@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".ui.activity.DailyRegistryActivity">
 
-
     <include
         android:id="@id/toolbar"
         layout="@layout/toolbar"
@@ -15,29 +14,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/txtTitle"
-        android:layout_width="wrap_content"
+    <com.dev.materialspinner.MaterialSpinner
+        android:id="@+id/foods_spinner"
+        android:layout_width="@dimen/spinner_width"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_vertical_cardview"
-        android:layout_marginBottom="@dimen/margin_vertical_cardview"
-        android:text="@string/dailyFoodUploadTitle"
-        android:textAlignment="center"
-        android:textSize="@dimen/titleFontSize"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginVertical="10dp"
+         app:layout_constraintStart_toStartOf="@id/cardView"
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
-
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="372dp"
-        android:layout_height="250dp"
+        android:layout_height="270dp"
         app:cardCornerRadius="8dp"
         app:layout_constraintBottom_toTopOf="@id/cardView2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtTitle"
+        app:layout_constraintTop_toBottomOf="@id/foods_spinner"
         app:layout_constraintVertical_bias="0.03">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -51,10 +44,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_marginTop="@dimen/margin_top_10dp"
-                app:layout_constraintBottom_toTopOf="@id/btnDeleteCapture"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtPhotoAddThumbnail"
+                app:layout_constraintBottom_toTopOf="@id/btnDeleteCapture"
                 tools:ignore="ImageContrastCheck"
                 tools:srcCompat="@tools:sample/avatars" />
 
@@ -131,9 +124,9 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView2"
         android:layout_width="@dimen/cardview_width"
-        android:layout_height="200dp"
-        app:cardCornerRadius="8dp"
+        android:layout_height="160dp"
         android:layout_marginTop="@dimen/margin_top_10dp"
+        app:cardCornerRadius="8dp"
         app:layout_constraintBottom_toTopOf="@id/btnSubmit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -158,18 +151,19 @@
             <EditText
                 android:id="@+id/etObservacions"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/observaciones_box_height"
+                android:layout_height="80dp"
                 android:layout_marginLeft="24dp"
                 android:layout_marginRight="24dp"
+                android:hint="@string/observaciones_hint"
+                android:inputType="textMultiLine"
                 android:lines="6"
                 android:overScrollMode="always"
                 android:scrollbarStyle="insideInset"
                 android:scrollHorizontally="false"
-                android:hint="@string/observaciones_hint"
-                android:inputType="textMultiLine"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
                 app:layout_constraintTop_toBottomOf="@id/chkDoExcersice"
-                tools:ignore="SpeakableTextPresentCheck"/>
+                tools:ignore="SpeakableTextPresentCheck" />
 
 
             <!--Utilities-->
@@ -212,8 +206,8 @@
         android:text="@string/btn_guardar"
         app:layout_constraintBottom_toTopOf="@id/bottomNavigationView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintHorizontal_bias="0.94"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cardView2" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -226,7 +220,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintVertical_bias="1.0"
         app:menu="@menu/menu_inferior" />
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

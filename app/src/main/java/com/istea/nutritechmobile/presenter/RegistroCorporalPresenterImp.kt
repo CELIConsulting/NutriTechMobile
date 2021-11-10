@@ -39,12 +39,13 @@ class RegistroCorporalPresenterImp(
                         if (task.isSuccessful) {
                             val image = File(registro.UrlImage)
                             if (image.exists()) {
-                                val stream = BitmapHelper.reduceImageSizeToUpload(view as Activity, image)
+                                val stream =
+                                    BitmapHelper.reduceImageSizeToUpload(view as Activity, image)
                                 GlobalScope.launch(Dispatchers.IO) {
                                     storage.uploadImgBody(stream, registro.ImageName)
                                 }
-
                                 showSuccessAddMessage()
+                                view.resetForm()
                             }
                         }
                     }

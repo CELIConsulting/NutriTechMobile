@@ -138,7 +138,6 @@ class RegistroCorporalActivity : AppCompatActivity(), IRegistroCorporalView {
         val registro = buildCorporalRegistry()
         val user = FirebaseAuthManager().getAuthEmail()
         presenter.addCorporalRegistry(user, registro)
-        resetForm()
     }
 
     private fun enableDefaultPhotoThumbnail() {
@@ -152,7 +151,6 @@ class RegistroCorporalActivity : AppCompatActivity(), IRegistroCorporalView {
         imgPhotoAddThumbnail.isVisible = false
         txtPhotoAddThumbnail.isVisible = false
     }
-
 
     private fun validateForm() {
         deactivateSubmitButton()
@@ -185,6 +183,15 @@ class RegistroCorporalActivity : AppCompatActivity(), IRegistroCorporalView {
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         camera.requestPermissionsResult(requestCode, permissions, grantResults)
+    }
+
+    override fun resetForm() {
+        finish()
+        overridePendingTransition(0, 0)
+        Intent(this@RegistroCorporalActivity, this::class.java).apply {
+            startActivity(this)
+        }
+        overridePendingTransition(0, 0)
     }
 
     override fun setupBottomNavigationBar(bottomNavigationView: BottomNavigationView) {
@@ -224,16 +231,6 @@ class RegistroCorporalActivity : AppCompatActivity(), IRegistroCorporalView {
 
     override fun goToRecipesView() {
         showInProgressMessage()
-    }
-
-
-    private fun resetForm() {
-        finish();
-        overridePendingTransition(0, 0);
-        Intent(this@RegistroCorporalActivity, this::class.java).apply {
-            startActivity(this)
-        }
-        overridePendingTransition(0, 0);
     }
 
     override fun goToProgressView() {

@@ -33,12 +33,13 @@
     <dimen name="margin_vertical_form">10dp</dimen>
     <dimen name="margin_horizontal_form">10dp</dimen>
     <dimen name="margin_top_10dp">10dp</dimen>
-    <dimen name="photo_icon_margin_end">20dp</dimen>
+    <dimen name="photo_icon_margin_end">15dp</dimen>
     <dimen name="photo_icon_size">48dp</dimen>
     <dimen name="pic_height">160dp</dimen>
     <dimen name="pic_width">140dp</dimen>
     <dimen name="pic_margin">27dp</dimen>
     <dimen name="pic_thumbnail_size">96dp</dimen>
     <dimen name="observaciones_box_height">120dp</dimen>
+    <dimen name="spinner_width">250dp</dimen>
 
 </resources>
