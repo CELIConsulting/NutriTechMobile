@@ -14,6 +14,7 @@
     <string name="mail_format_invalid">El formato del mail no es válido</string>
     <string name="user_not_found">El usuario no existe</string>
     <string name="invalid_credentials">Credenciales invalidas</string>
+    <string name="user_not_paciente">El usuario no cuenta con los permisos necesarios</string>
 
     <!--Pantalla principal-->
     <string name="btnVerPlan">Ver plan</string>

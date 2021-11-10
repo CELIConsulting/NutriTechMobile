@@ -42,7 +42,7 @@ class RegistroCorporalPresenterImp(
                                 val stream =
                                     BitmapHelper.reduceImageSizeToUpload(view as Activity, image)
                                 GlobalScope.launch(Dispatchers.IO) {
-                                    storage.uploadImgBody(stream)
+                                    storage.uploadImgBody(stream, registro.ImageName)
                                 }
                                 showSuccessAddMessage()
                                 view.resetForm()

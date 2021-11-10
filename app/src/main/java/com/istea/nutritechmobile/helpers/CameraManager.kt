@@ -122,7 +122,7 @@ class CameraManager(
     }
 
     private fun createImageFile(): HashMap<String, Any> {
-        filename = "${FirebaseAuthManager().getAuth().currentUser?.email}_${Date()}"
+        filename = "${FirebaseAuthManager().getAuth().currentUser?.email}_${UUID.randomUUID()}"
         val directorio = activity.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         val imagen = File.createTempFile(filename, ".jpg", directorio)
         urlFotoActual = "file://${imagen.absolutePath}"
