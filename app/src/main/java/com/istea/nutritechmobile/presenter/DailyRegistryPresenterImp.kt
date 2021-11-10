@@ -40,7 +40,7 @@ class DailyRegistryPresenterImp(
                                 val stream =
                                     BitmapHelper.reduceImageSizeToUpload(view as Activity, image)
                                 GlobalScope.launch(Dispatchers.IO) {
-                                    storage.uploadImgFood(stream)
+                                    storage.uploadImgFood(stream, dailyUploadRegistry.ImageName)
                                 }
                                 showSuccessAddMessage()
                             }
