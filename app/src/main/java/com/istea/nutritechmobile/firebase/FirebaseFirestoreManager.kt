@@ -94,7 +94,6 @@ class FirebaseFirestoreManager(context: Context) {
     }
 
     fun updatePatientProfile(user: UserResponse): Task<Void> {
-        //Por el momento, definir unicamente los campos que deben ser modificados
         val modifiedFields = hashMapOf<String, Any?>()
         modifiedFields[CAMPO_ALTURA] = user.Altura
         modifiedFields[CAMPO_PESO] = user.Peso

@@ -4,7 +4,6 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.*
-import androidx.annotation.MainThread
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
@@ -37,7 +36,7 @@ class RegistroCorporalActivity : AppCompatActivity(), IRegistroCorporalView {
     private lateinit var txtPhotoAddThumbnail: TextView
     private lateinit var imgPhotoAddThumbnail: ImageView
     private lateinit var bottomNavigationView: BottomNavigationView
-
+    private var pacienteLogueado: UserResponse? = null
 
     private val firebaseStorageManager: FirebaseStorageManager by lazy {
         FirebaseStorageManager(this, FirebaseAuthManager())
@@ -137,23 +136,28 @@ class RegistroCorporalActivity : AppCompatActivity(), IRegistroCorporalView {
 
     private fun submitForm() {
         val registro = buildCorporalRegistry()
-        val user = FirebaseAuthManager().getAuthEmail()
-        presenter.addCorporalRegistry(user, registro)
-        updatePaciente()
-        resetForm()
-    }
-
-    private fun buildPacienteFromForm(): UserResponse {
-        val updatedUser = UserResponse()
-        updatedUser.Peso = etPeso.text.toString().toFloatOrNull() ?: 0f
-        updatedUser.MedidaCintura = etCintura.text.toString().toFloatOrNull() ?: 0f
-
-        return updatedUser;
-    }
-
-    private fun updatePaciente() {
+        val loggedUserMail = FirebaseAuthManager().getAuthEmail()
         val paciente = buildPacienteFromForm()
-        presenter.updatePaciente(paciente)
+
+        lifecycleScope.launch(Dispatchers.Main) {
+            presenter.addCorporalRegistry(loggedUserMail, registro)
+            presenter.updatePaciente(paciente)
+        }
+    }
+
+    private fun buildPacienteFromForm(): UserResponse? {
+        pacienteLogueado?.let { it ->
+            it.Peso = etPeso.text.toString().toFloatOrNull() ?: 0f
+            it.MedidaCintura = etCintura.text.toString().toFloatOrNull() ?: 0f
+            return it
+        }
+        return null;
+    }
+
+    private suspend fun getLoggedUser(): UserResponse? {
+        return withContext(Dispatchers.IO) {
+            presenter.getLoggedUser()
+        }
     }
 
     private fun enableDefaultPhotoThumbnail() {
@@ -167,7 +171,6 @@ class RegistroCorporalActivity : AppCompatActivity(), IRegistroCorporalView {
         imgPhotoAddThumbnail.isVisible = false
         txtPhotoAddThumbnail.isVisible = false
     }
-
 
     private fun validateForm() {
         deactivateSubmitButton()
@@ -186,6 +189,22 @@ class RegistroCorporalActivity : AppCompatActivity(), IRegistroCorporalView {
 
     private fun deactivateSubmitButton() {
         btnGuardar.isEnabled = false
+    }
+
+    private fun resetForm() {
+        finish();
+        overridePendingTransition(0, 0);
+        Intent(this@RegistroCorporalActivity, this::class.java).apply {
+            startActivity(this)
+        }
+        overridePendingTransition(0, 0);
+    }
+
+    override fun onResume() {
+        lifecycleScope.launch(Dispatchers.Main) {
+            pacienteLogueado = getLoggedUser()
+        }
+        super.onResume()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -241,16 +260,6 @@ class RegistroCorporalActivity : AppCompatActivity(), IRegistroCorporalView {
         showInProgressMessage()
     }
 
-
-    private fun resetForm() {
-        finish();
-        overridePendingTransition(0, 0);
-        Intent(this@RegistroCorporalActivity, this::class.java).apply {
-            startActivity(this)
-        }
-        overridePendingTransition(0, 0);
-    }
-
     override fun goToProgressView() {
         resetForm()
     }
@@ -259,11 +268,19 @@ class RegistroCorporalActivity : AppCompatActivity(), IRegistroCorporalView {
         Intent(this@RegistroCorporalActivity, PerfilPacienteActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
             startActivity(this)
+            finish()
         }
     }
 
     override fun showInProgressMessage() {
         UIManager.showMessageShort(this, "Función en desarrollo")
+    }
+
+    override fun goBackToLogin() {
+        Intent(this, LoginActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(this)
+        }
     }
 
 }

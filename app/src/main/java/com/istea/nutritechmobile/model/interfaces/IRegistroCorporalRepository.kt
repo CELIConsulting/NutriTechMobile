@@ -6,5 +6,8 @@ import com.istea.nutritechmobile.data.UserResponse
 
 interface IRegistroCorporalRepository {
     suspend fun addCorporalRegistry(user: String, registro: RegistroCorporal): Task<Void>
-    suspend fun updatePacienteCorporal(paciente: UserResponse): Task<Void>
+    suspend fun updatePacienteInfo(paciente: UserResponse): Task<Void>
+    suspend fun getLoggedUser():UserResponse?
+    suspend fun updateLoggedUser(user: UserResponse)
+    suspend fun logoutUser()
 }

@@ -8,4 +8,5 @@ interface IToolbar {
     fun goToRecipesView()
     fun goToProgressView()
     fun goToProfileView()
+
 }
