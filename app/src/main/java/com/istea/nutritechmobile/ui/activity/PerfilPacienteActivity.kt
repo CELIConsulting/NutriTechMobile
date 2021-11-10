@@ -66,6 +66,7 @@ class PerfilPacienteActivity : AppCompatActivity(), IPerfilPacienteView {
         etMedidaCintura = findViewById(R.id.etMedidaCintura)
         etTipoAlimentacion = findViewById(R.id.etTipoAlimentacion)
         btnUpdate = findViewById(R.id.btnUpdate)
+        disableRegistroCorporalFields()
 
         btnUpdate.setOnClickListener {
             updatePacienteInfo()
@@ -104,6 +105,11 @@ class PerfilPacienteActivity : AppCompatActivity(), IPerfilPacienteView {
         }
 
         return null
+    }
+
+    private fun disableRegistroCorporalFields(){
+        etPeso.isEnabled = false
+        etMedidaCintura.isEnabled = false
     }
 
     override fun updatePacienteInfo() {
