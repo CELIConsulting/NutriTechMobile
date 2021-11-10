@@ -3,19 +3,19 @@ package com.istea.nutritechmobile.presenter
 import android.app.Activity
 import android.content.Context
 import android.os.Build
+import android.provider.Settings
 import android.util.Log
-import android.view.View
 import androidx.annotation.RequiresApi
 import com.istea.nutritechmobile.data.RegistroCorporal
+import com.istea.nutritechmobile.data.UserResponse
 import com.istea.nutritechmobile.firebase.FirebaseStorageManager
 import com.istea.nutritechmobile.helpers.CameraManager
 import com.istea.nutritechmobile.helpers.UIManager
+import com.istea.nutritechmobile.helpers.preferences.SessionManager
 import com.istea.nutritechmobile.model.interfaces.IRegistroCorporalRepository
 import com.istea.nutritechmobile.presenter.interfaces.IRegistroCorporalPresenter
 import com.istea.nutritechmobile.ui.interfaces.IRegistroCorporalView
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import java.io.File
 import android.graphics.Bitmap
 import com.istea.nutritechmobile.helpers.images.BitmapHelper
@@ -56,6 +56,51 @@ class RegistroCorporalPresenterImp(
         } catch (e: Exception) {
             Log.d(TAG_ACTIVITY, e.message ?: "Something")
         }
+    }
+
+    override suspend fun updatePaciente(paciente: UserResponse?) {
+        try {
+            GlobalScope.launch(Dispatchers.Main) {
+                if (paciente != null) {
+                    repo.updatePacienteInfo(paciente)
+                        .addOnCompleteListener {
+                            updateLoggedUserInPreferences(paciente)
+                            view.goToProfileView()
+                        }
+                        .addOnFailureListener {
+                            finishSession()
+
+                        }
+                } else {
+                    Log.d(TAG_ACTIVITY, "No se pudo actualizar el paciente porque es nulo")
+                    finishSession()
+                }
+            }
+        } catch (e: Exception) {
+            Log.d(TAG_ACTIVITY, e.message ?: "Something")
+        }
+
+    }
+
+    private fun finishSession() {
+        GlobalScope.launch(Dispatchers.IO) {
+            repo.logoutUser()
+            delay(1000)
+        }
+
+        view.goBackToLogin()
+    }
+
+    private fun updateLoggedUserInPreferences(paciente: UserResponse) {
+        GlobalScope.launch(Dispatchers.IO) {
+            repo.updateLoggedUser(paciente)
+            delay(1000)
+        }
+
+    }
+
+    override suspend fun getLoggedUser(): UserResponse? {
+        return repo.getLoggedUser()
     }
 
     private fun showFailureAddMessage() {

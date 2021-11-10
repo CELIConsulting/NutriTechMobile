@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.istea.nutritechmobile.R
 import com.istea.nutritechmobile.data.RegistroCorporal
+import com.istea.nutritechmobile.data.UserResponse
 import com.istea.nutritechmobile.firebase.FirebaseAuthManager
 import com.istea.nutritechmobile.firebase.FirebaseFirestoreManager
 import com.istea.nutritechmobile.firebase.FirebaseStorageManager
@@ -36,7 +37,7 @@ class RegistroCorporalActivity : AppCompatActivity(), IRegistroCorporalView {
     private lateinit var txtPhotoAddThumbnail: TextView
     private lateinit var imgPhotoAddThumbnail: ImageView
     private lateinit var bottomNavigationView: BottomNavigationView
-
+    private var pacienteLogueado: UserResponse? = null
 
     private val firebaseStorageManager: FirebaseStorageManager by lazy {
         FirebaseStorageManager(this, FirebaseAuthManager())
@@ -134,11 +135,32 @@ class RegistroCorporalActivity : AppCompatActivity(), IRegistroCorporalView {
         )
     }
 
+    private fun buildPacienteFromForm(): UserResponse? {
+        pacienteLogueado?.let { it ->
+            it.Peso = etPeso.text.toString().toFloatOrNull() ?: 0f
+            it.MedidaCintura = etCintura.text.toString().toFloatOrNull() ?: 0f
+            return it
+        }
+        return null;
+    }
+
     private fun submitForm() {
         val registro = buildCorporalRegistry()
-        val user = FirebaseAuthManager().getAuthEmail()
-        presenter.addCorporalRegistry(user, registro)
+        val loggedUserMail = FirebaseAuthManager().getAuthEmail()
+        val paciente = buildPacienteFromForm()
+
+        lifecycleScope.launch(Dispatchers.Main) {
+            presenter.addCorporalRegistry(loggedUserMail, registro)
+            presenter.updatePaciente(paciente)
+        }
     }
+
+    private suspend fun getLoggedUser(): UserResponse? {
+        return withContext(Dispatchers.IO) {
+            presenter.getLoggedUser()
+        }
+    }
+
 
     private fun enableDefaultPhotoThumbnail() {
         imgEstadoFisico.isVisible = false
@@ -183,6 +205,13 @@ class RegistroCorporalActivity : AppCompatActivity(), IRegistroCorporalView {
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         camera.requestPermissionsResult(requestCode, permissions, grantResults)
+    }
+
+    override fun onResume() {
+        lifecycleScope.launch(Dispatchers.Main) {
+            pacienteLogueado = getLoggedUser()
+        }
+        super.onResume()
     }
 
     override fun resetForm() {
@@ -241,6 +270,7 @@ class RegistroCorporalActivity : AppCompatActivity(), IRegistroCorporalView {
         Intent(this@RegistroCorporalActivity, PerfilPacienteActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
             startActivity(this)
+            finish()
         }
     }
 
@@ -248,4 +278,10 @@ class RegistroCorporalActivity : AppCompatActivity(), IRegistroCorporalView {
         UIManager.showMessageShort(this, "Función en desarrollo")
     }
 
+    override fun goBackToLogin() {
+        Intent(this, LoginActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(this)
+        }
+    }
 }

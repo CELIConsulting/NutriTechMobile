@@ -1,7 +1,6 @@
 package com.istea.nutritechmobile.presenter
 
 import android.app.Activity
-import androidx.lifecycle.lifecycleScope
 import com.google.firebase.auth.FirebaseAuth
 import com.istea.nutritechmobile.R
 import com.istea.nutritechmobile.data.User
@@ -14,7 +13,6 @@ import com.istea.nutritechmobile.ui.interfaces.ILoginView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 
 private const val TAG_ACTIVITY = "LoginPresenterImp"
@@ -37,11 +35,23 @@ class LoginPresenterImp(
                             }
 
                             if (userResponse != null) {
-                                GlobalScope.launch(Dispatchers.IO) {
-                                    SessionManager.saveLoggedUser(userResponse)
+
+                                if (userResponse.Rol.lowercase() == "paciente") {
+                                    GlobalScope.launch(Dispatchers.IO) {
+                                        SessionManager.saveLoggedUser(userResponse)
+                                    }
+
+                                    view.goToMainScreen()
+                                } else {
+                                    view.showMessage(
+                                        getTextFromResource(
+                                            view as Activity,
+                                            R.string.user_not_paciente
+                                        )
+                                    )
                                 }
 
-                                view.goToMainScreen()
+
                             } else {
                                 view.showMessage(
                                     getTextFromResource(
