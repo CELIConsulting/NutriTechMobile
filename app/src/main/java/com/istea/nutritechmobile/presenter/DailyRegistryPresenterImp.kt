@@ -8,6 +8,7 @@ import com.istea.nutritechmobile.data.DailyUploadRegistry
 import com.istea.nutritechmobile.firebase.FirebaseStorageManager
 import com.istea.nutritechmobile.helpers.CameraManager
 import com.istea.nutritechmobile.helpers.UIManager
+import com.istea.nutritechmobile.helpers.images.BitmapHelper
 import com.istea.nutritechmobile.model.interfaces.IDailyRegistryRepository
 import com.istea.nutritechmobile.presenter.interfaces.IDailyRegistryPresenter
 import com.istea.nutritechmobile.ui.interfaces.IDailyRegistryView
@@ -35,10 +36,14 @@ class DailyRegistryPresenterImp(
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
                             val image = File(dailyUploadRegistry.UrlImage)
-                            if (image.exists()){
-                                val bytes = image.readBytes()
-                                storage.uploadImgFood(bytes)
+                            if (image.exists()) {
+                                val stream =
+                                    BitmapHelper.reduceImageSizeToUpload(view as Activity, image)
+                                GlobalScope.launch(Dispatchers.IO) {
+                                    storage.uploadImgFood(stream, dailyUploadRegistry.ImageName)
+                                }
                                 showSuccessAddMessage()
+                                view.resetForm()
                             }
                         }
                     }
@@ -53,13 +58,13 @@ class DailyRegistryPresenterImp(
 
     private fun showFailureAddMessage() {
         UIManager.showMessageShort(
-            view as Activity, "El Registro diario no se inserto correctamente, intente nuevamente"
+            view as Activity, "El registro de su comida no pudo agregarse, intente nuevamente"
         )
     }
 
     private fun showSuccessAddMessage() {
         UIManager.showMessageShort(
-            view as Activity, "El Registro diario se insertar correctamente"
+            view as Activity, "El registro de su comida fue agregado correctamente"
         )
     }
 }

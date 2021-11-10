@@ -6,6 +6,8 @@ import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.net.Uri
 import android.media.ExifInterface
+import java.io.ByteArrayOutputStream
+import java.io.File
 import java.io.IOException
 
 
@@ -26,6 +28,7 @@ class BitmapHelper {
         @Throws(IOException::class)
         fun handleSamplingAndRotationBitmap(context: Context, selectedImage: Uri): Bitmap? {
             // First decode with inJustDecodeBounds=true to check dimensions
+
             val options = BitmapFactory.Options();
             options.inJustDecodeBounds = true;
             var imageStream = context.contentResolver.openInputStream(selectedImage);
@@ -122,6 +125,14 @@ class BitmapHelper {
             val rotatedImg = Bitmap.createBitmap(img, 0, 0, img.width, img.height, matrix, true)
             img.recycle()
             return rotatedImg
+        }
+
+        fun reduceImageSizeToUpload(context: Context, imgFile: File): ByteArray {
+            val imgPath = imgFile.absolutePath
+            val imgBitmap = handleSamplingAndRotationBitmap(context, Uri.parse("file://$imgPath"))
+            val arrayOutput = ByteArrayOutputStream()
+            imgBitmap?.compress(Bitmap.CompressFormat.JPEG, 25, arrayOutput)
+            return arrayOutput.toByteArray()
         }
     }
 }

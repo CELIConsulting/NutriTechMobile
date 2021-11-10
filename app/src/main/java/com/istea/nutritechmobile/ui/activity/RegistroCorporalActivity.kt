@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.*
+import androidx.annotation.MainThread
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
@@ -134,6 +135,15 @@ class RegistroCorporalActivity : AppCompatActivity(), IRegistroCorporalView {
         )
     }
 
+    private fun buildPacienteFromForm(): UserResponse? {
+        pacienteLogueado?.let { it ->
+            it.Peso = etPeso.text.toString().toFloatOrNull() ?: 0f
+            it.MedidaCintura = etCintura.text.toString().toFloatOrNull() ?: 0f
+            return it
+        }
+        return null;
+    }
+
     private fun submitForm() {
         val registro = buildCorporalRegistry()
         val loggedUserMail = FirebaseAuthManager().getAuthEmail()
@@ -145,20 +155,12 @@ class RegistroCorporalActivity : AppCompatActivity(), IRegistroCorporalView {
         }
     }
 
-    private fun buildPacienteFromForm(): UserResponse? {
-        pacienteLogueado?.let { it ->
-            it.Peso = etPeso.text.toString().toFloatOrNull() ?: 0f
-            it.MedidaCintura = etCintura.text.toString().toFloatOrNull() ?: 0f
-            return it
-        }
-        return null;
-    }
-
     private suspend fun getLoggedUser(): UserResponse? {
         return withContext(Dispatchers.IO) {
             presenter.getLoggedUser()
         }
     }
+
 
     private fun enableDefaultPhotoThumbnail() {
         imgEstadoFisico.isVisible = false
@@ -191,22 +193,6 @@ class RegistroCorporalActivity : AppCompatActivity(), IRegistroCorporalView {
         btnGuardar.isEnabled = false
     }
 
-    private fun resetForm() {
-        finish();
-        overridePendingTransition(0, 0);
-        Intent(this@RegistroCorporalActivity, this::class.java).apply {
-            startActivity(this)
-        }
-        overridePendingTransition(0, 0);
-    }
-
-    override fun onResume() {
-        lifecycleScope.launch(Dispatchers.Main) {
-            pacienteLogueado = getLoggedUser()
-        }
-        super.onResume()
-    }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         camera.activityResult(requestCode, resultCode, data)
@@ -219,6 +205,22 @@ class RegistroCorporalActivity : AppCompatActivity(), IRegistroCorporalView {
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         camera.requestPermissionsResult(requestCode, permissions, grantResults)
+    }
+
+    override fun onResume() {
+        lifecycleScope.launch(Dispatchers.Main) {
+            pacienteLogueado = getLoggedUser()
+        }
+        super.onResume()
+    }
+
+    override fun resetForm() {
+        finish()
+        overridePendingTransition(0, 0)
+        Intent(this@RegistroCorporalActivity, this::class.java).apply {
+            startActivity(this)
+        }
+        overridePendingTransition(0, 0)
     }
 
     override fun setupBottomNavigationBar(bottomNavigationView: BottomNavigationView) {
@@ -282,5 +284,4 @@ class RegistroCorporalActivity : AppCompatActivity(), IRegistroCorporalView {
             startActivity(this)
         }
     }
-
 }
