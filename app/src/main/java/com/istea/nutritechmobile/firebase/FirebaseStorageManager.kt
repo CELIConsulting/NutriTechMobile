@@ -17,23 +17,21 @@ class FirebaseStorageManager(context: Context, firebaseAuthManager: FirebaseAuth
     private val authEmail = firebaseAuthManager.getAuthEmail()
     private val storageRef = storage.getReference("users")
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    private val filePath = "${authEmail}-${
-        DateTimeFormatter
-            .ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS")
-            .withZone(ZoneOffset.UTC)
-            .format(Instant.now())
-    }.jpg"
+//    @RequiresApi(Build.VERSION_CODES.O)
+//    private val filePath = "${authEmail}-${
+//        DateTimeFormatter
+//            .ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS")
+//            .withZone(ZoneOffset.UTC)
+//            .format(Instant.now())
+//    }.jpg"
 
     //Path example: users/paciente17@gmail.com/foodUpload/paciente17@gmail.com_timestamp.jpg
     @RequiresApi(Build.VERSION_CODES.O)
-    fun uploadImgFood(bytes: ByteArray) {
+    fun uploadImgFood(bytes: ByteArray, fileName: String) {
         storageRef
             .child(authEmail)
             .child("foodUpload")
-            .child(
-                filePath
-            )
+            .child("${fileName}.jpg")
             .putBytes(bytes)
             .addOnCompleteListener {
                 Log.d(TAG, "Foto de la comida enviada al storage")
@@ -49,11 +47,11 @@ class FirebaseStorageManager(context: Context, firebaseAuthManager: FirebaseAuth
 
     //Path example: users/paciente17@gmail.com/bodyUpload/paciente17@gmail.com_timestamp.jpg
     @RequiresApi(Build.VERSION_CODES.O)
-    fun uploadImgBody(bytes: ByteArray) {
+    fun uploadImgBody(bytes: ByteArray,fileName: String) {
         storageRef
             .child(authEmail)
             .child("bodyUpload")
-            .child(filePath)
+            .child("${fileName}.jpg")
             .putBytes(bytes)
             .addOnCompleteListener {
                 Log.d(TAG, "Foto corporal enviada al storage")
