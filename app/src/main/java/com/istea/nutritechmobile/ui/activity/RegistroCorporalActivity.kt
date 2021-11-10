@@ -3,6 +3,7 @@ package com.istea.nutritechmobile.ui.activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.*
 import androidx.annotation.MainThread
 import androidx.appcompat.widget.Toolbar
@@ -21,6 +22,7 @@ import com.istea.nutritechmobile.helpers.CameraManager
 import com.istea.nutritechmobile.helpers.UIManager
 import com.istea.nutritechmobile.helpers.extensions.dateFromString
 import com.istea.nutritechmobile.helpers.extensions.stringFromDate
+import com.istea.nutritechmobile.helpers.preferences.SessionManager
 import com.istea.nutritechmobile.model.PerfilPacienteRepositoryImp
 import com.istea.nutritechmobile.model.RegistroCorporalRepositoryImp
 import com.istea.nutritechmobile.presenter.PerfilPacientePresenterImp
@@ -31,8 +33,8 @@ import com.istea.nutritechmobile.ui.interfaces.IPerfilPacienteView
 import com.istea.nutritechmobile.ui.interfaces.IRegistroCorporalView
 import kotlinx.coroutines.*
 import java.util.*
-private const val campoNoAsignado = "No asignado"
-class RegistroCorporalActivity : AppCompatActivity(), IRegistroCorporalView, IPerfilPacienteView {
+
+class RegistroCorporalActivity : AppCompatActivity(), IRegistroCorporalView {
     private lateinit var toolbar: Toolbar
     private lateinit var etPeso: EditText
     private lateinit var etCintura: EditText
@@ -45,20 +47,6 @@ class RegistroCorporalActivity : AppCompatActivity(), IRegistroCorporalView, IPe
     private lateinit var txtPhotoAddThumbnail: TextView
     private lateinit var imgPhotoAddThumbnail: ImageView
     private lateinit var bottomNavigationView: BottomNavigationView
-
-    private lateinit var etNombre: EditText
-    private lateinit var etApellido: EditText
-    private lateinit var etMail: EditText
-    private lateinit var etFechaNacimiento: EditText
-    private lateinit var etTelefono: EditText
-    private lateinit var etAltura: EditText
-    private lateinit var etMedidaCintura: EditText
-    private lateinit var etTipoAlimentacion: EditText
-    private var calendar: GregorianCalendar = GregorianCalendar()
-
-    private val perfilPresenter: IPerfilPacientePresenter by lazy {
-        PerfilPacientePresenterImp(this, PerfilPacienteRepositoryImp(FirebaseFirestoreManager(this)))
-    }
 
     private val firebaseStorageManager: FirebaseStorageManager by lazy {
         FirebaseStorageManager(this, FirebaseAuthManager())
@@ -79,9 +67,6 @@ class RegistroCorporalActivity : AppCompatActivity(), IRegistroCorporalView, IPe
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        lifecycleScope.launch(Dispatchers.Main) {
-            perfilPresenter.getPaciente()
-        }
         setContentView(R.layout.activity_registro_corporal)
         setupUI()
     }
@@ -162,18 +147,6 @@ class RegistroCorporalActivity : AppCompatActivity(), IRegistroCorporalView, IPe
 
     private fun buildPacienteFromForm(): UserResponse {
         val updatedUser = UserResponse()
-        updatedUser.Nombre = etNombre.text.toString()
-        updatedUser.Apellido = etApellido.text.toString()
-        updatedUser.Telefono = etTelefono.text.toString()
-        updatedUser.Email = etMail.text.toString()
-        updatedUser.TipoAlimentacion = etTipoAlimentacion.text.toString()
-        updatedUser.FechaNacimiento = setFechaNacimiento()
-
-        updatedUser.Altura =
-            if (etAltura.text.toString()
-                    .isNotEmpty() && etAltura.text.toString() != campoNoAsignado
-            ) etAltura.text.toString()
-                .toFloat() else 0f
         updatedUser.Peso = etPeso.text.toString().toFloatOrNull() ?: 0f
         updatedUser.MedidaCintura = etCintura.text.toString().toFloatOrNull() ?: 0f
 
@@ -182,7 +155,7 @@ class RegistroCorporalActivity : AppCompatActivity(), IRegistroCorporalView, IPe
 
     private fun submitForm() {
         val registro = buildCorporalRegistry()
-        updatePacienteInfo()
+        updatePaciente()
         val user = FirebaseAuthManager().getAuthEmail()
         presenter.addCorporalRegistry(user, registro)
         resetForm()
@@ -298,54 +271,10 @@ class RegistroCorporalActivity : AppCompatActivity(), IRegistroCorporalView, IPe
         UIManager.showMessageShort(this, "Función en desarrollo")
     }
 
-    override fun showPacienteInfo(paciente: UserResponse) {
-        etNombre.setText(if (paciente.Nombre.isNotEmpty()) paciente.Nombre else campoNoAsignado)
-        etApellido.setText(if (paciente.Apellido.isNotEmpty()) paciente.Apellido else campoNoAsignado)
-        etMail.setText(if (paciente.Email.isNotEmpty()) paciente.Email else campoNoAsignado)
-        etFechaNacimiento.setText(getFechaNacimiento(paciente.FechaNacimiento))
-        etTelefono.setText(if (paciente.Telefono.isNotEmpty()) paciente.Telefono else campoNoAsignado)
-        etAltura.setText(if (paciente.Altura != null && paciente.Altura!! > 0) paciente.Altura.toString() else campoNoAsignado)
-        etPeso.setText(if (paciente.Peso != null && paciente.Peso!! > 0) paciente.Peso.toString() else campoNoAsignado)
-        etMedidaCintura.setText(if (paciente.MedidaCintura != null && paciente.MedidaCintura!! > 0) paciente.MedidaCintura.toString() else campoNoAsignado)
-        etTipoAlimentacion.setText(if (paciente.TipoAlimentacion.isNotEmpty()) paciente.TipoAlimentacion else campoNoAsignado)
-    }
-
-    override fun updatePacienteInfo() {
+    private fun updatePaciente() {
         val paciente = buildPacienteFromForm()
-
-        lifecycleScope.launch(Dispatchers.Main) {
-            perfilPresenter.updatePaciente(paciente)
-        }
+        presenter.updatePaciente(paciente)
     }
 
-    private fun getFechaNacimiento(fechNac: Timestamp?): String {
-        return if (fechNac != null) {
-            calendar.timeInMillis = fechNac.seconds * 1000
-            val fecha = Date(calendar.timeInMillis)
-            fecha.stringFromDate()
-        } else {
-            campoNoAsignado
-        }
-    }
-
-    private fun setFechaNacimiento(): Timestamp? {
-        if (etFechaNacimiento.text.toString() != campoNoAsignado) {
-            val fechaObtenida = etFechaNacimiento.text.toString().dateFromString()
-
-            if (fechaObtenida != null) {
-                return Timestamp(fechaObtenida)
-            }
-        }
-
-        return null
-    }
-
-    override fun goBackToLogin() {
-        TODO("Not yet implemented")
-    }
-
-    override fun goBackToMain() {
-        TODO("Not yet implemented")
-    }
 
 }
