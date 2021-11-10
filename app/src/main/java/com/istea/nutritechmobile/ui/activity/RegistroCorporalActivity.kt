@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.istea.nutritechmobile.R
 import com.istea.nutritechmobile.data.RegistroCorporal
+import com.istea.nutritechmobile.data.UserResponse
 import com.istea.nutritechmobile.firebase.FirebaseAuthManager
 import com.istea.nutritechmobile.firebase.FirebaseFirestoreManager
 import com.istea.nutritechmobile.firebase.FirebaseStorageManager
@@ -138,7 +139,21 @@ class RegistroCorporalActivity : AppCompatActivity(), IRegistroCorporalView {
         val registro = buildCorporalRegistry()
         val user = FirebaseAuthManager().getAuthEmail()
         presenter.addCorporalRegistry(user, registro)
+        updatePaciente()
         resetForm()
+    }
+
+    private fun buildPacienteFromForm(): UserResponse {
+        val updatedUser = UserResponse()
+        updatedUser.Peso = etPeso.text.toString().toFloatOrNull() ?: 0f
+        updatedUser.MedidaCintura = etCintura.text.toString().toFloatOrNull() ?: 0f
+
+        return updatedUser;
+    }
+
+    private fun updatePaciente() {
+        val paciente = buildPacienteFromForm()
+        presenter.updatePaciente(paciente)
     }
 
     private fun enableDefaultPhotoThumbnail() {

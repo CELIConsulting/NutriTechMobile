@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.View
 import androidx.annotation.RequiresApi
 import com.istea.nutritechmobile.data.RegistroCorporal
+import com.istea.nutritechmobile.data.UserResponse
 import com.istea.nutritechmobile.firebase.FirebaseStorageManager
 import com.istea.nutritechmobile.helpers.CameraManager
 import com.istea.nutritechmobile.helpers.UIManager
@@ -50,6 +51,13 @@ class RegistroCorporalPresenterImp(
         } catch (e: Exception) {
             Log.d(TAG_ACTIVITY, e.message ?: "Something")
         }
+    }
+
+    override fun updatePaciente(paciente: UserResponse) {
+        GlobalScope.launch(Dispatchers.Main) {
+            repo.updatePacienteCorporal(paciente)
+        }
+
     }
 
     private fun showFailureAddMessage() {
