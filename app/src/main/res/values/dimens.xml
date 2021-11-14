@@ -30,6 +30,7 @@
     <dimen name="margin_vertical_cardview">20dp</dimen>
     <dimen name="inputFontSize">24sp</dimen>
     <dimen name="titleFontSize">28sp</dimen>
+
     <dimen name="margin_vertical_form">10dp</dimen>
     <dimen name="margin_horizontal_form">10dp</dimen>
     <dimen name="margin_top_10dp">10dp</dimen>
@@ -41,5 +42,13 @@
     <dimen name="pic_thumbnail_size">96dp</dimen>
     <dimen name="observaciones_box_height">120dp</dimen>
     <dimen name="spinner_width">250dp</dimen>
+
+    <!--TyC-->
+    <dimen name="tyc_title_margin_vertical">10dp</dimen>
+    <dimen name="tyc_titleFontSize">26sp</dimen>
+    <dimen name="tyc_scrollview_height">300dp</dimen>
+    <dimen name="tyc_margin">20dp</dimen>
+    <dimen name="tyc_padding">20dp</dimen>
+    <dimen name="section_separation">5dp</dimen>
 
 </resources>

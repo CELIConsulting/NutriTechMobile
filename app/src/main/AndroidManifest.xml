@@ -21,6 +21,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NutriTechMobile">
         <activity
+            android:name=".ui.activity.TyCActivity"
+            android:exported="true">
+        </activity>
+        <activity
             android:name=".ui.activity.RegistroCorporalActivity"
             android:exported="true" />
         <activity

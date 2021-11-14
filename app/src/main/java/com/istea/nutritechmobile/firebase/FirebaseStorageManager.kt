@@ -25,7 +25,7 @@ class FirebaseStorageManager(context: Context, firebaseAuthManager: FirebaseAuth
 //            .format(Instant.now())
 //    }.jpg"
 
-    //Path example: users/paciente17@gmail.com/foodUpload/paciente17@gmail.com_timestamp.jpg
+    //Path example: users/paciente17@gmail.com/foodUpload/paciente17@gmail.com_UUID.jpg
     @RequiresApi(Build.VERSION_CODES.O)
     fun uploadImgFood(bytes: ByteArray, fileName: String) {
         storageRef
@@ -45,7 +45,7 @@ class FirebaseStorageManager(context: Context, firebaseAuthManager: FirebaseAuth
             }
     }
 
-    //Path example: users/paciente17@gmail.com/bodyUpload/paciente17@gmail.com_timestamp.jpg
+    //Path example: users/paciente17@gmail.com/bodyUpload/paciente17@gmail.com_UUID.jpg
     @RequiresApi(Build.VERSION_CODES.O)
     fun uploadImgBody(bytes: ByteArray,fileName: String) {
         storageRef
