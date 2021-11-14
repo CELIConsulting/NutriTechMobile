@@ -2,10 +2,8 @@ package com.istea.nutritechmobile.presenter
 
 import android.app.Activity
 import android.util.Log
-import android.view.View
 import com.istea.nutritechmobile.data.UserResponse
 import com.istea.nutritechmobile.helpers.UIManager
-import com.istea.nutritechmobile.helpers.preferences.SessionManager
 import com.istea.nutritechmobile.model.interfaces.IPerfilPacienteRepository
 import com.istea.nutritechmobile.presenter.interfaces.IPerfilPacientePresenter
 import com.istea.nutritechmobile.ui.interfaces.IPerfilPacienteView
@@ -23,10 +21,19 @@ class PerfilPacientePresenterImp(
 
     override suspend fun getPaciente() {
         try {
-            val loggedUser = repo.getLoggedUser()
+            val loggedUser = withContext(Dispatchers.Main) {
+                repo.getLoggedUser()
+            }
 
             if (loggedUser != null) {
+                if (isPatientFirstLogin(loggedUser)) {
+                    view.isUserFirstLogin(true)
+                } else {
+                    view.isUserFirstLogin(false)
+                }
+
                 view.showPacienteInfo(loggedUser)
+
             } else {
                 finishSession()
             }
@@ -38,10 +45,11 @@ class PerfilPacientePresenterImp(
     }
 
     override suspend fun updatePaciente(paciente: UserResponse) {
-        val loggedUser = repo.getLoggedUser()
+        val loggedUser = withContext(Dispatchers.Main) {
+            repo.getLoggedUser()
+        }
 
         if (loggedUser != null) {
-
             try {
                 GlobalScope.launch(Dispatchers.Main)
                 {
@@ -70,11 +78,15 @@ class PerfilPacientePresenterImp(
         }
     }
 
+    override fun isPatientFirstLogin(paciente: UserResponse): Boolean {
+        return !paciente.TyC
+    }
+
     private fun showSuccessUpdateMessage() {
         UIManager.showMessageShort(
             view as Activity, "El perfil ha sido actualizado"
         )
-        view.goBackToMain()
+        view.goToMainScreenView()
     }
 
     private fun showFailureUpdateMessage() {

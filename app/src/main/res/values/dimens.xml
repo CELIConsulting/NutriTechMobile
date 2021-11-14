@@ -46,9 +46,13 @@
     <!--TyC-->
     <dimen name="tyc_title_margin_vertical">10dp</dimen>
     <dimen name="tyc_titleFontSize">26sp</dimen>
+    <dimen name="tyc_subtitleFontSize">22sp</dimen>
     <dimen name="tyc_scrollview_height">300dp</dimen>
     <dimen name="tyc_margin">20dp</dimen>
     <dimen name="tyc_padding">20dp</dimen>
     <dimen name="section_separation">5dp</dimen>
+    <dimen name="tyc_text_size">14sp</dimen>
+    <dimen name="tyc_text_paddingH">3dp</dimen>
+    <dimen name="tyc_sw_padding">10dp</dimen>
 
 </resources>

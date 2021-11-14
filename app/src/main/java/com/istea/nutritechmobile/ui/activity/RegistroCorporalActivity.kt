@@ -4,7 +4,6 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.*
-import androidx.annotation.MainThread
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
@@ -17,6 +16,7 @@ import com.istea.nutritechmobile.firebase.FirebaseAuthManager
 import com.istea.nutritechmobile.firebase.FirebaseFirestoreManager
 import com.istea.nutritechmobile.firebase.FirebaseStorageManager
 import com.istea.nutritechmobile.helpers.CameraManager
+import com.istea.nutritechmobile.helpers.NOTIMPLEMENTEDYET
 import com.istea.nutritechmobile.helpers.UIManager
 import com.istea.nutritechmobile.model.RegistroCorporalRepositoryImp
 import com.istea.nutritechmobile.presenter.RegistroCorporalPresenterImp
@@ -60,6 +60,14 @@ class RegistroCorporalActivity : AppCompatActivity(), IRegistroCorporalView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_registro_corporal)
         setupUI()
+    }
+
+    private fun isFirstLogin(): Boolean {
+        return intent?.extras?.getBoolean(FIRST_LOGIN) ?: false
+    }
+
+    private fun patientDataFromProfile(): UserResponse? {
+        return intent?.extras?.getParcelable(USER_TO_UPDATE)
     }
 
     private fun setupUI() {
@@ -136,6 +144,11 @@ class RegistroCorporalActivity : AppCompatActivity(), IRegistroCorporalView {
     }
 
     private fun buildPacienteFromForm(): UserResponse? {
+
+        if (isFirstLogin()) {
+            pacienteLogueado = patientDataFromProfile()
+        }
+
         pacienteLogueado?.let { it ->
             it.Peso = etPeso.text.toString().toFloatOrNull() ?: 0f
             it.MedidaCintura = etCintura.text.toString().toFloatOrNull() ?: 0f
@@ -144,6 +157,7 @@ class RegistroCorporalActivity : AppCompatActivity(), IRegistroCorporalView {
         return null;
     }
 
+
     private fun submitForm() {
         val registro = buildCorporalRegistry()
         val loggedUserMail = FirebaseAuthManager().getAuthEmail()
@@ -151,7 +165,7 @@ class RegistroCorporalActivity : AppCompatActivity(), IRegistroCorporalView {
 
         lifecycleScope.launch(Dispatchers.Main) {
             presenter.addCorporalRegistry(loggedUserMail, registro)
-            presenter.updatePaciente(paciente)
+            presenter.updatePaciente(paciente, isFirstLogin())
         }
     }
 
@@ -274,14 +288,22 @@ class RegistroCorporalActivity : AppCompatActivity(), IRegistroCorporalView {
         }
     }
 
-    override fun showInProgressMessage() {
-        UIManager.showMessageShort(this, "Función en desarrollo")
+    override fun goToMainScreenView() {
+        Intent(this@RegistroCorporalActivity, PaginaPrincipalActivity::class.java).apply {
+            startActivity(this)
+            finish()
+        }
     }
 
     override fun goBackToLogin() {
         Intent(this, LoginActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
             startActivity(this)
+            finish()
         }
+    }
+
+    override fun showInProgressMessage() {
+        UIManager.showMessageShort(this, NOTIMPLEMENTEDYET)
     }
 }

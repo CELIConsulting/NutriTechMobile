@@ -44,7 +44,6 @@ class RegistroCorporalPresenterImp(
                                 GlobalScope.launch(Dispatchers.IO) {
                                     storage.uploadImgBody(stream, registro.ImageName)
                                 }
-                                showSuccessAddMessage()
                                 view.resetForm()
                             }
                         }
@@ -58,14 +57,21 @@ class RegistroCorporalPresenterImp(
         }
     }
 
-    override suspend fun updatePaciente(paciente: UserResponse?) {
+    override suspend fun updatePaciente(paciente: UserResponse?, isFirstLogin: Boolean) {
         try {
             GlobalScope.launch(Dispatchers.Main) {
                 if (paciente != null) {
                     repo.updatePacienteInfo(paciente)
                         .addOnCompleteListener {
                             updateLoggedUserInPreferences(paciente)
-                            view.goToProfileView()
+
+                            if (isFirstLogin) {
+                                showSuccessAddMessage()
+                                view.goToMainScreenView()
+                            } else {
+                                showSuccessUpdateMessage()
+                                view.goToProfileView()
+                            }
                         }
                         .addOnFailureListener {
                             finishSession()
@@ -105,13 +111,19 @@ class RegistroCorporalPresenterImp(
 
     private fun showFailureAddMessage() {
         UIManager.showMessageShort(
-            view as Activity, "El Registro corporal no se inserto correctamente, intente nuevamente"
+            view as Activity, "Su datos no pudieron ser cargados, intente nuevamente"
         )
     }
 
     private fun showSuccessAddMessage() {
         UIManager.showMessageShort(
-            view as Activity, "El Registro corporal se pudo insertar correctamente"
+            view as Activity, "Sus datos han sido cargados correctamente"
+        )
+    }
+
+    private fun showSuccessUpdateMessage() {
+        UIManager.showMessageShort(
+            view as Activity, "Sus datos han sido actualizados correctamente"
         )
     }
 }

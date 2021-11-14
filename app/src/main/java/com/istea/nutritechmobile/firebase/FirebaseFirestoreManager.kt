@@ -100,6 +100,7 @@ class FirebaseFirestoreManager(context: Context) {
         modifiedFields[CAMPO_TELEFONO] = user.Telefono
         modifiedFields[CAMPO_MEDIDA] = user.MedidaCintura
         modifiedFields[CAMPO_TIPOALIMENTACION] = user.TipoAlimentacion
+        modifiedFields[CAMPO_TYC] = user.TyC
 
         return usersRef
             .document(user.Email)

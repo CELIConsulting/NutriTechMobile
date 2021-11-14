@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_color"
+    android:background="@color/secondary"
     android:padding="@dimen/tyc_padding"
     tools:context=".ui.activity.TyCActivity">
 
@@ -14,24 +14,39 @@
         android:layout_height="wrap_content"
         android:text="@string/tyc_title"
         android:textAlignment="center"
+        android:textColor="@color/primary"
         android:textSize="@dimen/tyc_titleFontSize"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tyc_subtitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/tyc_subtitle"
+        android:textAlignment="center"
+        android:textColor="@color/primary"
+        android:textSize="@dimen/tyc_subtitleFontSize"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tyc_title" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/tyc_margin"
         android:background="@color/spinner_bg"
-        android:padding="10dp"
+        android:padding="@dimen/tyc_sw_padding"
         app:layout_constraintBottom_toBottomOf="@id/tyc_guideline_end_scrollview"
-        app:layout_constraintTop_toBottomOf="@id/tyc_title">
+        app:layout_constraintTop_toBottomOf="@id/tyc_subtitle">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingHorizontal="@dimen/tyc_sw_padding">
 
             <TextView
                 android:id="@+id/tyc_paragraph_title_1"
@@ -40,7 +55,7 @@
                 android:layout_marginVertical="@dimen/section_separation"
                 android:text="@string/tyc_paragraph_1_title"
                 android:textColor="@color/white"
-                android:textSize="12sp"
+                android:textSize="@dimen/tyc_text_size"
                 android:textStyle="bold" />
 
             <TextView
@@ -50,7 +65,7 @@
                 android:justificationMode="inter_word"
                 android:text="@string/tyc_paragraph_1_content"
                 android:textColor="@color/white"
-                android:textSize="12sp" />
+                android:textSize="@dimen/tyc_text_size" />
 
             <TextView
                 android:id="@+id/tyc_paragraph_title_2"
@@ -59,7 +74,7 @@
                 android:layout_marginVertical="@dimen/section_separation"
                 android:text="@string/tyc_paragraph_2_title"
                 android:textColor="@color/white"
-                android:textSize="12sp"
+                android:textSize="@dimen/tyc_text_size"
                 android:textStyle="bold" />
 
             <TextView
@@ -69,7 +84,7 @@
                 android:justificationMode="inter_word"
                 android:text="@string/tyc_paragraph_2_content"
                 android:textColor="@color/white"
-                android:textSize="12sp" />
+                android:textSize="@dimen/tyc_text_size" />
 
             <TextView
                 android:id="@+id/tyc_paragraph_title_3"
@@ -78,7 +93,7 @@
                 android:layout_marginVertical="@dimen/section_separation"
                 android:text="@string/tyc_paragraph_3_title"
                 android:textColor="@color/white"
-                android:textSize="12sp"
+                android:textSize="@dimen/tyc_text_size"
                 android:textStyle="bold" />
 
             <TextView
@@ -88,7 +103,7 @@
                 android:justificationMode="inter_word"
                 android:text="@string/tyc_paragraph_3_content"
                 android:textColor="@color/white"
-                android:textSize="12sp" />
+                android:textSize="@dimen/tyc_text_size"/>
 
             <TextView
                 android:id="@+id/tyc_paragraph_title_4"
@@ -97,7 +112,7 @@
                 android:layout_marginVertical="@dimen/section_separation"
                 android:text="@string/tyc_paragraph_4_title"
                 android:textColor="@color/white"
-                android:textSize="12sp"
+                android:textSize="@dimen/tyc_text_size"
                 android:textStyle="bold" />
 
             <TextView
@@ -107,7 +122,7 @@
                 android:justificationMode="inter_word"
                 android:text="@string/tyc_paragraph_4_content"
                 android:textColor="@color/white"
-                android:textSize="12sp" />
+                android:textSize="@dimen/tyc_text_size"/>
 
             <TextView
                 android:id="@+id/tyc_paragraph_title_5"
@@ -116,7 +131,7 @@
                 android:layout_marginVertical="@dimen/section_separation"
                 android:text="@string/tyc_paragraph_5_title"
                 android:textColor="@color/white"
-                android:textSize="12sp"
+                android:textSize="@dimen/tyc_text_size"
                 android:textStyle="bold" />
 
             <TextView
@@ -126,7 +141,7 @@
                 android:justificationMode="inter_word"
                 android:text="@string/tyc_paragraph_5_content"
                 android:textColor="@color/white"
-                android:textSize="12sp" />
+                android:textSize="@dimen/tyc_text_size"/>
 
             <TextView
                 android:id="@+id/tyc_paragraph_title_6"
@@ -135,7 +150,7 @@
                 android:layout_marginVertical="@dimen/section_separation"
                 android:text="@string/tyc_paragraph_6_title"
                 android:textColor="@color/white"
-                android:textSize="12sp"
+                android:textSize="@dimen/tyc_text_size"
                 android:textStyle="bold" />
 
             <TextView
@@ -145,7 +160,7 @@
                 android:justificationMode="inter_word"
                 android:text="@string/tyc_paragraph_6_content"
                 android:textColor="@color/white"
-                android:textSize="12sp" />
+                android:textSize="@dimen/tyc_text_size" />
 
         </LinearLayout>
     </ScrollView>

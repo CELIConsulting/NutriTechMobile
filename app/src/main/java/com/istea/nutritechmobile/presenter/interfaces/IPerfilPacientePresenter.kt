@@ -5,4 +5,5 @@ import com.istea.nutritechmobile.data.UserResponse
 interface IPerfilPacientePresenter {
     suspend fun getPaciente()
     suspend fun updatePaciente(paciente: UserResponse)
+    fun isPatientFirstLogin(paciente:UserResponse): Boolean
 }

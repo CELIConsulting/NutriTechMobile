@@ -164,6 +164,10 @@ class PaginaPrincipalActivity : AppCompatActivity(), IPrincipalView,IToolbar {
         }
     }
 
+    override fun goToMainScreenView() {
+        //Nothing
+    }
+
     override fun onDestroy() {
         GlobalScope.launch(Dispatchers.IO) {
             userLogout()
