@@ -7,10 +7,7 @@ import com.istea.nutritechmobile.helpers.UIManager
 import com.istea.nutritechmobile.model.interfaces.IPerfilPacienteRepository
 import com.istea.nutritechmobile.presenter.interfaces.IPerfilPacientePresenter
 import com.istea.nutritechmobile.ui.interfaces.IPerfilPacienteView
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
 private const val TAG_ACTIVITY = "PerfilPacientePresenterImp"
 
@@ -20,27 +17,30 @@ class PerfilPacientePresenterImp(
 ) : IPerfilPacientePresenter {
 
     override suspend fun getPaciente() {
-        try {
-            val loggedUser = withContext(Dispatchers.Main) {
-                repo.getLoggedUser()
-            }
+        GlobalScope.launch(Dispatchers.Main) {
 
-            if (loggedUser != null) {
-                if (isPatientFirstLogin(loggedUser)) {
-                    view.isUserFirstLogin(true)
-                } else {
-                    view.isUserFirstLogin(false)
+            try {
+                val loggedUser = withContext(Dispatchers.Main) {
+                    repo.getLoggedUser()
                 }
 
-                view.showPacienteInfo(loggedUser)
+                if (loggedUser != null) {
+                    if (isPatientFirstLogin(loggedUser)) {
+                        view.isUserFirstLogin(true)
+                    } else {
+                        view.isUserFirstLogin(false)
+                    }
 
-            } else {
+                    view.showPacienteInfo(loggedUser)
+
+                } else {
+                    finishSession()
+                }
+
+            } catch (exception: Exception) {
+                Log.d(TAG_ACTIVITY, "Cannot get patient because: ${exception.message}")
                 finishSession()
             }
-
-        } catch (exception: Exception) {
-            Log.d(TAG_ACTIVITY, "Cannot get patient because: ${exception.message}")
-            finishSession()
         }
     }
 
@@ -69,7 +69,7 @@ class PerfilPacientePresenterImp(
                         }
                 }
             } catch (e: Exception) {
-                Log.d(TAG_ACTIVITY, "Cannot update patient because ${e.message}")
+                Log.i(TAG_ACTIVITY, "Cannot update patient because ${e.message}")
                 finishSession()
             }
 

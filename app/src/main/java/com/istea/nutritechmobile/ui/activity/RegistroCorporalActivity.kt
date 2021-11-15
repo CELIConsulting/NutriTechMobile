@@ -62,6 +62,11 @@ class RegistroCorporalActivity : AppCompatActivity(), IRegistroCorporalView {
         setupUI()
     }
 
+    override fun onResume() {
+        getPaciente()
+        super.onResume()
+    }
+
     private fun isFirstLogin(): Boolean {
         return intent?.extras?.getBoolean(FIRST_LOGIN) ?: false
     }
@@ -144,11 +149,6 @@ class RegistroCorporalActivity : AppCompatActivity(), IRegistroCorporalView {
     }
 
     private fun buildPacienteFromForm(): UserResponse? {
-
-        if (isFirstLogin()) {
-            pacienteLogueado = patientDataFromProfile()
-        }
-
         pacienteLogueado?.let { it ->
             it.Peso = etPeso.text.toString().toFloatOrNull() ?: 0f
             it.MedidaCintura = etCintura.text.toString().toFloatOrNull() ?: 0f
@@ -170,9 +170,11 @@ class RegistroCorporalActivity : AppCompatActivity(), IRegistroCorporalView {
     }
 
     private suspend fun getLoggedUser(): UserResponse? {
-        return withContext(Dispatchers.IO) {
+        val user = withContext(Dispatchers.Main) {
             presenter.getLoggedUser()
         }
+
+        return user
     }
 
 
@@ -221,11 +223,14 @@ class RegistroCorporalActivity : AppCompatActivity(), IRegistroCorporalView {
         camera.requestPermissionsResult(requestCode, permissions, grantResults)
     }
 
-    override fun onResume() {
+    private fun getPaciente() {
         lifecycleScope.launch(Dispatchers.Main) {
-            pacienteLogueado = getLoggedUser()
+            if (isFirstLogin()) {
+                pacienteLogueado = patientDataFromProfile()
+            } else {
+                pacienteLogueado = getLoggedUser()
+            }
         }
-        super.onResume()
     }
 
     override fun resetForm() {
@@ -282,7 +287,6 @@ class RegistroCorporalActivity : AppCompatActivity(), IRegistroCorporalView {
 
     override fun goToProfileView() {
         Intent(this@RegistroCorporalActivity, PerfilPacienteActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
             startActivity(this)
             finish()
         }

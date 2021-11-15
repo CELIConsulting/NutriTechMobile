@@ -23,8 +23,8 @@ class RegistroCorporalRepositoryImp(private val firestoreManager: FirebaseFirest
 
     override suspend fun getLoggedUser(): UserResponse? = SessionManager.getLoggedUser()
 
-    override suspend fun updateLoggedUser(user: UserResponse) {
-        SessionManager.saveLoggedUser(user)
+    override suspend fun updateLoggedUser(user: UserResponse): Boolean{
+        return SessionManager.saveLoggedUser(user)
     }
 
     override suspend fun logoutUser() {

@@ -4,6 +4,7 @@ import android.content.Intent
 import android.content.Intent.*
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.EditText
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -27,6 +28,7 @@ import kotlinx.coroutines.launch
 import java.util.*
 
 private const val CAMPO_NO_ASIGNADO = "No asignado"
+private const val TAG_ACTIVITY = "PerfilPacienteActivity"
 const val FIRST_LOGIN = "FirstLogin"
 const val USER_TO_UPDATE = "UserToUpdate"
 
@@ -42,6 +44,8 @@ class PerfilPacienteActivity : AppCompatActivity(), IPerfilPacienteView {
     private lateinit var etTipoAlimentacion: EditText
     private lateinit var btnUpdate: MaterialButton
     private var calendar: GregorianCalendar = GregorianCalendar()
+    private var pacienteLogueado: UserResponse? = null
+
     private val perfilPresenter: IPerfilPacientePresenter by lazy {
         PerfilPacientePresenterImp(
             this,
@@ -56,11 +60,14 @@ class PerfilPacienteActivity : AppCompatActivity(), IPerfilPacienteView {
     }
 
     override fun onResume() {
+        getPaciente()
+        super.onResume()
+    }
+
+    private fun getPaciente(){
         lifecycleScope.launch(Dispatchers.Main) {
             perfilPresenter.getPaciente()
         }
-
-        super.onResume()
     }
 
     private fun setupUI() {
@@ -79,6 +86,9 @@ class PerfilPacienteActivity : AppCompatActivity(), IPerfilPacienteView {
     }
 
     override fun showPacienteInfo(paciente: UserResponse) {
+        pacienteLogueado = paciente
+
+        //Completar los campos
         etNombre.setText(if (paciente.Nombre.isNotEmpty()) paciente.Nombre else CAMPO_NO_ASIGNADO)
         etApellido.setText(if (paciente.Apellido.isNotEmpty()) paciente.Apellido else CAMPO_NO_ASIGNADO)
         etMail.setText(if (paciente.Email.isNotEmpty()) paciente.Email else CAMPO_NO_ASIGNADO)
@@ -91,7 +101,7 @@ class PerfilPacienteActivity : AppCompatActivity(), IPerfilPacienteView {
     }
 
     private fun buildPacienteFromForm(): UserResponse {
-        val updatedUser = UserResponse()
+        val updatedUser = pacienteLogueado ?: UserResponse()
 
         updatedUser.Apellido = etApellido.text.toString()
         updatedUser.Nombre = etNombre.text.toString()
@@ -138,7 +148,7 @@ class PerfilPacienteActivity : AppCompatActivity(), IPerfilPacienteView {
                 showMessage("Se lo está redirigiendo a la pantalla de registro corporal")
 
                 lifecycleScope.launch(Dispatchers.Main) {
-                    delay(1500)
+                    delay(1000)
                     goToBodyRegistry()
                 }
 
@@ -213,10 +223,13 @@ class PerfilPacienteActivity : AppCompatActivity(), IPerfilPacienteView {
     }
 
     private fun goToBodyRegistry() {
+        val patient = buildPacienteFromForm()
+
         Intent(this, RegistroCorporalActivity::class.java).apply {
             putExtra(FIRST_LOGIN, true)
-            putExtra(USER_TO_UPDATE, buildPacienteFromForm())
+            putExtra(USER_TO_UPDATE, patient)
             startActivity(this)
+//            finish()
         }
     }
 

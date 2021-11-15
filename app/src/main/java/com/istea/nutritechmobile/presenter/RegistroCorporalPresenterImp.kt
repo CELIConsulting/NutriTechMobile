@@ -1,9 +1,7 @@
 package com.istea.nutritechmobile.presenter
 
 import android.app.Activity
-import android.content.Context
 import android.os.Build
-import android.provider.Settings
 import android.util.Log
 import androidx.annotation.RequiresApi
 import com.istea.nutritechmobile.data.RegistroCorporal
@@ -11,15 +9,12 @@ import com.istea.nutritechmobile.data.UserResponse
 import com.istea.nutritechmobile.firebase.FirebaseStorageManager
 import com.istea.nutritechmobile.helpers.CameraManager
 import com.istea.nutritechmobile.helpers.UIManager
-import com.istea.nutritechmobile.helpers.preferences.SessionManager
 import com.istea.nutritechmobile.model.interfaces.IRegistroCorporalRepository
 import com.istea.nutritechmobile.presenter.interfaces.IRegistroCorporalPresenter
 import com.istea.nutritechmobile.ui.interfaces.IRegistroCorporalView
 import kotlinx.coroutines.*
 import java.io.File
-import android.graphics.Bitmap
 import com.istea.nutritechmobile.helpers.images.BitmapHelper
-import java.io.ByteArrayOutputStream
 
 
 private const val TAG_ACTIVITY = "RegistroCorporalPresenterImp"
@@ -63,14 +58,24 @@ class RegistroCorporalPresenterImp(
                 if (paciente != null) {
                     repo.updatePacienteInfo(paciente)
                         .addOnCompleteListener {
-                            updateLoggedUserInPreferences(paciente)
+                            GlobalScope.launch(Dispatchers.Main) {
+                                val updateSessionManagerOK = withContext(Dispatchers.IO) {
+                                    repo.updateLoggedUser(paciente)
+                                }
 
-                            if (isFirstLogin) {
-                                showSuccessAddMessage()
-                                view.goToMainScreenView()
-                            } else {
-                                showSuccessUpdateMessage()
-                                view.goToProfileView()
+                                if (updateSessionManagerOK) {
+                                    if (isFirstLogin) {
+                                        showSuccessAddMessage()
+                                    } else {
+                                        showSuccessUpdateMessage()
+                                    }
+                                } else {
+                                    UIManager.showMessageShort(
+                                        view as Activity,
+                                        "No se pudo actualizar el usuario logueado en el Session Manager"
+                                    )
+                                }
+
                             }
                         }
                         .addOnFailureListener {
@@ -97,17 +102,10 @@ class RegistroCorporalPresenterImp(
         view.goBackToLogin()
     }
 
-    private fun updateLoggedUserInPreferences(paciente: UserResponse) {
-        GlobalScope.launch(Dispatchers.IO) {
-            repo.updateLoggedUser(paciente)
-            delay(1000)
-        }
-
-    }
-
     override suspend fun getLoggedUser(): UserResponse? {
         return repo.getLoggedUser()
     }
+
 
     private fun showFailureAddMessage() {
         UIManager.showMessageShort(
@@ -119,11 +117,13 @@ class RegistroCorporalPresenterImp(
         UIManager.showMessageShort(
             view as Activity, "Sus datos han sido cargados correctamente"
         )
+        view.goToMainScreenView()
     }
 
     private fun showSuccessUpdateMessage() {
         UIManager.showMessageShort(
             view as Activity, "Sus datos han sido actualizados correctamente"
         )
+        view.goToProfileView()
     }
 }
