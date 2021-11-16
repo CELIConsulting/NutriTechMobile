@@ -66,4 +66,18 @@ Convallis a cras semper auctor. Vitae aliquet nec ullamcorper sit amet risus nul
     <string name="dailyFoodUploadTitle">Reporte alimenticio</string>
     <string name="observaciones_hint">Observaciones</string>
     <string name="spinner_error_seleccion">Por favor seleccione una comida</string>
+
+    <!--Plan de Alimentación-->
+    <string name="no_asignado">No asignado</string>
+    <string name="paciente_sin_plan">Su nutricionista no le ha asignado todavía un plan de alimentación</string>
+    <string name="nombre_plan">Nombre del plan</string>
+    <string name="tipo_plan">Tipo de plan</string>
+    <string name="cant_agua_diaria_section_title">Cant. Agua Diaria</string>
+    <string name="cant_colaciones_diarias_section_title">Cant. Colaciones Diarias</string>
+    <string name="desayuno_section_title">Desayuno</string>
+    <string name="almuerzo_section_title">Almuerzo</string>
+    <string name="merienda__section_title">Merienda</string>
+    <string name="cena_section_title">Cena</string>
+    <string name="colacion_section_title">Colacion</string>
+
 </resources>

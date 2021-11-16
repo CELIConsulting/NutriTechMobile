@@ -42,4 +42,14 @@
     <dimen name="observaciones_box_height">120dp</dimen>
     <dimen name="spinner_width">250dp</dimen>
 
+    <!--Plan Activity-->
+    <dimen name="margin_top_scrollview">20dp</dimen>
+    <dimen name="sin_plan_font_size">24sp</dimen>
+    <dimen name="no_plan_img_height">200dp</dimen>
+    <dimen name="no_plan_img_width">200dp</dimen>
+    <dimen name="no_plan_container_margin_horizontal">20dp</dimen>
+    <dimen name="plan_nombre_font_size">30sp</dimen>
+    <dimen name="plan_tipo_font_size">24sp</dimen>
+
+
 </resources>

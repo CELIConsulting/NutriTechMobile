@@ -1,20 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".ui.activity.PlanDisplayActivity">
+
+    <include
+        android:id="@id/toolbar"
+        layout="@layout/toolbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <LinearLayout
+        android:id="@+id/noPlanContainer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/no_plan_container_margin_horizontal"
+        android:orientation="vertical"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigationView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+        <TextView
+            android:id="@+id/txtPacienteSinPlan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/margin_vertical_cardview"
+            android:text="@string/paciente_sin_plan"
+            android:textAlignment="center"
+            android:textSize="@dimen/sin_plan_font_size" />
+
+        <ImageView
+            android:layout_width="@dimen/no_plan_img_width"
+            android:layout_height="@dimen/no_plan_img_height"
+            android:layout_gravity="center"
+            android:background="@drawable/ic_info_not_found" />
+
+    </LinearLayout>
 
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigationView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:descendantFocusability="blocksDescendants"
             android:orientation="vertical"
             android:paddingTop="5dp"
@@ -26,13 +66,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0">
-
-            <include
-                android:id="@id/toolbar"
-                layout="@layout/toolbar"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardTitutlo"
@@ -58,19 +91,22 @@
                         android:id="@+id/Nombretv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="15dp"
-                        android:text="NombreTv"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginHorizontal="15dp"
+                        android:text="@string/nombre_plan"
                         android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                        android:textColor="#666666" />
+                        android:textColor="#666666"
+                        android:textSize="@dimen/plan_nombre_font_size" />
 
                     <TextView
                         android:id="@+id/Tipotv"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="15dp"
-                        android:text="TipoTv"
+                        android:text="@string/tipo_plan"
                         android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                        android:textColor="#666666" />
+                        android:textColor="#666666"
+                        android:textSize="@dimen/plan_tipo_font_size" />
 
                 </LinearLayout>
 
@@ -107,7 +143,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="15dp"
-                            android:text="Cant Agua Diaria"
+                            android:text="@string/cant_agua_diaria_section_title"
                             android:textAppearance="@style/TextAppearance.AppCompat.Title"
                             android:textColor="#666666" />
 
@@ -118,7 +154,7 @@
                             android:layout_marginLeft="15dp"
                             android:layout_marginRight="15dp"
                             android:layout_marginBottom="15dp"
-                            android:text="000"
+                            android:text="@string/no_asignado"
                             android:textAlignment="viewStart"
                             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                             android:textColor="#999999" />
@@ -150,7 +186,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="15dp"
-                            android:text="Cant Colaciones Diarias"
+                            android:text="@string/cant_colaciones_diarias_section_title"
                             android:textAppearance="@style/TextAppearance.AppCompat.Title"
                             android:textColor="#666666" />
 
@@ -161,7 +197,7 @@
                             android:layout_marginLeft="15dp"
                             android:layout_marginRight="15dp"
                             android:layout_marginBottom="15dp"
-                            android:text="000"
+                            android:text="@string/no_asignado"
                             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                             android:textColor="#999999" />
 
@@ -196,7 +232,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="15dp"
-                        android:text="Desayuno"
+                        android:text="@string/desayuno_section_title"
                         android:textAppearance="@style/TextAppearance.AppCompat.Title"
                         android:textColor="#666666" />
 
@@ -207,12 +243,13 @@
                         android:layout_marginLeft="15dp"
                         android:layout_marginRight="15dp"
                         android:layout_marginBottom="15dp"
-                        android:text="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Pariatur, ea quod. Quis excepturi quam, sequi fugit doloribus mollitia amet minima! Voluptatibus porro voluptatum aliquam laboriosam. Iste provident tenetur deserunt deleniti."
+                        android:text="@string/no_asignado"
                         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                         android:textColor="#999999" />
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
+
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardAlmuerzo"
                 android:layout_width="match_parent"
@@ -239,7 +276,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="15dp"
-                        android:text="Almuerzo"
+                        android:text="@string/almuerzo_section_title"
                         android:textAppearance="@style/TextAppearance.AppCompat.Title"
                         android:textColor="#666666" />
 
@@ -250,12 +287,13 @@
                         android:layout_marginLeft="15dp"
                         android:layout_marginRight="15dp"
                         android:layout_marginBottom="15dp"
-                        android:text="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Pariatur, ea quod. Quis excepturi quam, sequi fugit doloribus mollitia amet minima! Voluptatibus porro voluptatum aliquam laboriosam. Iste provident tenetur deserunt deleniti."
+                        android:text="@string/no_asignado"
                         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                         android:textColor="#999999" />
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
+
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardMerienda"
                 android:layout_width="match_parent"
@@ -282,7 +320,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="15dp"
-                        android:text="Merienda"
+                        android:text="@string/merienda__section_title"
                         android:textAppearance="@style/TextAppearance.AppCompat.Title"
                         android:textColor="#666666" />
 
@@ -293,12 +331,13 @@
                         android:layout_marginLeft="15dp"
                         android:layout_marginRight="15dp"
                         android:layout_marginBottom="15dp"
-                        android:text="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Pariatur, ea quod. Quis excepturi quam, sequi fugit doloribus mollitia amet minima! Voluptatibus porro voluptatum aliquam laboriosam. Iste provident tenetur deserunt deleniti."
+                        android:text="@string/no_asignado"
                         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                         android:textColor="#999999" />
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
+
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardCena"
                 android:layout_width="match_parent"
@@ -325,7 +364,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="15dp"
-                        android:text="Cena"
+                        android:text="@string/cena_section_title"
                         android:textAppearance="@style/TextAppearance.AppCompat.Title"
                         android:textColor="#666666" />
 
@@ -336,12 +375,13 @@
                         android:layout_marginLeft="15dp"
                         android:layout_marginRight="15dp"
                         android:layout_marginBottom="15dp"
-                        android:text="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Pariatur, ea quod. Quis excepturi quam, sequi fugit doloribus mollitia amet minima! Voluptatibus porro voluptatum aliquam laboriosam. Iste provident tenetur deserunt deleniti."
+                        android:text="@string/no_asignado"
                         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                         android:textColor="#999999" />
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
+
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardColacion"
                 android:layout_width="match_parent"
@@ -368,7 +408,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="15dp"
-                        android:text="Colacion"
+                        android:text="@string/colacion_section_title"
                         android:textAppearance="@style/TextAppearance.AppCompat.Title"
                         android:textColor="#666666" />
 
@@ -379,7 +419,7 @@
                         android:layout_marginLeft="15dp"
                         android:layout_marginRight="15dp"
                         android:layout_marginBottom="15dp"
-                        android:text="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Pariatur, ea quod. Quis excepturi quam, sequi fugit doloribus mollitia amet minima! Voluptatibus porro voluptatum aliquam laboriosam. Iste provident tenetur deserunt deleniti."
+                        android:text="@string/no_asignado"
                         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                         android:textColor="#999999" />
 
@@ -389,6 +429,13 @@
         </LinearLayout>
     </ScrollView>
 
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigationView"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bottomNavbar_height"
+        android:background="@color/secondary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:menu="@menu/menu_inferior" />
 
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
