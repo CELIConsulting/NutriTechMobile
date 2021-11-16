@@ -68,17 +68,15 @@ class LoginActivity : AppCompatActivity(), ILoginView {
     }
 
     override fun goToMainScreen() {
-        try {
-            Intent(this@LoginActivity, PaginaPrincipalActivity::class.java).apply {
-                startActivity(this)
-            }
-
-            Log.d(TAG_ACTIVITY, "SENDING OBJECT OK!")
-        } catch (e: Exception) {
-            Log.d(TAG_ACTIVITY, "SENDING OBJECT ERROR! BECAUSE ${e.message?.uppercase()}")
+        Intent(this@LoginActivity, PaginaPrincipalActivity::class.java).apply {
+            startActivity(this)
         }
+    }
 
-
+    override fun goToTyCScreen() {
+        Intent(this@LoginActivity, TyCActivity::class.java).apply {
+            startActivity(this)
+        }
     }
 
 

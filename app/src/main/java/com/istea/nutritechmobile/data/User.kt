@@ -1,7 +1,9 @@
 package com.istea.nutritechmobile.data
 
+import android.os.Build
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.annotation.RequiresApi
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.ServerTimestamp
 import java.io.Serializable
@@ -26,8 +28,10 @@ data class UserResponse(
     var MedidaCintura: Float?,
     var TipoAlimentacion: String,
     var PlanAsignado: PlanAsignacion?,
+    var TyC: Boolean
 ) : Parcelable {
 
+    @RequiresApi(Build.VERSION_CODES.Q)
     constructor(parcel: Parcel) : this(
         parcel.readString() ?: "",
         parcel.readString() ?: "",
@@ -41,7 +45,8 @@ data class UserResponse(
         parcel.readValue(Float::class.java.classLoader) as? Float,
         parcel.readValue(Float::class.java.classLoader) as? Float,
         parcel.readString() ?: "",
-        parcel.readParcelable(PlanAsignacion::class.java.classLoader) as PlanAsignacion?
+        parcel.readParcelable(PlanAsignacion::class.java.classLoader) as PlanAsignacion?,
+        parcel.readBoolean() ?: false
     ) {
     }
 
@@ -62,9 +67,11 @@ data class UserResponse(
             "",
             "",
             Timestamp.now()
-        )
+        ),
+        false
     )
 
+    @RequiresApi(Build.VERSION_CODES.Q)
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(Nombre)
         parcel.writeString(Apellido)
@@ -79,6 +86,7 @@ data class UserResponse(
         parcel.writeValue(MedidaCintura)
         parcel.writeString(TipoAlimentacion)
         parcel.writeParcelable(PlanAsignado, flags)
+        parcel.writeBoolean(TyC)
     }
 
     override fun describeContents(): Int {
@@ -86,6 +94,7 @@ data class UserResponse(
     }
 
     companion object CREATOR : Parcelable.Creator<UserResponse> {
+        @RequiresApi(Build.VERSION_CODES.Q)
         override fun createFromParcel(parcel: Parcel): UserResponse {
             return UserResponse(parcel)
         }

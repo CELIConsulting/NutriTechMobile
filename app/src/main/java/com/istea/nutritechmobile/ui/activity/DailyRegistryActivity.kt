@@ -247,6 +247,19 @@ class DailyRegistryActivity : AppCompatActivity(), IDailyRegistryView,
         }
     }
 
+    override fun goToMainScreenView() {
+        Intent(this@DailyRegistryActivity, PaginaPrincipalActivity::class.java).apply {
+            startActivity(this)
+        }
+    }
+
+    override fun goBackToLogin() {
+        Intent(this@DailyRegistryActivity, LoginActivity::class.java).apply {
+            startActivity(this)
+            finish()
+        }
+    }
+
     override fun goToRecipesView() {
         UIManager.showMessageShort(this, NOTIMPLEMENTEDYET)
     }

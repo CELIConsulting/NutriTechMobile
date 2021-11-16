@@ -4,8 +4,10 @@ import android.content.Intent
 import android.content.Intent.*
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.EditText
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.button.MaterialButton
 import com.google.firebase.Timestamp
 import com.istea.nutritechmobile.R
@@ -14,16 +16,21 @@ import com.istea.nutritechmobile.helpers.extensions.dateFromString
 import com.istea.nutritechmobile.helpers.extensions.stringFromDate
 import com.istea.nutritechmobile.helpers.preferences.SessionManager
 import com.istea.nutritechmobile.firebase.FirebaseFirestoreManager
+import com.istea.nutritechmobile.helpers.NOTIMPLEMENTEDYET
+import com.istea.nutritechmobile.helpers.UIManager
 import com.istea.nutritechmobile.model.PerfilPacienteRepositoryImp
 import com.istea.nutritechmobile.presenter.PerfilPacientePresenterImp
 import com.istea.nutritechmobile.presenter.interfaces.IPerfilPacientePresenter
 import com.istea.nutritechmobile.ui.interfaces.IPerfilPacienteView
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.*
 
-private const val campoNoAsignado = "No asignado"
+private const val CAMPO_NO_ASIGNADO = "No asignado"
+private const val TAG_ACTIVITY = "PerfilPacienteActivity"
+const val FIRST_LOGIN = "FirstLogin"
+const val USER_TO_UPDATE = "UserToUpdate"
 
 class PerfilPacienteActivity : AppCompatActivity(), IPerfilPacienteView {
     private lateinit var etNombre: EditText
@@ -37,8 +44,13 @@ class PerfilPacienteActivity : AppCompatActivity(), IPerfilPacienteView {
     private lateinit var etTipoAlimentacion: EditText
     private lateinit var btnUpdate: MaterialButton
     private var calendar: GregorianCalendar = GregorianCalendar()
+    private var pacienteLogueado: UserResponse? = null
+
     private val perfilPresenter: IPerfilPacientePresenter by lazy {
-        PerfilPacientePresenterImp(this, PerfilPacienteRepositoryImp(FirebaseFirestoreManager(this)))
+        PerfilPacientePresenterImp(
+            this,
+            PerfilPacienteRepositoryImp(FirebaseFirestoreManager(this))
+        )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,11 +60,14 @@ class PerfilPacienteActivity : AppCompatActivity(), IPerfilPacienteView {
     }
 
     override fun onResume() {
+        getPaciente()
+        super.onResume()
+    }
+
+    private fun getPaciente(){
         lifecycleScope.launch(Dispatchers.Main) {
             perfilPresenter.getPaciente()
         }
-
-        super.onResume()
     }
 
     private fun setupUI() {
@@ -68,48 +83,54 @@ class PerfilPacienteActivity : AppCompatActivity(), IPerfilPacienteView {
         btnUpdate = findViewById(R.id.btnUpdate)
         disableRegistroCorporalFields()
 
-        btnUpdate.setOnClickListener {
-            updatePacienteInfo()
-        }
     }
 
     override fun showPacienteInfo(paciente: UserResponse) {
-        etNombre.setText(if (paciente.Nombre.isNotEmpty()) paciente.Nombre else campoNoAsignado)
-        etApellido.setText(if (paciente.Apellido.isNotEmpty()) paciente.Apellido else campoNoAsignado)
-        etMail.setText(if (paciente.Email.isNotEmpty()) paciente.Email else campoNoAsignado)
+        pacienteLogueado = paciente
+
+        //Completar los campos
+        etNombre.setText(if (paciente.Nombre.isNotEmpty()) paciente.Nombre else CAMPO_NO_ASIGNADO)
+        etApellido.setText(if (paciente.Apellido.isNotEmpty()) paciente.Apellido else CAMPO_NO_ASIGNADO)
+        etMail.setText(if (paciente.Email.isNotEmpty()) paciente.Email else CAMPO_NO_ASIGNADO)
         etFechaNacimiento.setText(getFechaNacimiento(paciente.FechaNacimiento))
-        etTelefono.setText(if (paciente.Telefono.isNotEmpty()) paciente.Telefono else campoNoAsignado)
-        etAltura.setText(if (paciente.Altura != null && paciente.Altura!! > 0) paciente.Altura.toString() else campoNoAsignado)
-        etPeso.setText(if (paciente.Peso != null && paciente.Peso!! > 0) paciente.Peso.toString() else campoNoAsignado)
-        etMedidaCintura.setText(if (paciente.MedidaCintura != null && paciente.MedidaCintura!! > 0) paciente.MedidaCintura.toString() else campoNoAsignado)
-        etTipoAlimentacion.setText(if (paciente.TipoAlimentacion.isNotEmpty()) paciente.TipoAlimentacion else campoNoAsignado)
+        etTelefono.setText(if (paciente.Telefono.isNotEmpty()) paciente.Telefono else CAMPO_NO_ASIGNADO)
+        etAltura.setText(if (paciente.Altura != null && paciente.Altura!! > 0) paciente.Altura.toString() else CAMPO_NO_ASIGNADO)
+        etPeso.setText(if (paciente.Peso != null && paciente.Peso!! > 0) paciente.Peso.toString() else CAMPO_NO_ASIGNADO)
+        etMedidaCintura.setText(if (paciente.MedidaCintura != null && paciente.MedidaCintura!! > 0) paciente.MedidaCintura.toString() else CAMPO_NO_ASIGNADO)
+        etTipoAlimentacion.setText(if (paciente.TipoAlimentacion.isNotEmpty()) paciente.TipoAlimentacion else CAMPO_NO_ASIGNADO)
     }
 
-    private fun getFechaNacimiento(fechNac: Timestamp?): String {
-        return if (fechNac != null) {
-            calendar.timeInMillis = fechNac.seconds * 1000
-            val fecha = Date(calendar.timeInMillis)
-            fecha.stringFromDate()
-        } else {
-            campoNoAsignado
-        }
-    }
+    private fun buildPacienteFromForm(): UserResponse {
+        val updatedUser = pacienteLogueado ?: UserResponse()
 
-    private fun setFechaNacimiento(): Timestamp? {
-        if (etFechaNacimiento.text.toString() != campoNoAsignado) {
-            val fechaObtenida = etFechaNacimiento.text.toString().dateFromString()
+        updatedUser.Apellido = etApellido.text.toString()
+        updatedUser.Nombre = etNombre.text.toString()
+        updatedUser.Email = etMail.text.toString()
+        updatedUser.FechaNacimiento = setFechaNacimiento()
+        updatedUser.TyC = true
 
-            if (fechaObtenida != null) {
-                return Timestamp(fechaObtenida)
-            }
-        }
+        updatedUser.Telefono = if (etTelefono.text.toString()
+                .isNotEmpty() && etTelefono.text.toString() != CAMPO_NO_ASIGNADO
+        ) etTelefono.text.toString() else ""
+        updatedUser.TipoAlimentacion = if (etTipoAlimentacion.text.toString()
+                .isNotEmpty() && etTipoAlimentacion.text.toString() != CAMPO_NO_ASIGNADO
+        ) etTipoAlimentacion.text.toString() else ""
+        updatedUser.Altura =
+            if (etAltura.text.toString()
+                    .isNotEmpty() && etAltura.text.toString() != CAMPO_NO_ASIGNADO
+            ) etAltura.text.toString()
+                .toFloat() else null
+        updatedUser.Peso =
+            if (etPeso.text.toString()
+                    .isNotEmpty() && etPeso.text.toString() != CAMPO_NO_ASIGNADO
+            ) etPeso.text.toString().toFloat() else 0f
+        updatedUser.MedidaCintura =
+            if (etMedidaCintura.text.toString()
+                    .isNotEmpty() && etMedidaCintura.text.toString() != CAMPO_NO_ASIGNADO
+            ) etMedidaCintura.text.toString()
+                .toFloat() else 0f
 
-        return null
-    }
-
-    private fun disableRegistroCorporalFields(){
-        etPeso.isEnabled = false
-        etMedidaCintura.isEnabled = false
+        return updatedUser;
     }
 
     override fun updatePacienteInfo() {
@@ -121,6 +142,74 @@ class PerfilPacienteActivity : AppCompatActivity(), IPerfilPacienteView {
 
     }
 
+    override fun isUserFirstLogin(firstTime: Boolean) {
+        btnUpdate.setOnClickListener {
+            if (firstTime) {
+                showMessage("Se lo está redirigiendo a la pantalla de registro corporal")
+
+                lifecycleScope.launch(Dispatchers.Main) {
+                    delay(1000)
+                    goToBodyRegistry()
+                }
+
+            } else {
+                updatePacienteInfo()
+            }
+        }
+    }
+
+    override fun setupBottomNavigationBar(bottomNavigationView: BottomNavigationView) {
+        val mOnNavigationItemSelectedListener =
+            BottomNavigationView.OnNavigationItemSelectedListener { item ->
+                when (item.itemId) {
+                    R.id.registro_diario -> {
+                        goToDailyRegistryView()
+                        return@OnNavigationItemSelectedListener true
+                    }
+                    R.id.recetas -> {
+                        goToRecipesView()
+                        return@OnNavigationItemSelectedListener true
+
+                    }
+                    R.id.progreso -> {
+                        goToProgressView()
+                        return@OnNavigationItemSelectedListener true
+
+                    }
+                    R.id.info_personal -> {
+                        goToProfileView()
+                        return@OnNavigationItemSelectedListener true
+
+                    }
+                }
+                false
+            }
+        bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+    }
+
+    override fun goToDailyRegistryView() {
+        showInProgressMessage()
+    }
+
+    override fun goToRecipesView() {
+        showInProgressMessage()
+    }
+
+    override fun goToProgressView() {
+        showInProgressMessage()
+    }
+
+    override fun goToProfileView() {
+        showInProgressMessage()
+    }
+
+    override fun goToMainScreenView() {
+        Intent(this, PaginaPrincipalActivity::class.java).apply {
+            startActivity(this)
+            finish()
+        }
+    }
+
     override fun goBackToLogin() {
         lifecycleScope.launch(Dispatchers.IO) {
             userLogout()
@@ -129,42 +218,58 @@ class PerfilPacienteActivity : AppCompatActivity(), IPerfilPacienteView {
         Intent(this, LoginActivity::class.java).apply {
             flags = FLAG_ACTIVITY_CLEAR_TASK or FLAG_ACTIVITY_NEW_TASK
             startActivity(this)
+            finish()
         }
     }
 
-    override fun goBackToMain() {
-        finish()
+    private fun goToBodyRegistry() {
+        val patient = buildPacienteFromForm()
+
+        Intent(this, RegistroCorporalActivity::class.java).apply {
+            putExtra(FIRST_LOGIN, true)
+            putExtra(USER_TO_UPDATE, patient)
+            startActivity(this)
+//            finish()
+        }
     }
 
-    private fun buildPacienteFromForm(): UserResponse {
-        val updatedUser = UserResponse()
+    private fun getFechaNacimiento(fechNac: Timestamp?): String {
+        return if (fechNac != null) {
+            calendar.timeInMillis = fechNac.seconds * 1000
+            val fecha = Date(calendar.timeInMillis)
+            fecha.stringFromDate()
+        } else {
+            CAMPO_NO_ASIGNADO
+        }
+    }
 
-        updatedUser.Nombre = etNombre.text.toString()
-        updatedUser.Apellido = etApellido.text.toString()
-        updatedUser.Telefono = etTelefono.text.toString()
-        updatedUser.Email = etMail.text.toString()
-        updatedUser.TipoAlimentacion = etTipoAlimentacion.text.toString()
-        updatedUser.FechaNacimiento = setFechaNacimiento()
+    private fun setFechaNacimiento(): Timestamp? {
+        if (etFechaNacimiento.text.toString() != CAMPO_NO_ASIGNADO) {
+            val fechaObtenida = etFechaNacimiento.text.toString().dateFromString()
 
-        updatedUser.Altura =
-            if (etAltura.text.toString()
-                    .isNotEmpty() && etAltura.text.toString() != campoNoAsignado
-            ) etAltura.text.toString()
-                .toFloat() else 0f
-        updatedUser.Peso =
-            if (etPeso.text.toString()
-                    .isNotEmpty() && etPeso.text.toString() != campoNoAsignado
-            ) etPeso.text.toString().toFloat() else 0f
-        updatedUser.MedidaCintura =
-            if (etMedidaCintura.text.toString()
-                    .isNotEmpty() && etMedidaCintura.text.toString() != campoNoAsignado
-            ) etMedidaCintura.text.toString()
-                .toFloat() else 0f
+            if (fechaObtenida != null) {
+                return Timestamp(fechaObtenida)
+            }
+        }
 
-        return updatedUser;
+        return null
+    }
+
+    private fun disableRegistroCorporalFields() {
+        etPeso.isEnabled = false
+        etMedidaCintura.isEnabled = false
     }
 
     private suspend fun userLogout() {
         SessionManager.saveLoggedUser(null)
+    }
+
+
+    private fun showMessage(msg: String) {
+        UIManager.showMessageLong(this, msg)
+    }
+
+    private fun showInProgressMessage() {
+        UIManager.showMessageShort(this, NOTIMPLEMENTEDYET)
     }
 }

@@ -31,33 +31,31 @@ class SessionManager {
         }
 
         ///Saving user in shared preferences || ASYNC
-        suspend fun saveLoggedUser(user: UserResponse?) {
-
-            Log.i(TAG_ACTIVITY, "Saving user....")
+        suspend fun saveLoggedUser(user: UserResponse?): Boolean {
             if (user != null) {
                 val userGSON = gson.toJson(user)
                 sharedPreferences.edit {
                     putString(LOGGED_USER, userGSON)
                     apply()
+                    return true
                 }
-                Log.d(TAG_ACTIVITY, "User was saved in shared preferences")
             } else {
                 sharedPreferences.edit {
                     remove(LOGGED_USER)
                 }
-                Log.d(TAG_ACTIVITY, "User was removed from shared preferences")
+                return false
             }
+            return false
         }
+
 
         ///Getting user in shared preferences || ASYNC
         suspend fun getLoggedUser(): UserResponse? {
-            Log.i(TAG_ACTIVITY, "Getting user....")
             val userGSON = sharedPreferences.getString(LOGGED_USER, DEFAULT_USER)
 
             return if (userGSON.isNullOrEmpty()) {
                 null
             } else {
-                Log.d(TAG_ACTIVITY, "User was restored from shared preferences")
                 gson.fromJson(userGSON, UserResponse::class.java)
             }
         }
