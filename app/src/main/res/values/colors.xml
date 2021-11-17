@@ -12,6 +12,9 @@
     <color name="secondary">#BCDD95</color>
     <color name="error">#F44336</color>
     <color name="spinner_bg">#393937</color>
+    <color name="bottomNavBar_icon">@color/spinner_bg</color>
+    <color name="bottomNavBar_icon_selected">@color/primary</color>
+
 </resources>
 
 

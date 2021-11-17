@@ -86,7 +86,7 @@ class PerfilPacientePresenterImp(
         UIManager.showMessageShort(
             view as Activity, "El perfil ha sido actualizado"
         )
-        view.goToMainScreenView()
+        view.goToHomeView()
     }
 
     private fun showFailureUpdateMessage() {
@@ -97,7 +97,7 @@ class PerfilPacientePresenterImp(
 
     private suspend fun finishSession() {
         repo.logoutUser()
-        view.goBackToLogin()
+        view.goToLoginView()
     }
 
 }

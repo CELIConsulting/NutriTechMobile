@@ -32,10 +32,11 @@
     <string name="perfilAltura">Ingrese su altura</string>
     <string name="perfilPeso">Ingrese su peso</string>
     <string name="perfilMedidaCintura">Ingrese la medida de su cintura</string>
+    <string name="perfil_title">Mi Perfil</string>
 
     <!--BottomNavBar-->
     <string name="bottomNavBar_registroDiario">Registro Diario</string>
-    <string name="bottomNavBar_recetas">Recetas</string>
+    <string name="bottomNavBar_home">Home</string>
     <string name="bottomNavBar_progreso">Progreso</string>
     <string name="bottomNavBar_perfil">Perfil</string>
 
@@ -143,6 +144,7 @@ Convallis a cras semper auctor. Vitae aliquet nec ullamcorper sit amet risus nul
         aceptan en sujetarse a la jurisdicción de los tribunales competentes de la Cuidad Autónoma de
         Buenos Aires, renunciando desde ahora al fuero que pudiera corresponderles en razón de sus
         domicilios presentes y/o futuros o por cualquier otra causa.</string>
+
 
 
 </resources>

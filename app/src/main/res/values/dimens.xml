@@ -21,6 +21,7 @@
 
     <!--Pantalla perfil-->
     <dimen name="perfil_margin">10dp</dimen>
+    <dimen name="perfil_title_fontsize">32sp</dimen>
 
     <!--Registro corporal / Carga diaria -->
     <dimen name="cardview_height">150dp</dimen>
@@ -63,5 +64,6 @@
     <dimen name="tyc_text_size">14sp</dimen>
     <dimen name="tyc_text_paddingH">3dp</dimen>
     <dimen name="tyc_sw_padding">10dp</dimen>
+
 
 </resources>

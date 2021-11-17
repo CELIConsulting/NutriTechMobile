@@ -22,6 +22,7 @@ import com.istea.nutritechmobile.presenter.PlanDisplayPresenterImp
 import com.istea.nutritechmobile.presenter.interfaces.IPlanDisplayPresenter
 import com.istea.nutritechmobile.ui.interfaces.IPlanDisplayView
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class PlanDisplayActivity : AppCompatActivity(), IPlanDisplayView {
@@ -53,7 +54,7 @@ class PlanDisplayActivity : AppCompatActivity(), IPlanDisplayView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_plan_display)
         setupUI()
-        setupBottomNavigationBar()
+
     }
 
     private fun setupToolbar() {
@@ -83,6 +84,8 @@ class PlanDisplayActivity : AppCompatActivity(), IPlanDisplayView {
         scrollView = findViewById(R.id.scrollView)
         contenedorSinPlan = findViewById(R.id.noPlanContainer)
         bottomNavigationView = findViewById(R.id.bottomNavigationView)
+        bottomNavigationView.selectedItemId = R.id.home
+        setupBottomNavigationBar(bottomNavigationView)
         setupToolbar()
 
         lifecycleScope.launch(Dispatchers.Main) {
@@ -91,8 +94,6 @@ class PlanDisplayActivity : AppCompatActivity(), IPlanDisplayView {
     }
 
     override suspend fun fillDataView(dataRepo: Plan?) {
-
-        //Ocultar campos y mostrar el aviso de que no hay plan cargado
         if (dataRepo != null) {
             showPlanAlimentacion()
             Nombretv.text = dataRepo.Nombre.uppercase()
@@ -140,38 +141,57 @@ class PlanDisplayActivity : AppCompatActivity(), IPlanDisplayView {
         scrollView.isVisible = true
     }
 
-    private fun goToDailyRegistry() {
-        Intent(this@PlanDisplayActivity, DailyRegistryActivity::class.java).apply {
-            startActivity(this)
+
+    override fun setupBottomNavigationBar(bottomNavigationView: BottomNavigationView) {
+        bottomNavigationView.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.home -> {
+                    goToHomeView()
+                    return@setOnItemSelectedListener true
+                }
+                R.id.registro_diario -> {
+                    goToDailyRegistryView()
+                    return@setOnItemSelectedListener true
+                }
+                R.id.progreso -> {
+                    goToProgressView()
+                    return@setOnItemSelectedListener true
+                }
+                R.id.info_personal -> {
+                    goToProfileView()
+                    return@setOnItemSelectedListener true
+                }
+            }
+            false
         }
     }
 
-    private fun setupBottomNavigationBar() {
-        val mOnNavigationItemSelectedListener =
-            BottomNavigationView.OnNavigationItemSelectedListener { item ->
-                when (item.itemId) {
-                    R.id.registro_diario -> {
-                        goToDailyRegistry()
-                        return@OnNavigationItemSelectedListener true
-                    }
-                    R.id.recetas -> {
-                        Log.e("Pagina Principal", " recetas")
-                        return@OnNavigationItemSelectedListener true
+    override fun goToLoginView() {
+        //Nothing here for the moment
+    }
 
-                    }
-                    R.id.progreso -> {
-                        Log.e("Pagina Principal", " progreso")
-                        return@OnNavigationItemSelectedListener true
+    override fun goToHomeView() {
+        finish()
+    }
 
-                    }
-                    R.id.info_personal -> {
-                        Log.e("Pagina Principal", " info")
-                        return@OnNavigationItemSelectedListener true
+    override fun goToDailyRegistryView() {
+        Intent(this@PlanDisplayActivity, DailyRegistryActivity::class.java).apply {
+            startActivity(this)
+            finish()
+        }
+    }
 
-                    }
-                }
-                false
-            }
-        bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+    override fun goToProgressView() {
+        Intent(this@PlanDisplayActivity, RegistroCorporalActivity::class.java).apply {
+            startActivity(this)
+            finish()
+        }
+    }
+
+    override fun goToProfileView() {
+        Intent(this@PlanDisplayActivity, PerfilPacienteActivity::class.java).apply {
+            startActivity(this)
+            finish()
+        }
     }
 }

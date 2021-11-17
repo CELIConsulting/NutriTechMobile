@@ -39,7 +39,9 @@ class RegistroCorporalPresenterImp(
                                 GlobalScope.launch(Dispatchers.IO) {
                                     storage.uploadImgBody(stream, registro.ImageName)
                                 }
-                                view.resetForm()
+
+                                showSuccessAddMessage()
+                                view.refreshActivity()
                             }
                         }
                     }
@@ -70,8 +72,8 @@ class RegistroCorporalPresenterImp(
                                         showSuccessUpdateMessage()
                                     }
                                 } else {
-                                    UIManager.showMessageShort(
-                                        view as Activity,
+                                    Log.d(
+                                        TAG_ACTIVITY,
                                         "No se pudo actualizar el usuario logueado en el Session Manager"
                                     )
                                 }
@@ -99,7 +101,7 @@ class RegistroCorporalPresenterImp(
             delay(1000)
         }
 
-        view.goBackToLogin()
+        view.goToLoginView()
     }
 
     override suspend fun getLoggedUser(): UserResponse? {
@@ -117,7 +119,7 @@ class RegistroCorporalPresenterImp(
         UIManager.showMessageShort(
             view as Activity, "Sus datos han sido cargados correctamente"
         )
-        view.goToMainScreenView()
+        view.goToHomeView()
     }
 
     private fun showSuccessUpdateMessage() {

@@ -1,5 +1,5 @@
 package com.istea.nutritechmobile.ui.interfaces
 
-interface IForm {
-    fun resetForm()
+interface IActivity {
+    fun refreshActivity()
 }

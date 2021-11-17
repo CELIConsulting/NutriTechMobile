@@ -43,6 +43,7 @@ class PerfilPacienteActivity : AppCompatActivity(), IPerfilPacienteView {
     private lateinit var etMedidaCintura: EditText
     private lateinit var etTipoAlimentacion: EditText
     private lateinit var btnUpdate: MaterialButton
+    private lateinit var bottomNavigationBar: BottomNavigationView
     private var calendar: GregorianCalendar = GregorianCalendar()
     private var pacienteLogueado: UserResponse? = null
 
@@ -64,7 +65,7 @@ class PerfilPacienteActivity : AppCompatActivity(), IPerfilPacienteView {
         super.onResume()
     }
 
-    private fun getPaciente(){
+    private fun getPaciente() {
         lifecycleScope.launch(Dispatchers.Main) {
             perfilPresenter.getPaciente()
         }
@@ -81,6 +82,9 @@ class PerfilPacienteActivity : AppCompatActivity(), IPerfilPacienteView {
         etMedidaCintura = findViewById(R.id.etMedidaCintura)
         etTipoAlimentacion = findViewById(R.id.etTipoAlimentacion)
         btnUpdate = findViewById(R.id.btnUpdate)
+        bottomNavigationBar = findViewById(R.id.bottomNavigationView)
+        bottomNavigationBar.selectedItemId = R.id.info_personal
+        setupBottomNavigationBar(bottomNavigationBar)
         disableRegistroCorporalFields()
 
     }
@@ -158,81 +162,6 @@ class PerfilPacienteActivity : AppCompatActivity(), IPerfilPacienteView {
         }
     }
 
-    override fun setupBottomNavigationBar(bottomNavigationView: BottomNavigationView) {
-        val mOnNavigationItemSelectedListener =
-            BottomNavigationView.OnNavigationItemSelectedListener { item ->
-                when (item.itemId) {
-                    R.id.registro_diario -> {
-                        goToDailyRegistryView()
-                        return@OnNavigationItemSelectedListener true
-                    }
-                    R.id.recetas -> {
-                        goToRecipesView()
-                        return@OnNavigationItemSelectedListener true
-
-                    }
-                    R.id.progreso -> {
-                        goToProgressView()
-                        return@OnNavigationItemSelectedListener true
-
-                    }
-                    R.id.info_personal -> {
-                        goToProfileView()
-                        return@OnNavigationItemSelectedListener true
-
-                    }
-                }
-                false
-            }
-        bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
-    }
-
-    override fun goToDailyRegistryView() {
-        showInProgressMessage()
-    }
-
-    override fun goToRecipesView() {
-        showInProgressMessage()
-    }
-
-    override fun goToProgressView() {
-        showInProgressMessage()
-    }
-
-    override fun goToProfileView() {
-        showInProgressMessage()
-    }
-
-    override fun goToMainScreenView() {
-        Intent(this, PaginaPrincipalActivity::class.java).apply {
-            startActivity(this)
-            finish()
-        }
-    }
-
-    override fun goBackToLogin() {
-        lifecycleScope.launch(Dispatchers.IO) {
-            userLogout()
-        }
-
-        Intent(this, LoginActivity::class.java).apply {
-            flags = FLAG_ACTIVITY_CLEAR_TASK or FLAG_ACTIVITY_NEW_TASK
-            startActivity(this)
-            finish()
-        }
-    }
-
-    private fun goToBodyRegistry() {
-        val patient = buildPacienteFromForm()
-
-        Intent(this, RegistroCorporalActivity::class.java).apply {
-            putExtra(FIRST_LOGIN, true)
-            putExtra(USER_TO_UPDATE, patient)
-            startActivity(this)
-//            finish()
-        }
-    }
-
     private fun getFechaNacimiento(fechNac: Timestamp?): String {
         return if (fechNac != null) {
             calendar.timeInMillis = fechNac.seconds * 1000
@@ -260,16 +189,91 @@ class PerfilPacienteActivity : AppCompatActivity(), IPerfilPacienteView {
         etMedidaCintura.isEnabled = false
     }
 
+    override fun setupBottomNavigationBar(bottomNavigationView: BottomNavigationView) {
+        bottomNavigationView.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.home -> {
+                    goToHomeView()
+                    return@setOnItemSelectedListener true
+                }
+                R.id.registro_diario -> {
+                    goToDailyRegistryView()
+                    return@setOnItemSelectedListener true
+                }
+                R.id.progreso -> {
+                    goToProgressView()
+                    return@setOnItemSelectedListener true
+                }
+                R.id.info_personal -> {
+                    goToProfileView()
+                    return@setOnItemSelectedListener true
+                }
+            }
+            false
+        }
+    }
+
+    override fun goToHomeView() {
+        Intent(this@PerfilPacienteActivity, PaginaPrincipalActivity::class.java).apply {
+            startActivity(this)
+            finish()
+        }
+    }
+
+    override fun goToDailyRegistryView() {
+        Intent(this@PerfilPacienteActivity, DailyRegistryActivity::class.java).apply {
+            startActivity(this)
+            finish()
+        }
+    }
+
+    override fun goToProgressView() {
+        Intent(this@PerfilPacienteActivity, RegistroCorporalActivity::class.java).apply {
+            startActivity(this)
+            finish()
+        }
+    }
+
+    override fun goToProfileView() {
+        refreshActivity()
+    }
+
+    override fun goToLoginView() {
+        lifecycleScope.launch(Dispatchers.IO) {
+            userLogout()
+        }
+
+        Intent(this, LoginActivity::class.java).apply {
+            flags = FLAG_ACTIVITY_CLEAR_TASK or FLAG_ACTIVITY_NEW_TASK
+            startActivity(this)
+        }
+    }
+
+    override fun refreshActivity() {
+        finish()
+        overridePendingTransition(0, 0)
+        Intent(this@PerfilPacienteActivity, this::class.java).apply {
+            startActivity(this)
+        }
+        overridePendingTransition(0, 0)
+    }
+
+    private fun goToBodyRegistry() {
+        val patient = buildPacienteFromForm()
+
+        Intent(this, RegistroCorporalActivity::class.java).apply {
+            putExtra(FIRST_LOGIN, true)
+            putExtra(USER_TO_UPDATE, patient)
+            startActivity(this)
+        }
+    }
+
     private suspend fun userLogout() {
         SessionManager.saveLoggedUser(null)
     }
-
 
     private fun showMessage(msg: String) {
         UIManager.showMessageLong(this, msg)
     }
 
-    private fun showInProgressMessage() {
-        UIManager.showMessageShort(this, NOTIMPLEMENTEDYET)
-    }
 }

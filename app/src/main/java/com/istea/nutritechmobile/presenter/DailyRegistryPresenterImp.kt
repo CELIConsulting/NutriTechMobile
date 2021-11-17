@@ -3,7 +3,6 @@ package com.istea.nutritechmobile.presenter
 import android.app.Activity
 import android.os.Build
 import androidx.annotation.RequiresApi
-import com.google.firebase.storage.FirebaseStorage
 import com.istea.nutritechmobile.data.DailyUploadRegistry
 import com.istea.nutritechmobile.firebase.FirebaseStorageManager
 import com.istea.nutritechmobile.helpers.CameraManager
@@ -43,7 +42,6 @@ class DailyRegistryPresenterImp(
                                     storage.uploadImgFood(stream, dailyUploadRegistry.ImageName)
                                 }
                                 showSuccessAddMessage()
-                                view.resetForm()
                             }
                         }
                     }
@@ -66,5 +64,6 @@ class DailyRegistryPresenterImp(
         UIManager.showMessageShort(
             view as Activity, "El registro de su comida fue agregado correctamente"
         )
+        view.goToHomeView()
     }
 }

@@ -5,9 +5,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 interface IToolbar {
     fun setupBottomNavigationBar(bottomNavigationView: BottomNavigationView)
     fun goToDailyRegistryView()
-    fun goToRecipesView()
+    fun goToHomeView()
     fun goToProgressView()
     fun goToProfileView()
-    fun goToMainScreenView()
-    fun goBackToLogin()
+    fun goToLoginView()
 }

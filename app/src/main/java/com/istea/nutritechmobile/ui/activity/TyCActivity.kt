@@ -59,9 +59,9 @@ class TyCActivity : AppCompatActivity(), ICompletarPerfilListener {
     }
 
     private fun goToLoginScreen() {
-        Intent(this, LoginActivity::class.java).apply {
+        Intent(this@TyCActivity, LoginActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
             startActivity(this)
-            finish()
         }
     }
 

@@ -47,9 +47,7 @@ class LoginActivity : AppCompatActivity(), ILoginView {
 
         btnLogin.setOnClickListener {
             lifecycleScope.launch(Dispatchers.Main) {
-                Log.d(TAG_ACTIVITY, "Coroutine: begin")
                 login()
-                Log.d(TAG_ACTIVITY, "Coroutine: End")
             }
 
         }
@@ -58,19 +56,11 @@ class LoginActivity : AppCompatActivity(), ILoginView {
     private suspend fun login() {
         val mail: String = getTextFrom(etLoginMail)
         val password: String = getTextFrom(etLoginPassword)
-        Log.d(TAG_ACTIVITY, "Mail: $mail | Password: $password")
-
         loginPresenter.doLogin(mail, password)
     }
 
     override fun showMessage(message: String) {
         UIManager.showMessageShort(this, message)
-    }
-
-    override fun goToMainScreen() {
-        Intent(this@LoginActivity, PaginaPrincipalActivity::class.java).apply {
-            startActivity(this)
-        }
     }
 
     override fun goToTyCScreen() {
@@ -79,5 +69,9 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         }
     }
 
-
+    override fun goToMainView() {
+        Intent(this@LoginActivity, PaginaPrincipalActivity::class.java).apply {
+            startActivity(this)
+        }
+    }
 }

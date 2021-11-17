@@ -62,10 +62,6 @@ class RegistroCorporalActivity : AppCompatActivity(), IRegistroCorporalView {
         setupUI()
     }
 
-    override fun onResume() {
-        getPaciente()
-        super.onResume()
-    }
 
     private fun isFirstLogin(): Boolean {
         return intent?.extras?.getBoolean(FIRST_LOGIN) ?: false
@@ -87,6 +83,7 @@ class RegistroCorporalActivity : AppCompatActivity(), IRegistroCorporalView {
         hiddenFileUpload = findViewById(R.id.hiddenFileUpload)
         hiddenImageName = findViewById(R.id.hiddenImageName)
         bottomNavigationView = findViewById(R.id.bottomNavigationView)
+        bottomNavigationView.selectedItemId = R.id.progreso
         btnGuardar.isEnabled = false
 
         setupToolbar()
@@ -103,6 +100,12 @@ class RegistroCorporalActivity : AppCompatActivity(), IRegistroCorporalView {
         //Hiding default app icon
         supportActionBar?.setDisplayShowTitleEnabled(false)
     }
+
+    override fun onResume() {
+        getPaciente()
+        super.onResume()
+    }
+
 
     private fun bindEvents() {
 
@@ -225,15 +228,15 @@ class RegistroCorporalActivity : AppCompatActivity(), IRegistroCorporalView {
 
     private fun getPaciente() {
         lifecycleScope.launch(Dispatchers.Main) {
-            if (isFirstLogin()) {
-                pacienteLogueado = patientDataFromProfile()
+            pacienteLogueado = if (isFirstLogin()) {
+                patientDataFromProfile()
             } else {
-                pacienteLogueado = getLoggedUser()
+                getLoggedUser()
             }
         }
     }
 
-    override fun resetForm() {
+    override fun refreshActivity() {
         finish()
         overridePendingTransition(0, 0)
         Intent(this@RegistroCorporalActivity, this::class.java).apply {
@@ -243,63 +246,52 @@ class RegistroCorporalActivity : AppCompatActivity(), IRegistroCorporalView {
     }
 
     override fun setupBottomNavigationBar(bottomNavigationView: BottomNavigationView) {
-        val mOnNavigationItemSelectedListener =
-            BottomNavigationView.OnNavigationItemSelectedListener { item ->
-                when (item.itemId) {
-                    R.id.registro_diario -> {
-                        goToDailyRegistryView()
-                        return@OnNavigationItemSelectedListener true
-                    }
-                    R.id.recetas -> {
-                        goToRecipesView()
-                        return@OnNavigationItemSelectedListener true
-
-                    }
-                    R.id.progreso -> {
-                        goToProgressView()
-                        return@OnNavigationItemSelectedListener true
-
-                    }
-                    R.id.info_personal -> {
-                        goToProfileView()
-                        return@OnNavigationItemSelectedListener true
-
-                    }
+        bottomNavigationView.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.home -> {
+                    goToHomeView()
+                    return@setOnItemSelectedListener true
                 }
-                false
+                R.id.registro_diario -> {
+                    goToDailyRegistryView()
+                    return@setOnItemSelectedListener true
+                }
+                R.id.progreso -> {
+                    goToProgressView()
+                    return@setOnItemSelectedListener true
+                }
+                R.id.info_personal -> {
+                    goToProfileView()
+                    return@setOnItemSelectedListener true
+                }
             }
-        bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+            false
+        }
     }
+
+    override fun goToHomeView() {
+        finish()
+    }
+
+    override fun goToProgressView() {
+        refreshActivity()
+    }
+
 
     override fun goToDailyRegistryView() {
         Intent(this@RegistroCorporalActivity, DailyRegistryActivity::class.java).apply {
             startActivity(this)
+            finish()
         }
-    }
-
-    override fun goToRecipesView() {
-        showInProgressMessage()
-    }
-
-    override fun goToProgressView() {
-        resetForm()
     }
 
     override fun goToProfileView() {
         Intent(this@RegistroCorporalActivity, PerfilPacienteActivity::class.java).apply {
             startActivity(this)
-            finish()
         }
     }
 
-    override fun goToMainScreenView() {
-        Intent(this@RegistroCorporalActivity, PaginaPrincipalActivity::class.java).apply {
-            startActivity(this)
-            finish()
-        }
-    }
-
-    override fun goBackToLogin() {
+    override fun goToLoginView() {
         Intent(this, LoginActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
             startActivity(this)
@@ -310,4 +302,5 @@ class RegistroCorporalActivity : AppCompatActivity(), IRegistroCorporalView {
     override fun showInProgressMessage() {
         UIManager.showMessageShort(this, NOTIMPLEMENTEDYET)
     }
+
 }

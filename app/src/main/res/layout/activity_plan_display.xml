@@ -436,6 +436,8 @@
         android:background="@color/secondary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:itemIconTint="@color/bottom_nav_item_selector"
+        app:itemTextColor="@color/bottom_nav_item_selector"
         app:menu="@menu/menu_inferior" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

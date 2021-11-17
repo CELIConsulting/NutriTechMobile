@@ -92,12 +92,13 @@ class DailyRegistryActivity : AppCompatActivity(), IDailyRegistryView,
         hiddenFileUpload = findViewById(R.id.hiddenFileUpload)
         hiddenImageName = findViewById(R.id.hiddenImageName)
         bottomNavigationView = findViewById(R.id.bottomNavigationView)
+        bottomNavigationView.selectedItemId = R.id.registro_diario
+        setupBottomNavigationBar(bottomNavigationView)
         loadFoodsSpinner()
 
         btnSubmit.isEnabled = false
         enableDefaultPhotoThumbnail()
         setupToolbar()
-        setupBottomNavigationBar(bottomNavigationView)
         bindEvents()
     }
 
@@ -204,7 +205,7 @@ class DailyRegistryActivity : AppCompatActivity(), IDailyRegistryView,
         }
     }
 
-    override fun resetForm() {
+    override fun refreshActivity() {
         finish()
         overridePendingTransition(0, 0)
         Intent(this@DailyRegistryActivity, this::class.java).apply {
@@ -235,68 +236,60 @@ class DailyRegistryActivity : AppCompatActivity(), IDailyRegistryView,
         camera.requestPermissionsResult(requestCode, permissions, grantResults)
     }
 
-    override fun goToDailyRegistryView() {
-        Intent(this@DailyRegistryActivity, DailyRegistryActivity::class.java).apply {
-            startActivity(this)
+    override fun setupBottomNavigationBar(bottomNavigationView: BottomNavigationView) {
+        bottomNavigationView.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.home -> {
+                    goToHomeView()
+                    return@setOnItemSelectedListener true
+                }
+                R.id.registro_diario -> {
+                    goToDailyRegistryView()
+                    return@setOnItemSelectedListener true
+                }
+                R.id.progreso -> {
+                    goToProgressView()
+                    return@setOnItemSelectedListener true
+                }
+                R.id.info_personal -> {
+                    goToProfileView()
+                    return@setOnItemSelectedListener true
+                }
+            }
+            false
         }
     }
 
-    override fun goToProfileView() {
-        Intent(this@DailyRegistryActivity, PerfilPacienteActivity::class.java).apply {
-            startActivity(this)
-        }
-    }
-
-    override fun goToMainScreenView() {
+    override fun goToHomeView() {
         Intent(this@DailyRegistryActivity, PaginaPrincipalActivity::class.java).apply {
-            startActivity(this)
-        }
-    }
-
-    override fun goBackToLogin() {
-        Intent(this@DailyRegistryActivity, LoginActivity::class.java).apply {
             startActivity(this)
             finish()
         }
     }
 
-    override fun goToRecipesView() {
-        UIManager.showMessageShort(this, NOTIMPLEMENTEDYET)
+    override fun goToDailyRegistryView() {
+        refreshActivity()
+    }
+
+    override fun goToProfileView() {
+        Intent(this@DailyRegistryActivity, PerfilPacienteActivity::class.java).apply {
+            startActivity(this)
+            finish()
+        }
     }
 
     override fun goToProgressView() {
         Intent(this@DailyRegistryActivity, RegistroCorporalActivity::class.java).apply {
             startActivity(this)
+            finish()
         }
     }
 
-    override fun setupBottomNavigationBar(bottomNavigationView: BottomNavigationView) {
-        val mOnNavigationItemSelectedListener =
-            BottomNavigationView.OnNavigationItemSelectedListener { item ->
-                when (item.itemId) {
-                    R.id.registro_diario -> {
-                        goToDailyRegistryView()
-                        return@OnNavigationItemSelectedListener true
-                    }
-                    R.id.recetas -> {
-                        goToRecipesView()
-                        return@OnNavigationItemSelectedListener true
-
-                    }
-                    R.id.progreso -> {
-                        goToProgressView()
-                        return@OnNavigationItemSelectedListener true
-
-                    }
-                    R.id.info_personal -> {
-                        goToProfileView()
-                        return@OnNavigationItemSelectedListener true
-
-                    }
-                }
-                false
-            }
-        bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+    override fun goToLoginView() {
+        Intent(this@DailyRegistryActivity, LoginActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(this)
+        }
     }
 
 

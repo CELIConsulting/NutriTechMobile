@@ -1,6 +1,5 @@
 package com.istea.nutritechmobile.helpers
 
-
 const val NOTIMPLEMENTEDYET = "Funcion en desarrollo"
 const val TAG_ACTIVITY = "FirestoreService"
 const val CAMPO_ALTURA = "Altura"

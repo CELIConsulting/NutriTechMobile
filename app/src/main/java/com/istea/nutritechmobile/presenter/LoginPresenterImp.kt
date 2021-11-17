@@ -41,7 +41,6 @@ class LoginPresenterImp(
                                     GlobalScope.launch(Dispatchers.IO) {
                                         SessionManager.saveLoggedUser(userResponse)
                                     }
-
                                     checkIfFirstLogin(userResponse)
 
                                 } else {
@@ -76,12 +75,10 @@ class LoginPresenterImp(
         }
     }
 
-    private fun checkIfFirstLogin(user: UserResponse)
-    {
-        if(user.TyC){
-            view.goToMainScreen()
-        }
-        else{
+    private fun checkIfFirstLogin(user: UserResponse) {
+        if (user.TyC) {
+            view.goToMainView()
+        } else {
             view.goToTyCScreen()
         }
 
