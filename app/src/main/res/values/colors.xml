@@ -14,7 +14,7 @@
     <color name="spinner_bg">#393937</color>
     <color name="bottomNavBar_icon">@color/spinner_bg</color>
     <color name="bottomNavBar_icon_selected">@color/primary</color>
-
+    <color name="btn_disabled">#cccccc</color>
 </resources>
 
 

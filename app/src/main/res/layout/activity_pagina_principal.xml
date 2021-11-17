@@ -43,7 +43,6 @@
         app:layout_constraintEnd_toStartOf="@id/guidelineRight"
         app:layout_constraintStart_toEndOf="@id/guidelineLeft"
         app:layout_constraintTop_toBottomOf="@id/txtMensajeBienvenida"
-        app:layout_constraintVertical_bias="0.3"
         tools:text="Esta es la frase del dia" />
 
     <TextView
@@ -132,6 +131,7 @@
         android:layout_marginEnd="@dimen/button_side_margin"
         android:layout_marginBottom="@dimen/button_vertical_margin"
         android:text="@string/btnModifPlan"
+        android:backgroundTint="@color/btn_disabled"
         app:layout_constraintBottom_toBottomOf="@+id/guidelineBottom"
         app:layout_constraintEnd_toStartOf="@id/guidelineRight"
         app:layout_constraintStart_toEndOf="@id/btnVerPlan"
@@ -175,6 +175,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="@dimen/guideline_section" />
+        app:layout_constraintGuide_begin="250dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
