@@ -18,6 +18,7 @@ import com.istea.nutritechmobile.firebase.FirebaseStorageManager
 import com.istea.nutritechmobile.helpers.CameraManager
 import com.istea.nutritechmobile.helpers.NOTIMPLEMENTEDYET
 import com.istea.nutritechmobile.helpers.UIManager
+import com.istea.nutritechmobile.helpers.preferences.SessionManager
 import com.istea.nutritechmobile.model.RegistroCorporalRepositoryImp
 import com.istea.nutritechmobile.presenter.RegistroCorporalPresenterImp
 import com.istea.nutritechmobile.presenter.interfaces.IRegistroCorporalPresenter
@@ -294,6 +295,10 @@ class RegistroCorporalActivity : AppCompatActivity(), IRegistroCorporalView {
     }
 
     override fun goToLoginView() {
+        lifecycleScope.launch(Dispatchers.IO) {
+            userLogout()
+        }
+
         Intent(this, LoginActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
             startActivity(this)
@@ -301,12 +306,23 @@ class RegistroCorporalActivity : AppCompatActivity(), IRegistroCorporalView {
         }
     }
 
+    private suspend fun userLogout() {
+        SessionManager.saveLoggedUser(null)
+    }
+
+
     override fun showInProgressMessage() {
         UIManager.showMessageShort(this, NOTIMPLEMENTEDYET)
     }
 
     override fun onBackPressed() {
         bottomNavBar.selectedItemId = R.id.home
+
+        if(isFirstLogin())
+        {
+            goToLoginView()
+        }
+
         super.onBackPressed()
     }
 

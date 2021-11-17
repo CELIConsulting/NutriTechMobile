@@ -44,6 +44,7 @@ class PerfilPacienteActivity : AppCompatActivity(), IPerfilPacienteView {
     private lateinit var bottomNavBar: BottomNavigationView
     private var calendar: GregorianCalendar = GregorianCalendar()
     private var pacienteLogueado: UserResponse? = null
+    private var firstLoginFlag: Boolean = false
 
     private val perfilPresenter: IPerfilPacientePresenter by lazy {
         PerfilPacientePresenterImp(
@@ -145,6 +146,8 @@ class PerfilPacienteActivity : AppCompatActivity(), IPerfilPacienteView {
     }
 
     override fun isUserFirstLogin(firstTime: Boolean) {
+        if(firstTime) firstLoginFlag = true
+
         btnUpdate.setOnClickListener {
             if (firstTime) {
                 showMessage("Se lo está redirigiendo a la pantalla de registro corporal")
@@ -276,6 +279,11 @@ class PerfilPacienteActivity : AppCompatActivity(), IPerfilPacienteView {
 
     override fun onBackPressed() {
         bottomNavBar.selectedItemId = R.id.home
+
+        if(firstLoginFlag){
+            goToLoginView()
+        }
+
         super.onBackPressed()
     }
 }
