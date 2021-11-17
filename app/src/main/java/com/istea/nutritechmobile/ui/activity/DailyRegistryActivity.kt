@@ -18,8 +18,6 @@ import com.istea.nutritechmobile.firebase.FirebaseAuthManager
 import com.istea.nutritechmobile.firebase.FirebaseFirestoreManager
 import com.istea.nutritechmobile.firebase.FirebaseStorageManager
 import com.istea.nutritechmobile.helpers.CameraManager
-import com.istea.nutritechmobile.helpers.NOTIMPLEMENTEDYET
-import com.istea.nutritechmobile.helpers.UIManager
 import com.istea.nutritechmobile.model.DailyRegistryRepositoryImp
 import com.istea.nutritechmobile.presenter.DailyRegistryPresenterImp
 import com.istea.nutritechmobile.presenter.interfaces.IDailyRegistryPresenter
@@ -46,7 +44,7 @@ class DailyRegistryActivity : AppCompatActivity(), IDailyRegistryView,
     private lateinit var txtPhotoAddThumbnail: TextView
     private lateinit var imgPhotoAddThumbnail: ImageView
     private lateinit var toolbar: Toolbar
-    private lateinit var bottomNavigationView: BottomNavigationView
+    private lateinit var bottomNavBar: BottomNavigationView
     private lateinit var foodsMaterialSpinner: MaterialSpinner
     private lateinit var spinner: Spinner
     private lateinit var selectedFood: String
@@ -91,9 +89,9 @@ class DailyRegistryActivity : AppCompatActivity(), IDailyRegistryView,
         btnSubmit = findViewById(R.id.btnSubmit)
         hiddenFileUpload = findViewById(R.id.hiddenFileUpload)
         hiddenImageName = findViewById(R.id.hiddenImageName)
-        bottomNavigationView = findViewById(R.id.bottomNavigationView)
-        bottomNavigationView.selectedItemId = R.id.registro_diario
-        setupBottomNavigationBar(bottomNavigationView)
+        bottomNavBar = findViewById(R.id.bottomNavigationView)
+        bottomNavBar.selectedItemId = R.id.registro_diario
+        setupBottomNavigationBar(bottomNavBar)
         loadFoodsSpinner()
 
         btnSubmit.isEnabled = false
@@ -292,5 +290,9 @@ class DailyRegistryActivity : AppCompatActivity(), IDailyRegistryView,
         }
     }
 
+    override fun onBackPressed() {
+        bottomNavBar.selectedItemId = R.id.home
+        super.onBackPressed()
+    }
 
 }

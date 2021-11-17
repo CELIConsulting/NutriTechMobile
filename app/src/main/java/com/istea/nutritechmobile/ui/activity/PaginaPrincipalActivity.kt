@@ -4,6 +4,7 @@ package com.istea.nutritechmobile.ui.activity
 import android.content.Intent
 import android.content.Intent.*
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.view.Menu
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -143,7 +144,7 @@ class PaginaPrincipalActivity : AppCompatActivity(), IPrincipalView {
     }
 
     override fun goToHomeView() {
-        refreshActivity()
+//        refreshActivity()
     }
 
     override fun goToPlanView() {
@@ -175,10 +176,6 @@ class PaginaPrincipalActivity : AppCompatActivity(), IPrincipalView {
         goToLoginView()
         super.onBackPressed()
     }
-
-//    private fun resetBottomNavBar(){
-//        bottomNavBar.selectedItemId = R.id.home
-//    }
 
     private suspend fun userLogout() {
         SessionManager.saveLoggedUser(null)

@@ -4,7 +4,6 @@ import android.content.Intent
 import android.content.Intent.*
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.EditText
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -16,7 +15,6 @@ import com.istea.nutritechmobile.helpers.extensions.dateFromString
 import com.istea.nutritechmobile.helpers.extensions.stringFromDate
 import com.istea.nutritechmobile.helpers.preferences.SessionManager
 import com.istea.nutritechmobile.firebase.FirebaseFirestoreManager
-import com.istea.nutritechmobile.helpers.NOTIMPLEMENTEDYET
 import com.istea.nutritechmobile.helpers.UIManager
 import com.istea.nutritechmobile.model.PerfilPacienteRepositoryImp
 import com.istea.nutritechmobile.presenter.PerfilPacientePresenterImp
@@ -43,7 +41,7 @@ class PerfilPacienteActivity : AppCompatActivity(), IPerfilPacienteView {
     private lateinit var etMedidaCintura: EditText
     private lateinit var etTipoAlimentacion: EditText
     private lateinit var btnUpdate: MaterialButton
-    private lateinit var bottomNavigationBar: BottomNavigationView
+    private lateinit var bottomNavBar: BottomNavigationView
     private var calendar: GregorianCalendar = GregorianCalendar()
     private var pacienteLogueado: UserResponse? = null
 
@@ -82,9 +80,9 @@ class PerfilPacienteActivity : AppCompatActivity(), IPerfilPacienteView {
         etMedidaCintura = findViewById(R.id.etMedidaCintura)
         etTipoAlimentacion = findViewById(R.id.etTipoAlimentacion)
         btnUpdate = findViewById(R.id.btnUpdate)
-        bottomNavigationBar = findViewById(R.id.bottomNavigationView)
-        bottomNavigationBar.selectedItemId = R.id.info_personal
-        setupBottomNavigationBar(bottomNavigationBar)
+        bottomNavBar = findViewById(R.id.bottomNavigationView)
+        bottomNavBar.selectedItemId = R.id.info_personal
+        setupBottomNavigationBar(bottomNavBar)
         disableRegistroCorporalFields()
 
     }
@@ -276,4 +274,8 @@ class PerfilPacienteActivity : AppCompatActivity(), IPerfilPacienteView {
         UIManager.showMessageLong(this, msg)
     }
 
+    override fun onBackPressed() {
+        bottomNavBar.selectedItemId = R.id.home
+        super.onBackPressed()
+    }
 }

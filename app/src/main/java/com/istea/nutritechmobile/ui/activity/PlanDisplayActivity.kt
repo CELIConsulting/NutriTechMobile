@@ -2,7 +2,6 @@ package com.istea.nutritechmobile.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.widget.LinearLayout
 import android.widget.ScrollView
@@ -12,7 +11,6 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.api.Distribution
 import com.istea.nutritechmobile.R
 import com.istea.nutritechmobile.data.Plan
 import com.istea.nutritechmobile.firebase.FirebaseAuthManager
@@ -22,7 +20,6 @@ import com.istea.nutritechmobile.presenter.PlanDisplayPresenterImp
 import com.istea.nutritechmobile.presenter.interfaces.IPlanDisplayPresenter
 import com.istea.nutritechmobile.ui.interfaces.IPlanDisplayView
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class PlanDisplayActivity : AppCompatActivity(), IPlanDisplayView {
@@ -38,7 +35,7 @@ class PlanDisplayActivity : AppCompatActivity(), IPlanDisplayView {
     private lateinit var Colaciontv: TextView
     private lateinit var contenedorSinPlan: LinearLayout
     private lateinit var toolbar: Toolbar
-    private lateinit var bottomNavigationView: BottomNavigationView
+    private lateinit var bottomNavBar: BottomNavigationView
     private lateinit var scrollView: ScrollView
     private val planDisplayPresenter: IPlanDisplayPresenter by lazy {
         PlanDisplayPresenterImp(this, PlanDisplayRepositoryImp(FirebaseFirestoreManager(this)))
@@ -83,9 +80,9 @@ class PlanDisplayActivity : AppCompatActivity(), IPlanDisplayView {
         Colaciontv = findViewById(R.id.Colaciontv)
         scrollView = findViewById(R.id.scrollView)
         contenedorSinPlan = findViewById(R.id.noPlanContainer)
-        bottomNavigationView = findViewById(R.id.bottomNavigationView)
-        bottomNavigationView.selectedItemId = R.id.home
-        setupBottomNavigationBar(bottomNavigationView)
+        bottomNavBar = findViewById(R.id.bottomNavigationView)
+        bottomNavBar.selectedItemId = R.id.home
+        setupBottomNavigationBar(bottomNavBar)
         setupToolbar()
 
         lifecycleScope.launch(Dispatchers.Main) {
@@ -194,4 +191,5 @@ class PlanDisplayActivity : AppCompatActivity(), IPlanDisplayView {
             finish()
         }
     }
+
 }

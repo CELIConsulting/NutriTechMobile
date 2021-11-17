@@ -36,7 +36,7 @@ class RegistroCorporalActivity : AppCompatActivity(), IRegistroCorporalView {
     private lateinit var hiddenImageName: TextView
     private lateinit var txtPhotoAddThumbnail: TextView
     private lateinit var imgPhotoAddThumbnail: ImageView
-    private lateinit var bottomNavigationView: BottomNavigationView
+    private lateinit var bottomNavBar: BottomNavigationView
     private var pacienteLogueado: UserResponse? = null
 
     private val firebaseStorageManager: FirebaseStorageManager by lazy {
@@ -82,12 +82,12 @@ class RegistroCorporalActivity : AppCompatActivity(), IRegistroCorporalView {
         btnGuardar = findViewById(R.id.btnGuardar)
         hiddenFileUpload = findViewById(R.id.hiddenFileUpload)
         hiddenImageName = findViewById(R.id.hiddenImageName)
-        bottomNavigationView = findViewById(R.id.bottomNavigationView)
-        bottomNavigationView.selectedItemId = R.id.progreso
+        bottomNavBar = findViewById(R.id.bottomNavigationView)
+        bottomNavBar.selectedItemId = R.id.progreso
         btnGuardar.isEnabled = false
 
         setupToolbar()
-        setupBottomNavigationBar(bottomNavigationView)
+        setupBottomNavigationBar(bottomNavBar)
         enableDefaultPhotoThumbnail()
         validateForm()
         bindEvents()
@@ -270,16 +270,7 @@ class RegistroCorporalActivity : AppCompatActivity(), IRegistroCorporalView {
     }
 
     override fun goToHomeView() {
-        finish()
-    }
-
-    override fun goToProgressView() {
-        refreshActivity()
-    }
-
-
-    override fun goToDailyRegistryView() {
-        Intent(this@RegistroCorporalActivity, DailyRegistryActivity::class.java).apply {
+        Intent(this@RegistroCorporalActivity, PaginaPrincipalActivity::class.java).apply {
             startActivity(this)
             finish()
         }
@@ -288,6 +279,17 @@ class RegistroCorporalActivity : AppCompatActivity(), IRegistroCorporalView {
     override fun goToProfileView() {
         Intent(this@RegistroCorporalActivity, PerfilPacienteActivity::class.java).apply {
             startActivity(this)
+        }
+    }
+
+    override fun goToProgressView() {
+        refreshActivity()
+    }
+
+    override fun goToDailyRegistryView() {
+        Intent(this@RegistroCorporalActivity, DailyRegistryActivity::class.java).apply {
+            startActivity(this)
+            finish()
         }
     }
 
@@ -301,6 +303,11 @@ class RegistroCorporalActivity : AppCompatActivity(), IRegistroCorporalView {
 
     override fun showInProgressMessage() {
         UIManager.showMessageShort(this, NOTIMPLEMENTEDYET)
+    }
+
+    override fun onBackPressed() {
+        bottomNavBar.selectedItemId = R.id.home
+        super.onBackPressed()
     }
 
 }

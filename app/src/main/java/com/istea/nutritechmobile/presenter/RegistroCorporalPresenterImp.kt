@@ -4,6 +4,7 @@ import android.app.Activity
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
+import com.google.android.gms.tasks.Tasks.await
 import com.istea.nutritechmobile.data.RegistroCorporal
 import com.istea.nutritechmobile.data.UserResponse
 import com.istea.nutritechmobile.firebase.FirebaseStorageManager
@@ -40,7 +41,7 @@ class RegistroCorporalPresenterImp(
                                     storage.uploadImgBody(stream, registro.ImageName)
                                 }
 
-                                showSuccessAddMessage()
+//                                showSuccessAddMessage()
                                 view.refreshActivity()
                             }
                         }
@@ -66,6 +67,7 @@ class RegistroCorporalPresenterImp(
                                 }
 
                                 if (updateSessionManagerOK) {
+                                    delay(100)
                                     if (isFirstLogin) {
                                         showSuccessAddMessage()
                                     } else {
@@ -115,14 +117,14 @@ class RegistroCorporalPresenterImp(
         )
     }
 
-    private fun showSuccessAddMessage() {
+    private suspend fun showSuccessAddMessage() {
         UIManager.showMessageShort(
             view as Activity, "Sus datos han sido cargados correctamente"
         )
         view.goToHomeView()
     }
 
-    private fun showSuccessUpdateMessage() {
+    private suspend fun showSuccessUpdateMessage() {
         UIManager.showMessageShort(
             view as Activity, "Sus datos han sido actualizados correctamente"
         )
