@@ -9,7 +9,8 @@
     <dimen name="button_vertical_margin">20dp</dimen>
     <dimen name="text_padding">10dp</dimen>
     <dimen name="img_padding">10dp</dimen>
-    <dimen name="img_height">200dp</dimen>
+    <dimen name="img_height">250dp</dimen>
+    <dimen name="img_width">300dp</dimen>
     <dimen name="section_margin_separation">35dp</dimen>
     <dimen name="toolbar_margin_separation">25dp</dimen>
     <dimen name="quoteOfTheDay_box_size">100dp</dimen>
@@ -21,6 +22,7 @@
 
     <!--Pantalla perfil-->
     <dimen name="perfil_margin">10dp</dimen>
+    <dimen name="perfil_title_fontsize">32sp</dimen>
 
     <!--Registro corporal / Carga diaria -->
     <dimen name="cardview_height">150dp</dimen>
@@ -30,6 +32,7 @@
     <dimen name="margin_vertical_cardview">20dp</dimen>
     <dimen name="inputFontSize">24sp</dimen>
     <dimen name="titleFontSize">28sp</dimen>
+
     <dimen name="margin_vertical_form">10dp</dimen>
     <dimen name="margin_horizontal_form">10dp</dimen>
     <dimen name="margin_top_10dp">10dp</dimen>
@@ -41,5 +44,28 @@
     <dimen name="pic_thumbnail_size">96dp</dimen>
     <dimen name="observaciones_box_height">120dp</dimen>
     <dimen name="spinner_width">250dp</dimen>
+
+    <!--Plan Activity-->
+    <dimen name="margin_top_scrollview">20dp</dimen>
+    <dimen name="sin_plan_font_size">24sp</dimen>
+    <dimen name="no_plan_img_height">200dp</dimen>
+    <dimen name="no_plan_img_width">200dp</dimen>
+    <dimen name="no_plan_container_margin_horizontal">20dp</dimen>
+    <dimen name="plan_nombre_font_size">30sp</dimen>
+    <dimen name="plan_tipo_font_size">24sp</dimen>
+
+    <!--TyC-->
+    <dimen name="tyc_title_margin_vertical">10dp</dimen>
+    <dimen name="tyc_titleFontSize">26sp</dimen>
+    <dimen name="tyc_subtitleFontSize">22sp</dimen>
+    <dimen name="tyc_scrollview_height">300dp</dimen>
+    <dimen name="tyc_margin">20dp</dimen>
+    <dimen name="tyc_padding">20dp</dimen>
+    <dimen name="section_separation">5dp</dimen>
+    <dimen name="tyc_text_size">14sp</dimen>
+    <dimen name="tyc_text_paddingH">3dp</dimen>
+    <dimen name="tyc_sw_padding">10dp</dimen>
+
+
 
 </resources>

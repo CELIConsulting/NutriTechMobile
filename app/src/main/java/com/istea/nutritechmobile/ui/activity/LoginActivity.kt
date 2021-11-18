@@ -47,9 +47,7 @@ class LoginActivity : AppCompatActivity(), ILoginView {
 
         btnLogin.setOnClickListener {
             lifecycleScope.launch(Dispatchers.Main) {
-                Log.d(TAG_ACTIVITY, "Coroutine: begin")
                 login()
-                Log.d(TAG_ACTIVITY, "Coroutine: End")
             }
 
         }
@@ -58,8 +56,6 @@ class LoginActivity : AppCompatActivity(), ILoginView {
     private suspend fun login() {
         val mail: String = getTextFrom(etLoginMail)
         val password: String = getTextFrom(etLoginPassword)
-        Log.d(TAG_ACTIVITY, "Mail: $mail | Password: $password")
-
         loginPresenter.doLogin(mail, password)
     }
 
@@ -67,19 +63,15 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         UIManager.showMessageShort(this, message)
     }
 
-    override fun goToMainScreen() {
-        try {
-            Intent(this@LoginActivity, PaginaPrincipalActivity::class.java).apply {
-                startActivity(this)
-            }
-
-            Log.d(TAG_ACTIVITY, "SENDING OBJECT OK!")
-        } catch (e: Exception) {
-            Log.d(TAG_ACTIVITY, "SENDING OBJECT ERROR! BECAUSE ${e.message?.uppercase()}")
+    override fun goToTyCScreen() {
+        Intent(this@LoginActivity, TyCActivity::class.java).apply {
+            startActivity(this)
         }
-
-
     }
 
-
+    override fun goToMainView() {
+        Intent(this@LoginActivity, PaginaPrincipalActivity::class.java).apply {
+            startActivity(this)
+        }
+    }
 }

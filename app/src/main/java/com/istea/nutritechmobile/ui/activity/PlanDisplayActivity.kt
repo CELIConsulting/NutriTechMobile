@@ -2,20 +2,24 @@ package com.istea.nutritechmobile.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
+import android.widget.LinearLayout
+import android.widget.ScrollView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.istea.nutritechmobile.R
 import com.istea.nutritechmobile.data.Plan
+import com.istea.nutritechmobile.firebase.FirebaseAuthManager
 import com.istea.nutritechmobile.firebase.FirebaseFirestoreManager
 import com.istea.nutritechmobile.model.PlanDisplayRepositoryImp
 import com.istea.nutritechmobile.presenter.PlanDisplayPresenterImp
 import com.istea.nutritechmobile.presenter.interfaces.IPlanDisplayPresenter
 import com.istea.nutritechmobile.ui.interfaces.IPlanDisplayView
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class PlanDisplayActivity : AppCompatActivity(), IPlanDisplayView {
@@ -29,18 +33,25 @@ class PlanDisplayActivity : AppCompatActivity(), IPlanDisplayView {
     private lateinit var Meriendatv: TextView
     private lateinit var Cenatv: TextView
     private lateinit var Colaciontv: TextView
+    private lateinit var contenedorSinPlan: LinearLayout
     private lateinit var toolbar: Toolbar
-    private lateinit var bottomNavigationView: BottomNavigationView
+    private lateinit var bottomNavBar: BottomNavigationView
+    private lateinit var scrollView: ScrollView
     private val planDisplayPresenter: IPlanDisplayPresenter by lazy {
         PlanDisplayPresenterImp(this, PlanDisplayRepositoryImp(FirebaseFirestoreManager(this)))
     }
-    private val noData = "-- No data --"
+
+    private val fireAuthManager: FirebaseAuthManager by lazy {
+        FirebaseAuthManager()
+    }
+
+    private val noData = "-- No hay información para este campo --"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_plan_display)
         setupUI()
-        setupBottomNavigationBar()
+
     }
 
     private fun setupToolbar() {
@@ -67,18 +78,23 @@ class PlanDisplayActivity : AppCompatActivity(), IPlanDisplayView {
         Meriendatv = findViewById(R.id.Meriendatv)
         Cenatv = findViewById(R.id.Cenatv)
         Colaciontv = findViewById(R.id.Colaciontv)
-        bottomNavigationView = findViewById(R.id.bottomNavigationView)
+        scrollView = findViewById(R.id.scrollView)
+        contenedorSinPlan = findViewById(R.id.noPlanContainer)
+        bottomNavBar = findViewById(R.id.bottomNavigationView)
+        bottomNavBar.selectedItemId = R.id.home
+        setupBottomNavigationBar(bottomNavBar)
         setupToolbar()
 
-        lifecycleScope.launch {
-            planDisplayPresenter.fillPlanInfo(intent.getStringExtra("Email"))
+        lifecycleScope.launch(Dispatchers.Main) {
+            planDisplayPresenter.fillPlanInfo(fireAuthManager.getAuthEmail())
         }
     }
 
     override suspend fun fillDataView(dataRepo: Plan?) {
         if (dataRepo != null) {
-            Nombretv.text = dataRepo.Nombre
-            Tipotv.text = dataRepo.Tipo
+            showPlanAlimentacion()
+            Nombretv.text = dataRepo.Nombre.uppercase()
+            Tipotv.text = dataRepo.Tipo.uppercase()
 
             CantAguaDiariaTv.text = dataRepo.CantAguaDiaria.toString()
             CantColacionesDiariasTv.text = dataRepo.CantColacionesDiarias.toString()
@@ -107,41 +123,73 @@ class PlanDisplayActivity : AppCompatActivity(), IPlanDisplayView {
             } else {
                 Colaciontv.text = this.noData
             }
+        } else {
+            hidePlanAlimentacion()
         }
     }
 
-    private fun goToDailyRegistry() {
+    private fun hidePlanAlimentacion() {
+        scrollView.isVisible = false
+        contenedorSinPlan.isVisible = true
+    }
+
+    private fun showPlanAlimentacion() {
+        contenedorSinPlan.isVisible = false
+        scrollView.isVisible = true
+    }
+
+
+    override fun setupBottomNavigationBar(bottomNavigationView: BottomNavigationView) {
+        bottomNavigationView.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.home -> {
+                    goToHomeView()
+                    return@setOnItemSelectedListener true
+                }
+                R.id.registro_diario -> {
+                    goToDailyRegistryView()
+                    return@setOnItemSelectedListener true
+                }
+                R.id.progreso -> {
+                    goToProgressView()
+                    return@setOnItemSelectedListener true
+                }
+                R.id.info_personal -> {
+                    goToProfileView()
+                    return@setOnItemSelectedListener true
+                }
+            }
+            false
+        }
+    }
+
+    override fun goToLoginView() {
+        //Nothing here for the moment
+    }
+
+    override fun goToHomeView() {
+        finish()
+    }
+
+    override fun goToDailyRegistryView() {
         Intent(this@PlanDisplayActivity, DailyRegistryActivity::class.java).apply {
             startActivity(this)
+            finish()
         }
     }
 
-    private fun setupBottomNavigationBar() {
-        val mOnNavigationItemSelectedListener =
-            BottomNavigationView.OnNavigationItemSelectedListener { item ->
-                when (item.itemId) {
-                    R.id.registro_diario -> {
-                        goToDailyRegistry()
-                        return@OnNavigationItemSelectedListener true
-                    }
-                    R.id.recetas -> {
-                        Log.e("Pagina Principal", " recetas")
-                        return@OnNavigationItemSelectedListener true
-
-                    }
-                    R.id.progreso -> {
-                        Log.e("Pagina Principal", " progreso")
-                        return@OnNavigationItemSelectedListener true
-
-                    }
-                    R.id.info_personal -> {
-                        Log.e("Pagina Principal", " info")
-                        return@OnNavigationItemSelectedListener true
-
-                    }
-                }
-                false
-            }
-        bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+    override fun goToProgressView() {
+        Intent(this@PlanDisplayActivity, RegistroCorporalActivity::class.java).apply {
+            startActivity(this)
+            finish()
+        }
     }
+
+    override fun goToProfileView() {
+        Intent(this@PlanDisplayActivity, PerfilPacienteActivity::class.java).apply {
+            startActivity(this)
+            finish()
+        }
+    }
+
 }

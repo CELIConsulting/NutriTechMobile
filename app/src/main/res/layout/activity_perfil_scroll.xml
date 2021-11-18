@@ -34,8 +34,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Mi Perfil"
-                android:textSize="32dp" />
+                android:text="@string/perfil_title"
+                android:textSize="@dimen/perfil_title_fontsize" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
@@ -51,6 +51,8 @@
         android:layout_height="@dimen/bottomNavbar_height"
         android:layout_gravity="bottom"
         android:background="@color/secondary"
+        app:itemIconTint="@color/bottom_nav_item_selector"
+        app:itemTextColor="@color/bottom_nav_item_selector"
         app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"
         app:menu="@menu/menu_inferior" />
 

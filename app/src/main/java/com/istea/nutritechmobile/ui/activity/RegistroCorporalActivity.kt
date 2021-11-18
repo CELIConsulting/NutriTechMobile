@@ -4,7 +4,6 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.*
-import androidx.annotation.MainThread
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
@@ -17,7 +16,9 @@ import com.istea.nutritechmobile.firebase.FirebaseAuthManager
 import com.istea.nutritechmobile.firebase.FirebaseFirestoreManager
 import com.istea.nutritechmobile.firebase.FirebaseStorageManager
 import com.istea.nutritechmobile.helpers.CameraManager
+import com.istea.nutritechmobile.helpers.NOTIMPLEMENTEDYET
 import com.istea.nutritechmobile.helpers.UIManager
+import com.istea.nutritechmobile.helpers.preferences.SessionManager
 import com.istea.nutritechmobile.model.RegistroCorporalRepositoryImp
 import com.istea.nutritechmobile.presenter.RegistroCorporalPresenterImp
 import com.istea.nutritechmobile.presenter.interfaces.IRegistroCorporalPresenter
@@ -36,7 +37,7 @@ class RegistroCorporalActivity : AppCompatActivity(), IRegistroCorporalView {
     private lateinit var hiddenImageName: TextView
     private lateinit var txtPhotoAddThumbnail: TextView
     private lateinit var imgPhotoAddThumbnail: ImageView
-    private lateinit var bottomNavigationView: BottomNavigationView
+    private lateinit var bottomNavBar: BottomNavigationView
     private var pacienteLogueado: UserResponse? = null
 
     private val firebaseStorageManager: FirebaseStorageManager by lazy {
@@ -62,6 +63,15 @@ class RegistroCorporalActivity : AppCompatActivity(), IRegistroCorporalView {
         setupUI()
     }
 
+
+    private fun isFirstLogin(): Boolean {
+        return intent?.extras?.getBoolean(FIRST_LOGIN) ?: false
+    }
+
+    private fun patientDataFromProfile(): UserResponse? {
+        return intent?.extras?.getParcelable(USER_TO_UPDATE)
+    }
+
     private fun setupUI() {
         etPeso = findViewById(R.id.etPeso)
         etCintura = findViewById(R.id.etCintura)
@@ -73,11 +83,12 @@ class RegistroCorporalActivity : AppCompatActivity(), IRegistroCorporalView {
         btnGuardar = findViewById(R.id.btnGuardar)
         hiddenFileUpload = findViewById(R.id.hiddenFileUpload)
         hiddenImageName = findViewById(R.id.hiddenImageName)
-        bottomNavigationView = findViewById(R.id.bottomNavigationView)
+        bottomNavBar = findViewById(R.id.bottomNavigationView)
+        bottomNavBar.selectedItemId = R.id.progreso
         btnGuardar.isEnabled = false
 
         setupToolbar()
-        setupBottomNavigationBar(bottomNavigationView)
+        setupBottomNavigationBar(bottomNavBar)
         enableDefaultPhotoThumbnail()
         validateForm()
         bindEvents()
@@ -90,6 +101,12 @@ class RegistroCorporalActivity : AppCompatActivity(), IRegistroCorporalView {
         //Hiding default app icon
         supportActionBar?.setDisplayShowTitleEnabled(false)
     }
+
+    override fun onResume() {
+        getPaciente()
+        super.onResume()
+    }
+
 
     private fun bindEvents() {
 
@@ -144,6 +161,7 @@ class RegistroCorporalActivity : AppCompatActivity(), IRegistroCorporalView {
         return null;
     }
 
+
     private fun submitForm() {
         val registro = buildCorporalRegistry()
         val loggedUserMail = FirebaseAuthManager().getAuthEmail()
@@ -151,14 +169,16 @@ class RegistroCorporalActivity : AppCompatActivity(), IRegistroCorporalView {
 
         lifecycleScope.launch(Dispatchers.Main) {
             presenter.addCorporalRegistry(loggedUserMail, registro)
-            presenter.updatePaciente(paciente)
+            presenter.updatePaciente(paciente, isFirstLogin())
         }
     }
 
     private suspend fun getLoggedUser(): UserResponse? {
-        return withContext(Dispatchers.IO) {
+        val user = withContext(Dispatchers.Main) {
             presenter.getLoggedUser()
         }
+
+        return user
     }
 
 
@@ -207,14 +227,17 @@ class RegistroCorporalActivity : AppCompatActivity(), IRegistroCorporalView {
         camera.requestPermissionsResult(requestCode, permissions, grantResults)
     }
 
-    override fun onResume() {
+    private fun getPaciente() {
         lifecycleScope.launch(Dispatchers.Main) {
-            pacienteLogueado = getLoggedUser()
+            pacienteLogueado = if (isFirstLogin()) {
+                patientDataFromProfile()
+            } else {
+                getLoggedUser()
+            }
         }
-        super.onResume()
     }
 
-    override fun resetForm() {
+    override fun refreshActivity() {
         finish()
         overridePendingTransition(0, 0)
         Intent(this@RegistroCorporalActivity, this::class.java).apply {
@@ -224,64 +247,83 @@ class RegistroCorporalActivity : AppCompatActivity(), IRegistroCorporalView {
     }
 
     override fun setupBottomNavigationBar(bottomNavigationView: BottomNavigationView) {
-        val mOnNavigationItemSelectedListener =
-            BottomNavigationView.OnNavigationItemSelectedListener { item ->
-                when (item.itemId) {
-                    R.id.registro_diario -> {
-                        goToDailyRegistryView()
-                        return@OnNavigationItemSelectedListener true
-                    }
-                    R.id.recetas -> {
-                        goToRecipesView()
-                        return@OnNavigationItemSelectedListener true
-
-                    }
-                    R.id.progreso -> {
-                        goToProgressView()
-                        return@OnNavigationItemSelectedListener true
-
-                    }
-                    R.id.info_personal -> {
-                        goToProfileView()
-                        return@OnNavigationItemSelectedListener true
-
-                    }
+        bottomNavigationView.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.home -> {
+                    goToHomeView()
+                    return@setOnItemSelectedListener true
                 }
-                false
+                R.id.registro_diario -> {
+                    goToDailyRegistryView()
+                    return@setOnItemSelectedListener true
+                }
+                R.id.progreso -> {
+                    goToProgressView()
+                    return@setOnItemSelectedListener true
+                }
+                R.id.info_personal -> {
+                    goToProfileView()
+                    return@setOnItemSelectedListener true
+                }
             }
-        bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
-    }
-
-    override fun goToDailyRegistryView() {
-        Intent(this@RegistroCorporalActivity, DailyRegistryActivity::class.java).apply {
-            startActivity(this)
+            false
         }
     }
 
-    override fun goToRecipesView() {
-        showInProgressMessage()
-    }
-
-    override fun goToProgressView() {
-        resetForm()
-    }
-
-    override fun goToProfileView() {
-        Intent(this@RegistroCorporalActivity, PerfilPacienteActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+    override fun goToHomeView() {
+        Intent(this@RegistroCorporalActivity, PaginaPrincipalActivity::class.java).apply {
             startActivity(this)
             finish()
         }
     }
 
-    override fun showInProgressMessage() {
-        UIManager.showMessageShort(this, "Función en desarrollo")
-    }
-
-    override fun goBackToLogin() {
-        Intent(this, LoginActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+    override fun goToProfileView() {
+        Intent(this@RegistroCorporalActivity, PerfilPacienteActivity::class.java).apply {
             startActivity(this)
         }
     }
+
+    override fun goToProgressView() {
+        refreshActivity()
+    }
+
+    override fun goToDailyRegistryView() {
+        Intent(this@RegistroCorporalActivity, DailyRegistryActivity::class.java).apply {
+            startActivity(this)
+            finish()
+        }
+    }
+
+    override fun goToLoginView() {
+        lifecycleScope.launch(Dispatchers.IO) {
+            userLogout()
+        }
+
+        Intent(this, LoginActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(this)
+            finish()
+        }
+    }
+
+    private suspend fun userLogout() {
+        SessionManager.saveLoggedUser(null)
+    }
+
+
+    override fun showInProgressMessage() {
+        UIManager.showMessageShort(this, NOTIMPLEMENTEDYET)
+    }
+
+    override fun onBackPressed() {
+        bottomNavBar.selectedItemId = R.id.home
+
+        if(isFirstLogin())
+        {
+            goToLoginView()
+        }
+
+        super.onBackPressed()
+    }
+
 }

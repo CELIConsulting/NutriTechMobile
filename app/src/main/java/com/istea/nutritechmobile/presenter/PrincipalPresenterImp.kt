@@ -7,11 +7,8 @@ import com.istea.nutritechmobile.data.UserResponse
 import com.istea.nutritechmobile.helpers.getTextFromResource
 import com.istea.nutritechmobile.helpers.preferences.SessionManager
 import com.istea.nutritechmobile.presenter.interfaces.IPrincipalPresenter
-import com.istea.nutritechmobile.ui.activity.LOGGED_USER
 import com.istea.nutritechmobile.ui.interfaces.IPrincipalView
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 
@@ -31,12 +28,12 @@ class PrincipalPresenterImp(private val view: IPrincipalView) : IPrincipalPresen
                 view.welcomeUser(loggedUser.Nombre, loggedUser.Apellido)
             } else {
                 Log.i(TAG_ACTIVITY, "Usuario nulo")
-                view.goBackToLogin()
+                view.goToLoginView()
             }
 
         } catch (exception: Exception) {
             Log.d(TAG_ACTIVITY, "Exception: ${exception.message}")
-            view.goBackToLogin()
+            view.goToLoginView()
         }
     }
 

@@ -32,10 +32,11 @@
     <string name="perfilAltura">Ingrese su altura</string>
     <string name="perfilPeso">Ingrese su peso</string>
     <string name="perfilMedidaCintura">Ingrese la medida de su cintura</string>
+    <string name="perfil_title">Mi Perfil</string>
 
     <!--BottomNavBar-->
     <string name="bottomNavBar_registroDiario">Registro Diario</string>
-    <string name="bottomNavBar_recetas">Recetas</string>
+    <string name="bottomNavBar_home">Home</string>
     <string name="bottomNavBar_progreso">Progreso</string>
     <string name="bottomNavBar_perfil">Perfil</string>
 
@@ -66,4 +67,84 @@ Convallis a cras semper auctor. Vitae aliquet nec ullamcorper sit amet risus nul
     <string name="dailyFoodUploadTitle">Reporte alimenticio</string>
     <string name="observaciones_hint">Observaciones</string>
     <string name="spinner_error_seleccion">Por favor seleccione una comida</string>
+
+    <!--Plan de Alimentación-->
+    <string name="no_asignado">No asignado</string>
+    <string name="paciente_sin_plan">Su nutricionista no le ha asignado todavía un plan de alimentación</string>
+    <string name="nombre_plan">Nombre del plan</string>
+    <string name="tipo_plan">Tipo de plan</string>
+    <string name="cant_agua_diaria_section_title">Cant. Agua Diaria</string>
+    <string name="cant_colaciones_diarias_section_title">Cant. Colaciones Diarias</string>
+    <string name="desayuno_section_title">Desayuno</string>
+    <string name="almuerzo_section_title">Almuerzo</string>
+    <string name="merienda__section_title">Merienda</string>
+    <string name="cena_section_title">Cena</string>
+    <string name="colacion_section_title">Colacion</string>
+
+    <!--Pantalla TyC-->
+    <string name="tyc_title">Términos y Condiciones</string>
+    <string name="tyc_subtitle">Políticas de uso de datos personales</string>
+    <string name="tyc_aceptacion">He leído y acepto los términos y condiciones mencionados arriba</string>
+    <string name="btn_continuar">Continuar</string>
+    <string name="disclaimer_btn_ok">OK</string>
+    <string name="disclaimer_btn_later">Más tarde</string>
+    <string name="disclaimer_title">Atención</string>
+    <string name="disclaimer_info">Le informamos que para finalizar la aceptación de los términos y condiciones y comenzar su tratamiento a través de la aplicación, deberá completar los campos solicitados en su perfil y cargar el primer registro con sus medidas corporales actuales.</string>
+
+    <string name="tyc_paragraph_1_title">1. Introducción</string>
+    <string name="tyc_paragraph_1_content">Los datos personales e información brindada por Ud. de forma voluntaria serán conservadas por CELI CONSULTING S.A., con domicilio en Lavalle 648, Piso 11, Ciudad Autónoma de Buenos Aires, Argentina, con la única finalidad informada en el presente.
+    Prestando conformidad con los presentes términos y condiciones, Ud. acepta incondicionalmente el procesamiento de sus datos personales por CELI CONSULTING S.A. bajo éstos términos y condiciones.
+    Como responsable de bases de datos, CELI CONSULTING S.A. garantiza que el tratamiento de los datos personales cumple con las obligaciones legales de seguridad y confidencialidad impuestas por la Ley No 25.326 de Protección de Datos Personales y asegura el acceso, actualización, supresión o rectificación de los datos por parte de su titular (artículo 14, 16 y concordantes de la Ley 25.326).
+    “El titular podrá en cualquier momento solicitar el retiro o bloqueo de su nombre de los bancos de datos a los que se refiere el artículo 27 inc. 3 de la Ley 25.326. En toda comunicación con fines de publicidad que se realice por correo, teléfono, correo electrónico, Internet u otro medio a distancia a conocer, se deberá indicar, en forma expresa y destacada, la posibilidad del titular del dato de solicitar el retiro o bloqueo, total o parcial, de su nombre de la base de datos. A pedido del interesado, se deberá informar el nombre del responsable o usuario del banco de datos que proveyó la información.”
+    “LA AGENCIA DE ACCESO A LA INFORMACIÓN PÚBLICA, en su carácter de Órgano de Control de la Ley N°25.326, tiene la atribución de atender las denuncias y reclamos que interpongan quienes resulten afectados en sus derechos por incumplimiento de las normas vigentes en materia de protección de datos personales”.</string>
+
+    <string name="tyc_paragraph_2_title">2. Recolección y uso previsto de los datos personales.</string>
+    <string name="tyc_paragraph_2_content">Los datos personales que Ud. voluntariamente provee serán utilizados por CELI CONSULTING S.A. para fines
+    comerciales legítimos, expresamente para recibir información y notificaciones de CELI CONSULTING S.A.,
+    prestando en este acto expreso consentimiento para dichos usos (los “Usos”).
+    Ud. podrá abstenerse de proporcionar sus datos sin que dicha acción genere consecuencia alguna.
+    Sin embargo, los datos identificados con asterisco son necesarios para poder hacerle llegar la
+    información contemplada en los Usos antes indicados.
+    La provisión de la información por su parte, implica su consentimiento para que CELI CONSULTING S.A.
+    integre dicha información en una base de datos de su titularidad, para darle los Usos antes
+    indicados.
+    Por otro lado, Ud. acepta de forma expresa que en caso de que CELI CONSULTING S.A. estuviere obligada a
+    divulgar la información aquí suministrada en virtud de una orden judicial o en cumplimiento con
+    una obligación legal, dicho suministro o revelación no se considerará como un incumplimiento a
+    las presentes.
+    Los datos personales por Ud. brindados serán destruidos cuando hayan dejado de ser necesarios o
+    pertinentes a los fines para los cuales se recolectaron.</string>
+
+    <string name="tyc_paragraph_3_title">3. Acceso, eliminación o corrección de la información</string>
+    <string name="tyc_paragraph_3_content">El titular de los datos personales puede solicitar en cualquier momento a CELI CONSULTING S.A. que sus
+        datos sean eliminados, corregidos o revisados. Además, tiene la facultad de ejercer el derecho
+        de acceso a los mismos en forma gratuita a intervalos no inferiores a seis meses, salvo que se
+        acredite un interés legítimo al efecto conforme lo establecido en el artículo 14, inciso 3 de la
+        Ley Nº 25.326.
+
+        A tales fines deberá enviar un email a [..] o comunicarse al […] de lunes a viernes en el
+        horario de 10 a 18 horas a fin de ejercer dichos derechos y acreditar su identidad mediante la
+        exhibición de su D.N.I.</string>
+
+    <string name="tyc_paragraph_4_title">4. Seguridad de la Información</string>
+    <string name="tyc_paragraph_4_content">CELI CONSULTING S.A. garantiza la confidencialidad en el tratamiento de los datos personales, así como la
+        implementación de las medidas de índole técnica y organizativa que razonablemente tiendan a
+        garantizar la seguridad de dichos datos en cumplimiento de las disposiciones aplicables.</string>
+
+    <string name="tyc_paragraph_5_title">5. Actualizaciones de los presentes términos y condiciones</string>
+    <string name="tyc_paragraph_5_content">En la parte superior de este documento se indica cuándo se revisaron por última vez los
+        presentes términos y condiciones. Cualquier modificación a éstos entrará en vigencia a partir de
+        su publicación. Tanto la publicación como el ingreso al link donde estuvieran publicadas con
+        posterioridad a dichas modificaciones implicará la aceptación a las modificaciones realizadas.</string>
+
+    <string name="tyc_paragraph_6_title">6. Ley Aplicable. Jurisdicción</string>
+    <string name="tyc_paragraph_6_content">Para la interpretación y/o cumplimiento de los anteriores términos y condiciones de seguridad,
+        privacidad y legalidad, tanto Ud. como CELI CONSULTING S.A., estarán sujetos a lo regulado por la ley
+        25.326 de Protección de Datos Personales y sus normas complementarias y en caso de controversia
+        aceptan en sujetarse a la jurisdicción de los tribunales competentes de la Cuidad Autónoma de
+        Buenos Aires, renunciando desde ahora al fuero que pudiera corresponderles en razón de sus
+        domicilios presentes y/o futuros o por cualquier otra causa.</string>
+
+
+
 </resources>

@@ -2,17 +2,12 @@ package com.istea.nutritechmobile.presenter
 
 import android.app.Activity
 import android.util.Log
-import android.view.View
 import com.istea.nutritechmobile.data.UserResponse
 import com.istea.nutritechmobile.helpers.UIManager
-import com.istea.nutritechmobile.helpers.preferences.SessionManager
 import com.istea.nutritechmobile.model.interfaces.IPerfilPacienteRepository
 import com.istea.nutritechmobile.presenter.interfaces.IPerfilPacientePresenter
 import com.istea.nutritechmobile.ui.interfaces.IPerfilPacienteView
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
 private const val TAG_ACTIVITY = "PerfilPacientePresenterImp"
 
@@ -22,26 +17,39 @@ class PerfilPacientePresenterImp(
 ) : IPerfilPacientePresenter {
 
     override suspend fun getPaciente() {
-        try {
-            val loggedUser = repo.getLoggedUser()
+        GlobalScope.launch(Dispatchers.Main) {
 
-            if (loggedUser != null) {
-                view.showPacienteInfo(loggedUser)
-            } else {
+            try {
+                val loggedUser = withContext(Dispatchers.Main) {
+                    repo.getLoggedUser()
+                }
+
+                if (loggedUser != null) {
+                    if (isPatientFirstLogin(loggedUser)) {
+                        view.isUserFirstLogin(true)
+                    } else {
+                        view.isUserFirstLogin(false)
+                    }
+
+                    view.showPacienteInfo(loggedUser)
+
+                } else {
+                    finishSession()
+                }
+
+            } catch (exception: Exception) {
+                Log.d(TAG_ACTIVITY, "Cannot get patient because: ${exception.message}")
                 finishSession()
             }
-
-        } catch (exception: Exception) {
-            Log.d(TAG_ACTIVITY, "Cannot get patient because: ${exception.message}")
-            finishSession()
         }
     }
 
     override suspend fun updatePaciente(paciente: UserResponse) {
-        val loggedUser = repo.getLoggedUser()
+        val loggedUser = withContext(Dispatchers.Main) {
+            repo.getLoggedUser()
+        }
 
         if (loggedUser != null) {
-
             try {
                 GlobalScope.launch(Dispatchers.Main)
                 {
@@ -61,7 +69,7 @@ class PerfilPacientePresenterImp(
                         }
                 }
             } catch (e: Exception) {
-                Log.d(TAG_ACTIVITY, "Cannot update patient because ${e.message}")
+                Log.i(TAG_ACTIVITY, "Cannot update patient because ${e.message}")
                 finishSession()
             }
 
@@ -70,11 +78,15 @@ class PerfilPacientePresenterImp(
         }
     }
 
+    override fun isPatientFirstLogin(paciente: UserResponse): Boolean {
+        return !paciente.TyC
+    }
+
     private fun showSuccessUpdateMessage() {
         UIManager.showMessageShort(
             view as Activity, "El perfil ha sido actualizado"
         )
-        view.goBackToMain()
+        view.goToHomeView()
     }
 
     private fun showFailureUpdateMessage() {
@@ -85,7 +97,7 @@ class PerfilPacientePresenterImp(
 
     private suspend fun finishSession() {
         repo.logoutUser()
-        view.goBackToLogin()
+        view.goToLoginView()
     }
 
 }

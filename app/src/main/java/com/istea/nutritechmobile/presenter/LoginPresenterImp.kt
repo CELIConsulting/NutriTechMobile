@@ -4,6 +4,7 @@ import android.app.Activity
 import com.google.firebase.auth.FirebaseAuth
 import com.istea.nutritechmobile.R
 import com.istea.nutritechmobile.data.User
+import com.istea.nutritechmobile.data.UserResponse
 import com.istea.nutritechmobile.helpers.getTextFromResource
 import com.istea.nutritechmobile.helpers.mailFormatIsValid
 import com.istea.nutritechmobile.helpers.preferences.SessionManager
@@ -40,8 +41,8 @@ class LoginPresenterImp(
                                     GlobalScope.launch(Dispatchers.IO) {
                                         SessionManager.saveLoggedUser(userResponse)
                                     }
+                                    checkIfFirstLogin(userResponse)
 
-                                    view.goToMainScreen()
                                 } else {
                                     view.showMessage(
                                         getTextFromResource(
@@ -72,6 +73,15 @@ class LoginPresenterImp(
                     )
                 }
         }
+    }
+
+    private fun checkIfFirstLogin(user: UserResponse) {
+        if (user.TyC) {
+            view.goToMainView()
+        } else {
+            view.goToTyCScreen()
+        }
+
     }
 
     private fun isLoginInputValid(mail: String, password: String): Boolean {

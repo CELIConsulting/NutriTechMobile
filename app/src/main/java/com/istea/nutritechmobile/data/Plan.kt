@@ -1,6 +1,7 @@
 package com.istea.nutritechmobile.data
 
 import com.google.firebase.Timestamp
+import com.google.firebase.firestore.ServerTimestamp
 import java.io.Serializable
 
 data class Plan(
@@ -14,7 +15,6 @@ data class Plan(
     val Merienda: List<String>,
     val Cena: List<String>,
     val Colacion: List<String>,
-    val LastUpdated: Timestamp,
 ) : Serializable {
     constructor() : this(
         null,
@@ -27,6 +27,5 @@ data class Plan(
         listOf<String>(),
         listOf<String>(),
         listOf<String>(),
-        Timestamp.now()
     )
 }

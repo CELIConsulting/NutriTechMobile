@@ -4,7 +4,7 @@ package com.istea.nutritechmobile.ui.activity
 import android.content.Intent
 import android.content.Intent.*
 import android.os.Bundle
-import android.util.Log
+import android.os.PersistableBundle
 import android.view.Menu
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -13,19 +13,19 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.button.MaterialButton
 import com.istea.nutritechmobile.*
+import com.istea.nutritechmobile.helpers.NOTIMPLEMENTEDYET
 import com.istea.nutritechmobile.helpers.UIManager
 import com.istea.nutritechmobile.helpers.preferences.SessionManager
 import com.istea.nutritechmobile.presenter.PrincipalPresenterImp
 import com.istea.nutritechmobile.presenter.interfaces.IPrincipalPresenter
 import com.istea.nutritechmobile.ui.interfaces.IPrincipalView
-import com.istea.nutritechmobile.ui.interfaces.IToolbar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 private const val TAG_ACTIVITY = "PrincipalActivity"
 
-class PaginaPrincipalActivity : AppCompatActivity(), IPrincipalView,IToolbar {
+class PaginaPrincipalActivity : AppCompatActivity(), IPrincipalView {
     private lateinit var txtUsuarioBienvenida: TextView
     private lateinit var txtFraseDelDia: TextView
     private lateinit var txtAutorDelDia: TextView
@@ -52,20 +52,6 @@ class PaginaPrincipalActivity : AppCompatActivity(), IPrincipalView,IToolbar {
         supportActionBar?.setDisplayShowTitleEnabled(false)
     }
 
-    override fun onResume() {
-        lifecycleScope.launch(Dispatchers.Main) {
-            principalPresenter.loggedUserData()
-        }
-
-        principalPresenter.getQuoteOfTheDay()
-        super.onResume()
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_superior, menu)
-        return super.onCreateOptionsMenu(menu)
-    }
-
     private fun setupUI() {
         txtUsuarioBienvenida = findViewById(R.id.txtMensajeBienvenida)
         txtFraseDelDia = findViewById(R.id.txtFraseDelDia)
@@ -73,8 +59,7 @@ class PaginaPrincipalActivity : AppCompatActivity(), IPrincipalView,IToolbar {
         btnVerPlan = findViewById(R.id.btnVerPlan)
         btnModifPlan = findViewById(R.id.btnModifPlan)
         bottomNavBar = findViewById(R.id.bottomNavigationView)
-        bottomNavBar.selectedItemId = R.id.progreso
-
+        bottomNavBar.selectedItemId = R.id.home
         btnVerPlan.setOnClickListener {
             goToPlanView()
         }
@@ -86,6 +71,16 @@ class PaginaPrincipalActivity : AppCompatActivity(), IPrincipalView,IToolbar {
         setupBottomNavigationBar(bottomNavBar)
     }
 
+    override fun onResume() {
+        lifecycleScope.launch(Dispatchers.Main) {
+            principalPresenter.loggedUserData()
+        }
+
+        principalPresenter.getQuoteOfTheDay()
+        super.onResume()
+    }
+
+
     override fun welcomeUser(name: String, lastName: String) {
         txtUsuarioBienvenida.text = "Bienvenido $name $lastName".uppercase()
     }
@@ -96,60 +91,73 @@ class PaginaPrincipalActivity : AppCompatActivity(), IPrincipalView,IToolbar {
     }
 
     override fun showInProgressMessage() {
-        UIManager.showMessageShort(this, "Función en desarrollo")
+        UIManager.showMessageShort(this, NOTIMPLEMENTEDYET)
     }
 
-    override fun goBackToLogin() {
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_superior, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun setupBottomNavigationBar(bottomNavigationView: BottomNavigationView) {
+        bottomNavigationView.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.home -> {
+                    goToHomeView()
+                    return@setOnItemSelectedListener true
+                }
+                R.id.registro_diario -> {
+                    goToDailyRegistryView()
+                    return@setOnItemSelectedListener true
+                }
+                R.id.progreso -> {
+                    goToProgressView()
+                    return@setOnItemSelectedListener true
+                }
+                R.id.info_personal -> {
+                    goToProfileView()
+                    return@setOnItemSelectedListener true
+                }
+            }
+            false
+        }
+    }
+
+    override fun goToLoginView() {
+        GlobalScope.launch(Dispatchers.IO) {
+            userLogout()
+        }
+
         Intent(this@PaginaPrincipalActivity, LoginActivity::class.java).apply {
             flags = FLAG_ACTIVITY_CLEAR_TASK or FLAG_ACTIVITY_NEW_TASK
             startActivity(this)
         }
     }
 
-    override fun goToPlanView() {
-        Intent(this@PaginaPrincipalActivity, PlanDisplayActivity::class.java).apply {
-            putExtra("Email", intent.getStringExtra("Email"))
+    override fun refreshActivity() {
+        finish()
+        overridePendingTransition(0, 0)
+        Intent(this@PaginaPrincipalActivity, this::class.java).apply {
             startActivity(this)
         }
+        overridePendingTransition(0, 0)
     }
 
-    override fun setupBottomNavigationBar(bottomNavigationView: BottomNavigationView) {
-        val mOnNavigationItemSelectedListener =
-            BottomNavigationView.OnNavigationItemSelectedListener { item ->
-                when (item.itemId) {
-                    R.id.registro_diario -> {
-                        goToDailyRegistryView()
-                        return@OnNavigationItemSelectedListener true
-                    }
-                    R.id.recetas -> {
-                        goToRecipesView()
-                        return@OnNavigationItemSelectedListener true
+    override fun goToHomeView() {
+//        refreshActivity()
+    }
 
-                    }
-                    R.id.progreso -> {
-                        goToProgressView()
-                        return@OnNavigationItemSelectedListener true
+    override fun goToPlanView() {
 
-                    }
-                    R.id.info_personal -> {
-                        goToProfileView()
-                        return@OnNavigationItemSelectedListener true
-
-                    }
-                }
-                false
-            }
-        bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+        Intent(this@PaginaPrincipalActivity, PlanDisplayActivity::class.java).apply {
+            startActivity(this)
+        }
     }
 
     override fun goToDailyRegistryView() {
         Intent(this@PaginaPrincipalActivity, DailyRegistryActivity::class.java).apply {
             startActivity(this)
         }
-    }
-
-    override fun goToRecipesView() {
-        showInProgressMessage()
     }
 
     override fun goToProgressView() {
@@ -164,12 +172,9 @@ class PaginaPrincipalActivity : AppCompatActivity(), IPrincipalView,IToolbar {
         }
     }
 
-    override fun onDestroy() {
-        GlobalScope.launch(Dispatchers.IO) {
-            userLogout()
-        }
-
-        super.onDestroy()
+    override fun onBackPressed() {
+        goToLoginView()
+        super.onBackPressed()
     }
 
     private suspend fun userLogout() {
